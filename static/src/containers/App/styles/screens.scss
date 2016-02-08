@@ -1,0 +1,32 @@
+// Phone
+//
+//  @media (#{$phone}) {
+//    code-here
+//  }
+//
+$phone: "max-width: 768px";
+
+
+// Tablet
+//
+//  @media (#{$tablet}) {
+//    code-here
+//  }
+//
+$tablet: "min-width: 768px";
+
+
+// Desktop
+//
+//  @media (#{$desktop}) {
+//    code-here
+//  }
+$desktop: "min-width: 992px";
+
+
+// Phone
+//
+//  @media (#{$large-desktop}) {
+//   code-here
+//  }
+$large-desktop: "min-width: 1200px";
