@@ -2,14 +2,13 @@
 
 Boilerplate application for a Flask JWT Backend and a React/Redux Front-End with Material UI. 
 
-<img src="https://imgur.com/ZIS4qkw"/>
-
 * Python 2.7
 * Heroku
 * Flask
 * React
 * Redux
 
+![screenshot](http://i.imgur.com/ZIS4qkw.png)
 
 ### Create DB
 ```sh
