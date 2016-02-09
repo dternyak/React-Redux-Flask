@@ -23,7 +23,6 @@ const style = {
     paddingBottom: 100,
     paddingTop: 50,
     width: '100%',
-    margin: 20,
     textAlign: 'center',
     display: 'inline-block',
 };
