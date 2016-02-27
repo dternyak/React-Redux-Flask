@@ -14,6 +14,6 @@ class TestingConfig(object):
     TESTING = True
     DEBUG = True
     WTF_CSRF_ENABLED = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'tests/dev.sqlite')
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
     DEBUG_TB_ENABLED = True
     PRESERVE_CONTEXT_ON_EXCEPTION = False
