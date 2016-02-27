@@ -3,10 +3,13 @@ import {connect} from 'react-redux';
 import { routeActions } from 'react-router-redux'
 import * as actionCreators from '../actions/auth';
 import { bindActionCreators } from 'redux';
+import { browserHistory } from 'react-router'
 
 function mapStateToProps(state) {
     return {
-        isAuthenticated: state.auth.isAuthenticated,
+        token: state.auth.token,
+        userName: state.auth.userName,
+        isAuthenticated: state.auth.isAuthenticated
     }
 };
 
@@ -36,13 +39,11 @@ export function requireNoAuthentication(Component) {
 
         checkAuth(props = this.props) {
             if (props.isAuthenticated) {
-                this.props.redirectToRoute('/protected')
+                browserHistory.push('/main')
 
             } else {
                 let token = localStorage.getItem('token');
-
-                if (token !== null) {
-
+                if (token) {
                     return fetch('api/is_token_valid', {
                         method: 'post',
                         credentials: 'include',
@@ -54,9 +55,13 @@ export function requireNoAuthentication(Component) {
                     })
                         .then(res => {
                             if (res.status === 200) {
-                                this.props.loginUserSuccess(token)
-                                this.props.redirectToRoute('/protected')
+                                this.props.loginUserSuccess(token);
+                                browserHistory.push('/main')
 
+                            } else {
+                                this.setState({
+                                    loaded: true
+                                })
                             }
                         })
                 } else {
@@ -70,7 +75,7 @@ export function requireNoAuthentication(Component) {
         render() {
             return (
                 <div>
-                    {this.props.isAuthenticated !== true && this.state.loaded
+                    {!this.props.isAuthenticated && this.state.loaded
                         ? <Component {...this.props}/>
                         : null
                     }

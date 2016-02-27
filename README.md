@@ -28,7 +28,7 @@ $ python manage.py runserver
 ### Test Back-End
 
 ```sh
-$ python test.py
+$ python test.py --cov-report=term --cov-report=html --cov=application/ tests/
 ```
 
 ### Run Front-End
@@ -37,4 +37,11 @@ $ python test.py
 $ cd static
 $ npm install
 $ npm start
+```
+
+
+### Build Front-End
+
+```sh
+$ npm run build:production
 ```

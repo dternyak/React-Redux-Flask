@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { syncHistory } from 'react-router-redux';
 import rootReducer from '../reducers';
 
 const debugware = [];
@@ -11,11 +10,11 @@ if (process.env.NODE_ENV !== 'production') {
     }));
 }
 
-export default function configureStore(history, initialState) {
+export default function configureStore(initialState) {
     const store = createStore(
         rootReducer,
         initialState,
-        applyMiddleware(thunkMiddleware, syncHistory(history), ...debugware)
+        applyMiddleware(thunkMiddleware, ...debugware)
     );
 
     if (module.hot) {

@@ -9,7 +9,7 @@ import {
 } from '../constants/index'
 
 import { checkHttpStatus, parseJSON } from '../utils/misc';
-import { routeActions } from 'react-router-redux'
+import { browserHistory } from 'react-router'
 import jwtDecode from 'jwt-decode';
 
 
@@ -52,13 +52,13 @@ export function logout() {
 export function logoutAndRedirect() {
     return (dispatch, state) => {
         dispatch(logout());
-        dispatch(routeActions.push('/'))
+        browserHistory.push('/')
     }
 }
 
 export function redirectToRoute(route) {
     return (dispatch) => {
-        dispatch(routeActions.push(route))
+        browserHistory.push(route)
     }
 }
 
@@ -80,7 +80,7 @@ export function loginUser(email, password, redirect = "/") {
                 try {
                     let decoded = jwtDecode(response.token);
                     dispatch(loginUserSuccess(response.token));
-                    dispatch(routeActions.push('/protected'))
+                    browserHistory.push('/main')
                 } catch (e) {
                     alert(e);
                     dispatch(loginUserFailure({
@@ -143,7 +143,7 @@ export function registerUser(email, password, redirect = "/") {
                 try {
                     let decoded = jwtDecode(response.token);
                     dispatch(registerUserSuccess(response.token));
-                    dispatch(routeActions.push('/protected'))
+                    browserHistory.push('/main')
                 } catch (e) {
                     alert(e)
                     console.log(e)

@@ -11,6 +11,7 @@ import FlatButton from 'material-ui/lib/flat-button';
 import listensToClickOutside from 'react-onclickoutside/decorator';
 import { routeActions } from 'react-router-redux'
 import Divider from 'material-ui/lib/divider';
+import { browserHistory } from 'react-router'
 
 
 function mapStateToProps(state) {
@@ -37,7 +38,7 @@ export class Header extends Component {
     }
 
     dispatchNewRoute(route) {
-        this.props.redirectToRoute(route)
+        browserHistory.push(route)
         this.setState({
             open: false
         })
@@ -83,9 +84,7 @@ export class Header extends Component {
                             :
 
                             <div>
-                                 <MenuItem onClick={(e) =>  this.dispatchNewRoute('/settings')}>
-                                    Settings
-                                </MenuItem>
+
                                 <MenuItem onClick={(e) =>  this.dispatchNewRoute('/analytics')}>
                                     Analytics
                                 </MenuItem>

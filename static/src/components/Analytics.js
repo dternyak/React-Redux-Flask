@@ -20,27 +20,19 @@ function mapDispatchToProps(dispatch) {
 };
 
 
-
 @connect(mapStateToProps, mapDispatchToProps)
 export default class Analytics extends React.Component {
 
     constructor(props) {
         super(props);
-        const redirectRoute = '/login';
-        this.state = {
-            email: '',
-            password: '',
-            email_error_text: null,
-            password_error_text: null,
-            redirectTo: redirectRoute,
-            disabled: true
-        };
+
     }
 
     render() {
         return (
-            <div className='col-md-6 col-md-offset-3'>
-               <h1>Analytics</h1>
+            <div className='col-md-8'>
+                <h1>Analytics</h1>
+                <hr/>
             </div>
         );
 

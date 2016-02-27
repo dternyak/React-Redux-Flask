@@ -20,8 +20,9 @@ function mapDispatchToProps(dispatch) {
 
 
 const style = {
-    paddingBottom: 100,
-    paddingTop: 50,
+    marginTop: 50,
+    paddingBottom: 50,
+    paddingTop: 25,
     width: '100%',
     textAlign: 'center',
     display: 'inline-block',

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import 'bootstrap-webpack';
 
 /* global styles for app */
-import 'style!./styles/app.scss';
+import './styles/app.scss';
 
 /* application components */
 import { Header } from 'components/Header';
@@ -17,7 +16,7 @@ export class App extends Component {
         return (
             <section>
                 <Header/>
-                <div className="container" style={{"marginTop": 50, "paddingBottom": 250}}>
+                <div className="container" style={{"marginTop": 10, "paddingBottom": 250}}>
                     {this.props.children}
                 </div>
                 <div>

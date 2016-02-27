@@ -4,11 +4,10 @@ import { items } from './items';
 import {counter} from './counter'
 import auth from './auth'
 import {data} from './data'
-import { routeReducer } from 'react-router-redux';
+import { syncHistoryWithStore, routerReducer } from 'react-router-redux'
 
 const rootReducer = combineReducers({
-    form: formReducer,
-    routing: routeReducer,
+    routing: routerReducer,
     /* your reducers */
     counter: counter,
     auth,
