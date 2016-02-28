@@ -8,10 +8,10 @@ import {
     REGISTER_USER_SUCCESS
 } from '../constants/index'
 
-import { checkHttpStatus, parseJSON } from '../utils/misc';
+import { parseJSON } from '../utils/misc';
 import { browserHistory } from 'react-router'
 import jwtDecode from 'jwt-decode';
-
+import { get_token, create_user } from '../utils/http_functions'
 
 
 export function loginUserSuccess(token) {
@@ -30,8 +30,8 @@ export function loginUserFailure(error) {
     return {
         type: LOGIN_USER_FAILURE,
         payload: {
-            status: error.response.status,
-            statusText: error.response.statusText
+            status: error.status,
+            statusText: error.statusText
         }
     }
 }
@@ -65,16 +65,7 @@ export function redirectToRoute(route) {
 export function loginUser(email, password, redirect = "/") {
     return function (dispatch) {
         dispatch(loginUserRequest());
-        return fetch('api/get_token', {
-            method: 'post',
-            credentials: 'include',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email: email, password: password})
-        })
-            .then(checkHttpStatus)
+        return get_token(email, password)
             .then(parseJSON)
             .then(response => {
                 try {
@@ -119,8 +110,8 @@ export function registerUserFailure(error) {
     return {
         type: REGISTER_USER_FAILURE,
         payload: {
-            status: error.response.status,
-            statusText: error.response.statusText
+            status: error.status,
+            statusText: error.statusText
         }
     }
 }
@@ -128,16 +119,7 @@ export function registerUserFailure(error) {
 export function registerUser(email, password, redirect = "/") {
     return function (dispatch) {
         dispatch(registerUserRequest());
-        return fetch('api/create_user', {
-            method: 'post',
-            credentials: 'include',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email: email, password: password})
-        })
-            .then(checkHttpStatus)
+        return create_user(email, password)
             .then(parseJSON)
             .then(response => {
                 try {
@@ -145,8 +127,6 @@ export function registerUser(email, password, redirect = "/") {
                     dispatch(registerUserSuccess(response.token));
                     browserHistory.push('/main')
                 } catch (e) {
-                    alert(e)
-                    console.log(e)
                     dispatch(registerUserFailure({
                         response: {
                             status: 403,
