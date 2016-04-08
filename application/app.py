@@ -4,6 +4,7 @@ from index import app, db
 from sqlalchemy.exc import IntegrityError
 from utils.auth import generate_token, requires_auth, verify_token
 
+
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
@@ -24,8 +25,8 @@ def get_user():
 def create_user():
     incoming = request.get_json()
     user = User(
-            email=incoming["email"],
-            password=incoming["password"]
+        email=incoming["email"],
+        password=incoming["password"]
     )
     db.session.add(user)
 
@@ -37,8 +38,8 @@ def create_user():
     new_user = User.query.filter_by(email=incoming["email"]).first()
 
     return jsonify(
-            id=user.id,
-            token=generate_token(new_user)
+        id=user.id,
+        token=generate_token(new_user)
     )
 
 
