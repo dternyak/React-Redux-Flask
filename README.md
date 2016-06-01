@@ -1,6 +1,6 @@
 # React-Redux-Flask #
 
-Boilerplate application for a Flask JWT Backend and a React/Redux Front-End with Material UI. 
+Boilerplate application for a Flask JWT Backend and a React/Redux Front-End with Material UI.
 
 * Python 2.7
 * Pytest
@@ -25,6 +25,12 @@ $ python manage.py db migrate
 $ python manage.py db upgrade
 ```
 
+### Install Front-End Requirements
+```sh
+$ cd static
+$ npm intall
+```
+
 ### Run Back-End
 
 ```sh
@@ -41,10 +47,8 @@ $ python test.py --cov-report=term --cov-report=html --cov=application/ tests/
 
 ```sh
 $ cd static
-$ npm install
 $ npm start
 ```
-
 
 ### Build Front-End
 
