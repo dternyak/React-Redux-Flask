@@ -28,7 +28,7 @@ $ python manage.py db upgrade
 ### Install Front-End Requirements
 ```sh
 $ cd static
-$ npm intall
+$ npm install
 ```
 
 ### Run Back-End
