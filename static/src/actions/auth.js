@@ -1,3 +1,5 @@
+import { browserHistory } from 'react-router';
+
 import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAILURE,
@@ -5,13 +7,11 @@ import {
     LOGOUT_USER,
     REGISTER_USER_FAILURE,
     REGISTER_USER_REQUEST,
-    REGISTER_USER_SUCCESS
-} from '../constants/index'
+    REGISTER_USER_SUCCESS,
+} from '../constants/index';
 
 import { parseJSON } from '../utils/misc';
-import { browserHistory } from 'react-router'
-import jwtDecode from 'jwt-decode';
-import { get_token, create_user } from '../utils/http_functions'
+import { get_token, create_user } from '../utils/http_functions';
 
 
 export function loginUserSuccess(token) {
@@ -19,9 +19,9 @@ export function loginUserSuccess(token) {
     return {
         type: LOGIN_USER_SUCCESS,
         payload: {
-            token: token
-        }
-    }
+            token,
+        },
+    };
 }
 
 
@@ -31,68 +31,67 @@ export function loginUserFailure(error) {
         type: LOGIN_USER_FAILURE,
         payload: {
             status: error.status,
-            statusText: error.statusText
-        }
-    }
+            statusText: error.statusText,
+        },
+    };
 }
 
 export function loginUserRequest() {
     return {
-        type: LOGIN_USER_REQUEST
-    }
+        type: LOGIN_USER_REQUEST,
+    };
 }
 
 export function logout() {
     localStorage.removeItem('token');
     return {
-        type: LOGOUT_USER
-    }
+        type: LOGOUT_USER,
+    };
 }
 
 export function logoutAndRedirect() {
-    return (dispatch, state) => {
+    return (dispatch) => {
         dispatch(logout());
-        browserHistory.push('/')
-    }
+        browserHistory.push('/');
+    };
 }
 
 export function redirectToRoute(route) {
-    return (dispatch) => {
-        browserHistory.push(route)
-    }
+    return () => {
+        browserHistory.push(route);
+    };
 }
 
-export function loginUser(email, password, redirect = "/") {
+export function loginUser(email, password) {
     return function (dispatch) {
         dispatch(loginUserRequest());
         return get_token(email, password)
             .then(parseJSON)
             .then(response => {
                 try {
-                    let decoded = jwtDecode(response.token);
                     dispatch(loginUserSuccess(response.token));
-                    browserHistory.push('/main')
+                    browserHistory.push('/main');
                 } catch (e) {
                     alert(e);
                     dispatch(loginUserFailure({
                         response: {
                             status: 403,
-                            statusText: 'Invalid token'
-                        }
+                            statusText: 'Invalid token',
+                        },
                     }));
                 }
             })
             .catch(error => {
                 dispatch(loginUserFailure(error));
-            })
-    }
+            });
+    };
 }
 
 
 export function registerUserRequest() {
     return {
-        type: REGISTER_USER_REQUEST
-    }
+        type: REGISTER_USER_REQUEST,
+    };
 }
 
 export function registerUserSuccess(token) {
@@ -100,9 +99,9 @@ export function registerUserSuccess(token) {
     return {
         type: REGISTER_USER_SUCCESS,
         payload: {
-            token: token
-        }
-    }
+            token,
+        },
+    };
 }
 
 export function registerUserFailure(error) {
@@ -111,32 +110,31 @@ export function registerUserFailure(error) {
         type: REGISTER_USER_FAILURE,
         payload: {
             status: error.status,
-            statusText: error.statusText
-        }
-    }
+            statusText: error.statusText,
+        },
+    };
 }
 
-export function registerUser(email, password, redirect = "/") {
+export function registerUser(email, password) {
     return function (dispatch) {
         dispatch(registerUserRequest());
         return create_user(email, password)
             .then(parseJSON)
             .then(response => {
                 try {
-                    let decoded = jwtDecode(response.token);
                     dispatch(registerUserSuccess(response.token));
-                    browserHistory.push('/main')
+                    browserHistory.push('/main');
                 } catch (e) {
                     dispatch(registerUserFailure({
                         response: {
                             status: 403,
-                            statusText: 'Invalid token'
-                        }
+                            statusText: 'Invalid token',
+                        },
                     }));
                 }
             })
             .catch(error => {
                 dispatch(registerUserFailure(error));
-            })
-    }
+            });
+    };
 }
