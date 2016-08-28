@@ -1,53 +1,50 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
-import {connect} from 'react-redux';
-import * as actionCreators from '../../actions/auth';
+import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AppBar from 'material-ui/AppBar';
 import LeftNav from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
-import { routeActions } from 'react-router-redux'
 import Divider from 'material-ui/Divider';
-import { browserHistory } from 'react-router'
 
+import * as actionCreators from '../../actions/auth';
 
 function mapStateToProps(state) {
     return {
         token: state.auth.token,
         userName: state.auth.userName,
-        isAuthenticated: state.auth.isAuthenticated
-    }
-};
+        isAuthenticated: state.auth.isAuthenticated,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(actionCreators, dispatch)
-};
+    return bindActionCreators(actionCreators, dispatch);
+}
 
 @connect(mapStateToProps, mapDispatchToProps)
 export class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false
-        }
+            open: false,
+        };
 
     }
 
     dispatchNewRoute(route) {
-        browserHistory.push(route)
+        browserHistory.push(route);
         this.setState({
-            open: false
-        })
+            open: false,
+        });
 
     }
 
 
-    handleClickOutside(event) {
+    handleClickOutside() {
         this.setState({
-            open: false
-        })
+            open: false,
+        });
     }
 
 
@@ -55,14 +52,14 @@ export class Header extends Component {
         e.preventDefault();
         this.props.logoutAndRedirect();
         this.setState({
-            open: false
-        })
+            open: false,
+        });
     }
 
     openNav() {
         this.setState({
-            open: true
-        })
+            open: true,
+        });
     }
 
     render() {
@@ -80,10 +77,8 @@ export class Header extends Component {
                                 </MenuItem>
                             </div>
                             :
-
                             <div>
-
-                                <MenuItem onClick={(e) =>  this.dispatchNewRoute('/analytics')}>
+                                <MenuItem onClick={() => this.dispatchNewRoute('/analytics')}>
                                     Analytics
                                 </MenuItem>
                                 <Divider />
@@ -95,11 +90,10 @@ export class Header extends Component {
                     }
                 </LeftNav>
                 <AppBar
-                    title="React-Redux-Flask"
-                    onLeftIconButtonTouchTap={() => this.openNav()}
-                    iconElementRight={
-
-                    <FlatButton label="Home" onClick={() => this.dispatchNewRoute('/')} />
+                  title="React-Redux-Flask"
+                  onLeftIconButtonTouchTap={() => this.openNav()}
+                  iconElementRight={
+                      <FlatButton label="Home" onClick={() => this.dispatchNewRoute('/')} />
                     }
                 />
             </header>
@@ -107,3 +101,8 @@ export class Header extends Component {
         );
     }
 }
+
+Header.propTypes = {
+    logoutAndRedirect: React.PropTypes.func,
+    isAuthenticated: React.PropTypes.bool,
+};
