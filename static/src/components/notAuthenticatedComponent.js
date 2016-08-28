@@ -1,21 +1,20 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import { routeActions } from 'react-router-redux'
-import * as actionCreators from '../actions/auth';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { browserHistory } from 'react-router'
+import { browserHistory } from 'react-router';
+import * as actionCreators from '../actions/auth';
 
 function mapStateToProps(state) {
     return {
         token: state.auth.token,
         userName: state.auth.userName,
-        isAuthenticated: state.auth.isAuthenticated
-    }
-};
+        isAuthenticated: state.auth.isAuthenticated,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(actionCreators, dispatch)
-};
+    return bindActionCreators(actionCreators, dispatch);
+}
 
 
 export function requireNoAuthentication(Component) {
@@ -25,8 +24,8 @@ export function requireNoAuthentication(Component) {
         constructor(props) {
             super(props);
             this.state = {
-                loaded: false
-            }
+                loaded: false,
+            };
         }
 
         componentWillMount() {
@@ -39,35 +38,35 @@ export function requireNoAuthentication(Component) {
 
         checkAuth(props = this.props) {
             if (props.isAuthenticated) {
-                browserHistory.push('/main')
+                browserHistory.push('/main');
 
             } else {
-                let token = localStorage.getItem('token');
+                const token = localStorage.getItem('token');
                 if (token) {
-                    return fetch('api/is_token_valid', {
+                    fetch('api/is_token_valid', {
                         method: 'post',
                         credentials: 'include',
                         headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
+                            'Accept': 'application/json', // eslint-disable-line quote-props
+                            'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({token: token})
+                        body: JSON.stringify({ token }),
                     })
                         .then(res => {
                             if (res.status === 200) {
                                 this.props.loginUserSuccess(token);
-                                browserHistory.push('/main')
+                                browserHistory.push('/main');
 
                             } else {
                                 this.setState({
-                                    loaded: true
-                                })
+                                    loaded: true,
+                                });
                             }
-                        })
+                        });
                 } else {
                     this.setState({
-                        loaded: true
-                    })
+                        loaded: true,
+                    });
                 }
             }
         }
@@ -76,14 +75,19 @@ export function requireNoAuthentication(Component) {
             return (
                 <div>
                     {!this.props.isAuthenticated && this.state.loaded
-                        ? <Component {...this.props}/>
+                        ? <Component {...this.props} />
                         : null
                     }
                 </div>
-            )
+            );
 
         }
     }
+
+    notAuthenticatedComponent.propTypes = {
+        loginUserSuccess: React.PropTypes.func,
+        isAuthenticated: React.PropTypes.bool,
+    };
 
     return connect(mapStateToProps, mapDispatchToProps)(notAuthenticatedComponent);
 
