@@ -18,6 +18,7 @@
     "react/jsx-indent": ["error", 4],
     "import/prefer-default-export": 0,
     "import/no-extraneous-dependencies": 0,
+    "import/no-unresolved": 0,
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
     "react/react-in-jsx-scope": 2,
