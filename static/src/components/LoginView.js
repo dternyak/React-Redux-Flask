@@ -1,22 +1,24 @@
-import React from 'react'
+/* eslint camelcase: 0, no-underscore-dangle: 0 */
+
+import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as actionCreators from '../actions/auth';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
-import {validateEmail} from '../utils/misc'
+import * as actionCreators from '../actions/auth';
+import { validateEmail } from '../utils/misc';
 
 function mapStateToProps(state) {
     return {
         isAuthenticating: state.auth.isAuthenticating,
-        statusText: state.auth.statusText
-    }
-};
+        statusText: state.auth.statusText,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(actionCreators, dispatch)
-};
+    return bindActionCreators(actionCreators, dispatch);
+}
 
 
 const style = {
@@ -40,7 +42,7 @@ export default class LoginView extends React.Component {
             email_error_text: null,
             password_error_text: null,
             redirectTo: redirectRoute,
-            disabled: true
+            disabled: true,
         };
     }
 
@@ -48,48 +50,42 @@ export default class LoginView extends React.Component {
         let email_is_valid = false;
         let password_is_valid = false;
 
-        if (this.state.email === "") {
+        if (this.state.email === '') {
             this.setState({
-                email_error_text: null
-            })
+                email_error_text: null,
+            });
+        } else if (validateEmail(this.state.email)) {
+            email_is_valid = true;
+            this.setState({
+                email_error_text: null,
+            });
+
         } else {
-
-            if (validateEmail(this.state.email)) {
-                email_is_valid = true
-                this.setState({
-                    email_error_text: null
-                })
-
-            } else {
-                this.setState({
-                    email_error_text: "Sorry, this is not a valid email"
-                })
-            }
+            this.setState({
+                email_error_text: 'Sorry, this is not a valid email',
+            });
         }
 
-        if (this.state.password === "" || !this.state.password) {
+        if (this.state.password === '' || !this.state.password) {
             this.setState({
-                password_error_text: null
-            })
+                password_error_text: null,
+            });
+        } else if (this.state.password.length >= 6) {
+            password_is_valid = true;
+            this.setState({
+                password_error_text: null,
+            });
         } else {
+            this.setState({
+                password_error_text: 'Your password must be at least 6 characters',
+            });
 
-            if (this.state.password.length >= 6) {
-                password_is_valid = true;
-                this.setState({
-                    password_error_text: null
-                })
-            } else {
-                this.setState({
-                    password_error_text: "Your password must be at least 6 characters"
-                })
-
-            }
         }
 
         if (email_is_valid && password_is_valid) {
             this.setState({
-                disabled: false
-            })
+                disabled: false,
+            });
         }
 
     }
@@ -99,14 +95,14 @@ export default class LoginView extends React.Component {
         const next_state = {};
         next_state[type] = value;
         this.setState(next_state, () => {
-            this.isDisabled()
-        })
+            this.isDisabled();
+        });
     }
 
     _handleKeyPress(e) {
         if (e.key === 'Enter') {
             if (!this.state.disabled) {
-                this.login(e)
+                this.login(e);
             }
         }
     }
@@ -118,40 +114,43 @@ export default class LoginView extends React.Component {
 
     render() {
         return (
-            <div className='col-md-6 col-md-offset-3' onKeyPress={(e) => this._handleKeyPress(e)}>
+            <div className="col-md-6 col-md-offset-3" onKeyPress={(e) => this._handleKeyPress(e)}>
                 <Paper style={style}>
-                    <form role='form'>
+                    <form role="form">
                         <div className="text-center">
                             <h2>Login to view protected content!</h2>
                             {
                                 this.props.statusText &&
-                                <div className='alert alert-info'>
-                                    {this.props.statusText}
-                                </div>
-
+                                    <div className="alert alert-info">
+                                        {this.props.statusText}
+                                    </div>
                             }
 
                             <div className="col-md-12">
                                 <TextField
-                                    hintText="Email"
-                                    floatingLabelText="Email"
-                                    type="email"
-                                    errorText={this.state.email_error_text}
-                                    onChange={(e) =>this.changeValue(e, 'email')}
+                                  hintText="Email"
+                                  floatingLabelText="Email"
+                                  type="email"
+                                  errorText={this.state.email_error_text}
+                                  onChange={(e) => this.changeValue(e, 'email')}
                                 />
                             </div>
                             <div className="col-md-12">
                                 <TextField
-                                    hintText="Password"
-                                    floatingLabelText="Password"
-                                    type="password"
-                                    errorText={this.state.password_error_text}
-                                    onChange={(e) => this.changeValue(e, 'password')}
+                                  hintText="Password"
+                                  floatingLabelText="Password"
+                                  type="password"
+                                  errorText={this.state.password_error_text}
+                                  onChange={(e) => this.changeValue(e, 'password')}
                                 />
                             </div>
 
-                            <RaisedButton disabled={this.state.disabled} style={{"marginTop": 50}} label="Submit"
-                                          onClick={(e) => this.login(e)}/>
+                            <RaisedButton
+                              disabled={this.state.disabled}
+                              style={{ marginTop: 50 }}
+                              label="Submit"
+                              onClick={(e) => this.login(e)}
+                            />
 
                         </div>
                     </form>
@@ -162,3 +161,8 @@ export default class LoginView extends React.Component {
 
     }
 }
+
+LoginView.propTypes = {
+    loginUser: React.PropTypes.func,
+    statusText: React.PropTypes.string,
+};
