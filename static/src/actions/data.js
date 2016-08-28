@@ -1,21 +1,21 @@
-import {FETCH_PROTECTED_DATA_REQUEST, RECEIVE_PROTECTED_DATA} from '../constants/index'
+import { FETCH_PROTECTED_DATA_REQUEST, RECEIVE_PROTECTED_DATA } from '../constants/index';
 import { parseJSON } from '../utils/misc';
-import {data_about_user} from '../utils/http_functions'
+import { data_about_user } from '../utils/http_functions';
 import { logoutAndRedirect } from './auth';
 
 export function receiveProtectedData(data) {
     return {
         type: RECEIVE_PROTECTED_DATA,
         payload: {
-            data: data
-        }
-    }
+            data,
+        },
+    };
 }
 
 export function fetchProtectedDataRequest() {
     return {
-        type: FETCH_PROTECTED_DATA_REQUEST
-    }
+        type: FETCH_PROTECTED_DATA_REQUEST,
+    };
 }
 
 export function fetchProtectedData(token) {
@@ -30,6 +30,6 @@ export function fetchProtectedData(token) {
                 if (error.status === 401) {
                     dispatch(logoutAndRedirect(error));
                 }
-            })
-    }
+            });
+    };
 }
