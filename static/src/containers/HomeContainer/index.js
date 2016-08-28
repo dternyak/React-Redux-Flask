@@ -1,15 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 /* components */
-import { Home } from 'components/Home';
+import { Home } from '../../components/Home';
 
+const HomeContainer = () =>
+    <section>
+        <Home />
+    </section>;
 
-export class HomeContainer extends Component {
-    render() {
-        return (
-            <section>
-                <Home />
-            </section>
-        );
-    }
-}
+export default HomeContainer;
