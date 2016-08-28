@@ -25,7 +25,7 @@ class BaseTestConfig(TestCase):
                 content_type='application/json'
         )
 
-        self.token = json.loads(res.data)["token"]
+        self.token = json.loads(res.data.decode("utf-8"))["token"]
 
     def tearDown(self):
         db.session.remove()
