@@ -3,7 +3,7 @@ import React from 'react';
 /* component styles */
 import { styles } from './styles.scss';
 
-const Footer = () =>
+export const Footer = () =>
     <footer className={`${styles}`}>
         <div className="container">
             <div className="row">
@@ -13,5 +13,3 @@ const Footer = () =>
             </div>
         </div>
     </footer>;
-
-export default Footer;
