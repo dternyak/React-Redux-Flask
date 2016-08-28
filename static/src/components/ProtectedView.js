@@ -32,7 +32,6 @@ export default class ProtectedView extends React.Component {
     render() {
         return (
             <div>
-
                 {!this.props.loaded
                     ? <h1>Loading data...</h1>
                     :
@@ -53,4 +52,4 @@ ProtectedView.propTypes = {
     userName: React.PropTypes.string,
     data: React.PropTypes.any,
     token: React.PropTypes.string,
-}
+};
