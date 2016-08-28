@@ -16,7 +16,7 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
 
-const NotFound = connect(mapStateToProps, mapDispatchToProps)(
+const NotFound = connect(mapStateToProps, mapDispatchToProps)(() =>
     <div className="col-md-8">
         <h1>Not Found</h1>
     </div>
