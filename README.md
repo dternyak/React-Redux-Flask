@@ -20,8 +20,13 @@ Boilerplate application for a Flask JWT Backend and a React/Redux Front-End with
 ```sh
 $ export DATABASE_URL="postgresql://localhost/yourdb"
 $ python manage.py create_db
-$ python manage.py db init
+$ python manage.py db upgrade
 $ python manage.py db migrate
+```
+
+To update database after creating new migrations, use:
+
+```sh
 $ python manage.py db upgrade
 ```
 
