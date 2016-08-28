@@ -3,14 +3,13 @@ import { Link } from 'react-router';
 import {connect} from 'react-redux';
 import * as actionCreators from '../../actions/auth';
 import { bindActionCreators } from 'redux';
-import AppBar from 'material-ui/lib/app-bar';
-import LeftNav from 'material-ui/lib/left-nav';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import RaisedButton from 'material-ui/lib/raised-button';
-import FlatButton from 'material-ui/lib/flat-button';
-import listensToClickOutside from 'react-onclickoutside/decorator';
+import AppBar from 'material-ui/AppBar';
+import LeftNav from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import { routeActions } from 'react-router-redux'
-import Divider from 'material-ui/lib/divider';
+import Divider from 'material-ui/Divider';
 import { browserHistory } from 'react-router'
 
 
@@ -27,7 +26,6 @@ function mapDispatchToProps(dispatch) {
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
-@listensToClickOutside()
 export class Header extends Component {
     constructor(props) {
         super(props);

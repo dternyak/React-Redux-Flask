@@ -2,9 +2,9 @@ import React from 'react'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../actions/auth';
-import TextField from 'material-ui/lib/text-field';
-import RaisedButton from 'material-ui/lib/raised-button';
-import Paper from 'material-ui/lib/paper';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper';
 
 import {validateEmail} from '../utils/misc'
 
@@ -38,4 +38,3 @@ export default class Analytics extends React.Component {
 
     }
 }
-
