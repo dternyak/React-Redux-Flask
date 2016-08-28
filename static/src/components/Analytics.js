@@ -14,7 +14,7 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
 
-const Analytics = connect(mapStateToProps, mapDispatchToProps)(
+const Analytics = connect(mapStateToProps, mapDispatchToProps)(() =>
     <div className="col-md-8">
         <h1>Analytics</h1>
         <hr />
