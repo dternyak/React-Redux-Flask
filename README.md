@@ -2,7 +2,7 @@
 
 Boilerplate application for a Flask JWT Backend and a React/Redux Front-End with Material UI.
 
-* Python 2.7
+* Python 2.7+ or 3.x
 * Pytest
 * Heroku
 * Flask
