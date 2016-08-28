@@ -1,16 +1,16 @@
-require('expose?$!expose?jQuery!jquery');
-require('bootstrap-webpack');
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Redirect } from 'react-router';
+import { Router, Redirect, browserHistory } from 'react-router';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import { syncHistoryWithStore } from 'react-router-redux';
+
 import configureStore from './store/configureStore';
 import routes from './routes';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import 'style.scss';
-import { browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { createHashHistory } from 'history';
+import './style.scss';
+
+require('expose?$!expose?jQuery!jquery');
+require('bootstrap-webpack');
 
 injectTapEventPlugin();
 const store = configureStore();
