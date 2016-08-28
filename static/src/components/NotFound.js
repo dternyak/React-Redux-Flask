@@ -16,10 +16,10 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
 
-const Settings = connect(mapStateToProps, mapDispatchToProps)(
+const NotFound = connect(mapStateToProps, mapDispatchToProps)(
     <div className="col-md-8">
         <h1>Not Found</h1>
     </div>
 );
 
-export default Settings;
+export default NotFound;
