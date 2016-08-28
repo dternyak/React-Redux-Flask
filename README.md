@@ -19,6 +19,15 @@ Boilerplate application for a Flask JWT Backend and a React/Redux Front-End with
 ### Create DB
 ```sh
 $ export DATABASE_URL="postgresql://localhost/yourdb"
+
+or
+
+$ export DATABASE_URL="mysql+mysqlconnector://localhost/yourdb"
+
+or
+
+$ export DATABASE_URL="sqlite:///your.db"
+
 $ python manage.py create_db
 $ python manage.py db upgrade
 $ python manage.py db migrate
