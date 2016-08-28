@@ -10,7 +10,7 @@ import { Footer } from '../../components/Footer';
 /* global styles for app */
 import './styles/app.scss';
 
-const App = ({ children }) =>
+export const App = ({ children }) =>
     <MuiThemeProvider muiTheme={getMuiTheme()}>
         <section>
             <Header />
@@ -29,5 +29,3 @@ const App = ({ children }) =>
 App.propTypes = {
     children: React.PropTypes.node,
 };
-
-export default App;
