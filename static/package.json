@@ -47,7 +47,6 @@
     "bootstrap-webpack": "0.0.5",
     "classnames": "^2.2.3",
     "css-loader": "^0.24.0",
-    "cssnext-loader": "^1.0.1",
     "csswring": "^5.1.0",
     "deep-equal": "^1.0.1",
     "eslint": "^3.4.0",
