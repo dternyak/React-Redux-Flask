@@ -1,4 +1,4 @@
-from flask.ext.testing import TestCase
+from flask_testing import TestCase
 from application.app import app, db
 from application.models import User
 import os
@@ -25,7 +25,7 @@ class BaseTestConfig(TestCase):
                 content_type='application/json'
         )
 
-        self.token = json.loads(res.data)["token"]
+        self.token = json.loads(res.data.decode("utf-8"))["token"]
 
     def tearDown(self):
         db.session.remove()

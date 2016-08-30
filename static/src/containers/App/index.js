@@ -1,28 +1,31 @@
-import React, { Component } from 'react';
+import React from 'react';
+
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+/* application components */
+import { Header } from '../../components/Header';
+import { Footer } from '../../components/Footer';
 
 /* global styles for app */
 import './styles/app.scss';
 
-/* application components */
-import { Header } from 'components/Header';
-import { Footer } from 'components/Footer';
+export const App = ({ children }) =>
+    <MuiThemeProvider muiTheme={getMuiTheme()}>
+        <section>
+            <Header />
+            <div
+              className="container"
+              style={{ marginTop: 10, paddingBottom: 250 }}
+            >
+                {children}
+            </div>
+            <div>
+                <Footer />
+            </div>
+        </section>
+    </MuiThemeProvider>;
 
-export class App extends Component {
-    static propTypes = {
-        children: React.PropTypes.any,
-    }
-
-    render() {
-        return (
-            <section>
-                <Header/>
-                <div className="container" style={{"marginTop": 10, "paddingBottom": 250}}>
-                    {this.props.children}
-                </div>
-                <div>
-                    <Footer />
-                </div>
-            </section>
-        );
-    }
-}
+App.propTypes = {
+    children: React.PropTypes.node,
+};

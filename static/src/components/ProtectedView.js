@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/data';
 
@@ -8,36 +8,30 @@ function mapStateToProps(state) {
         data: state.data,
         token: state.auth.token,
         loaded: state.data.loaded,
-        isFetching: state.data.isFetching
-    }
+        isFetching: state.data.isFetching,
+    };
 }
 
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(actionCreators, dispatch)
+    return bindActionCreators(actionCreators, dispatch);
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
 export default class ProtectedView extends React.Component {
-
-    constructor(props) {
-        super(props)
-    }
-
     componentDidMount() {
         this.fetchData();
     }
 
 
     fetchData() {
-        let token = this.props.token;
+        const token = this.props.token;
         this.props.fetchProtectedData(token);
     }
 
     render() {
         return (
             <div>
-
                 {!this.props.loaded
                     ? <h1>Loading data...</h1>
                     :
@@ -52,5 +46,10 @@ export default class ProtectedView extends React.Component {
     }
 }
 
-
-
+ProtectedView.propTypes = {
+    fetchProtectedData: React.PropTypes.func,
+    loaded: React.PropTypes.bool,
+    userName: React.PropTypes.string,
+    data: React.PropTypes.any,
+    token: React.PropTypes.string,
+};

@@ -12,7 +12,7 @@ class TestAPI(BaseTestConfig):
 
     def test_get_spa_from_index(self):
         result = self.app.get("/")
-        self.assertIn('<html>', result.data)
+        self.assertIn('<html>', result.data.decode("utf-8"))
 
     def test_create_new_user(self):
         self.assertIsNone(User.query.filter_by(
@@ -25,7 +25,7 @@ class TestAPI(BaseTestConfig):
                 content_type='application/json'
         )
         self.assertEqual(res.status_code, 200)
-        self.assertTrue(json.loads(res.data)["token"])
+        self.assertTrue(json.loads(res.data.decode("utf-8"))["token"])
         self.assertEqual(User.query.filter_by(email=self.some_user["email"]).first().email, self.some_user["email"])
 
         res2 = self.app.post(
@@ -43,7 +43,7 @@ class TestAPI(BaseTestConfig):
                 content_type='application/json'
         )
 
-        token = json.loads(res.data)["token"]
+        token = json.loads(res.data.decode("utf-8"))["token"]
         self.assertTrue(auth.verify_token(token))
         self.assertEqual(res.status_code, 200)
 
@@ -53,7 +53,7 @@ class TestAPI(BaseTestConfig):
                 content_type='application/json'
         )
 
-        self.assertTrue(json.loads(res2.data), ["token_is_valid"])
+        self.assertTrue(json.loads(res2.data.decode("utf-8")), ["token_is_valid"])
 
         res3 = self.app.post(
                 "/api/is_token_valid",

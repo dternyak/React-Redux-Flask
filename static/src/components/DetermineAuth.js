@@ -1,21 +1,19 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {validate_token} from '../utils/http_functions'
-import * as actionCreators from '../actions/auth';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { browserHistory } from 'react-router'
+import * as actionCreators from '../actions/auth';
 
 function mapStateToProps(state) {
     return {
         token: state.auth.token,
         userName: state.auth.userName,
-        isAuthenticated: state.auth.isAuthenticated
-    }
-};
+        isAuthenticated: state.auth.isAuthenticated,
+    };
+}
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(actionCreators, dispatch)
-};
+    return bindActionCreators(actionCreators, dispatch);
+}
 
 
 export function DetermineAuth(Component) {
@@ -25,8 +23,8 @@ export function DetermineAuth(Component) {
         componentWillMount() {
             this.checkAuth();
             this.state = {
-                loaded_if_needed: false
-            }
+                loaded_if_needed: false,
+            };
         }
 
         componentWillReceiveProps(nextProps) {
@@ -35,32 +33,32 @@ export function DetermineAuth(Component) {
 
         checkAuth(props = this.props) {
             if (!props.isAuthenticated) {
-                let token = localStorage.getItem('token')
+                const token = localStorage.getItem('token');
                 if (token) {
-                    return fetch('api/is_token_valid', {
+                    fetch('api/is_token_valid', {
                         method: 'post',
                         credentials: 'include',
                         headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
+                            'Accept': 'application/json', // eslint-disable-line quote-props
+                            'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({token: token})
+                        body: JSON.stringify({ token }),
                     })
                         .then(res => {
                             if (res.status === 200) {
-                                this.props.loginUserSuccess(token)
+                                this.props.loginUserSuccess(token);
                                 this.setState({
-                                    loaded_if_needed: true
-                                })
+                                    loaded_if_needed: true,
+                                });
 
                             }
-                        })
+                        });
                 }
 
             } else {
                 this.setState({
-                    loaded_if_needed: true
-                })
+                    loaded_if_needed: true,
+                });
             }
         }
 
@@ -68,14 +66,18 @@ export function DetermineAuth(Component) {
             return (
                 <div>
                     {this.state.loaded_if_needed
-                        ? <Component {...this.props}/>
+                        ? <Component {...this.props} />
                         : null
                     }
                 </div>
-            )
+            );
 
         }
     }
+
+    AuthenticatedComponent.propTypes = {
+        loginUserSuccess: React.PropTypes.func,
+    };
 
     return connect(mapStateToProps, mapDispatchToProps)(AuthenticatedComponent);
 
