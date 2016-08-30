@@ -14,11 +14,16 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
 
-const Analytics = connect(mapStateToProps, mapDispatchToProps)(() =>
-    <div className="col-md-8">
-        <h1>Analytics</h1>
-        <hr />
-    </div>
-);
+@connect(mapStateToProps, mapDispatchToProps)
+class Analytics extends React.Component { // eslint-disable-line react/prefer-stateless-function
+    render() {
+        return (
+            <div className="col-md-8">
+                <h1>Analytics</h1>
+                <hr />
+            </div>
+        );
+    }
+}
 
 export default Analytics;
