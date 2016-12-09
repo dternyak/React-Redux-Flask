@@ -9,3 +9,9 @@ node_modules
 *.pyc
 tmp
 static/dist
+.Python
+bin/
+htmlcov/
+include/
+lib/
+pip-selfcheck.json
