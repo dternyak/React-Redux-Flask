@@ -62,3 +62,40 @@ def is_token_valid():
         return jsonify(token_is_valid=True)
     else:
         return jsonify(token_is_valid=False), 403
+
+@app.route("/api/issues", methods=["GET"])
+def get_issues():
+    nancy = {
+        'first_name': 'Nancy',
+        'last_name': 'Pelosi',
+        'image_url': 'http://lorempixel.com/400/200/',
+        'phones': ['415-900-7272', '(415) 723-9444'],
+        'party': 'Democrat',
+        'level': 'Maybe senate?',
+        'role': 'Very important person',
+    }
+    scott = {
+        'first_name': 'Scott',
+        'last_name': 'Weiner',
+        'image_url': 'http://lorempixel.com/400/200/',
+        'phones': ['415-866-7711', '415.123.1234'],
+        'party': 'Democrat',
+        'level': 'Another political level',
+        'role': 'A political role',
+    }
+    issues = [
+        {
+            'description': 'This is an issue for real',
+            'position_for': 'For position:\nOne bullet point\nVery persuasive',
+            'position_against': 'I\'m against this, here\'s why. Nonsense...',
+            'due_date': '2017-01-03 00:00:00',
+            'representatives': [nancy,],
+        }, {
+            'description': 'Stop climate change believers',
+            'position_for': 'Climate change is a hoax from China, everyone knows that',
+            'position_against': 'It\'s science, this issue is a hoax.\nFacts, etc.',
+            'due_date': '2017-12-28 00:00:00',
+            'representatives': [scott,],
+        }
+    ]
+    return jsonify(result=issues)

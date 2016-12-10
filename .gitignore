@@ -15,3 +15,5 @@ htmlcov/
 include/
 lib/
 pip-selfcheck.json
+*.swp
+*.swo
