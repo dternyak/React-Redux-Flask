@@ -42,3 +42,15 @@ export function mapLevelAndRole(level, role) {
 
     return returnObject;
 }
+
+export function daysBetween(startDate, endDate) {
+
+    let timeDiff = Math.abs(endDate - startDate);
+    let diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    return diffDays;
+}
+
+export function daysRemaining(date) {
+    return daysBetween(Date.now(), date);
+}

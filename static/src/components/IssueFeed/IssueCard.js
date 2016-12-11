@@ -11,7 +11,7 @@ import Avatar from 'material-ui/Avatar';
 import FormatQuote from 'material-ui/svg-icons/editor/format-quote';
 import Phone from 'material-ui/svg-icons/communication/phone';
 
-import { mapLevelAndRole } from '../../utils/misc';
+import { mapLevelAndRole, daysRemaining } from '../../utils/misc';
 
 // https://github.com/mikamaunula/react-material-icons
 // import mui from 'material-ui';
@@ -98,6 +98,22 @@ export default class IssueCard extends React.Component {
     }
   }
 
+  renderDaysRemaining(issue) {
+    const styles = {
+      daysRemaining: {
+        fontSize: '14px',
+        fontWeight: 'semi-bold',
+        float: 'right',
+      },
+    }
+
+    return (
+      <div style={styles.daysRemaining}>
+        {daysRemaining(Date.parse(issue.due_date)) + ' days left'}
+      </div>
+    );
+  }
+
   render() {
     let { issue } = this.props;
     let { representatives } = issue;
@@ -162,6 +178,7 @@ export default class IssueCard extends React.Component {
           subtitleStyle={{fontSize: '16px'}}
           actAsExpander={true}
           showExpandableButton={false}
+          children={this.renderDaysRemaining(issue)}
         />
 
         {this.renderTruncatedDescription(issue.summary)}
