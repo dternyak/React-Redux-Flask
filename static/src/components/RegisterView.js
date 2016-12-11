@@ -40,8 +40,10 @@ export default class RegisterView extends React.Component {
         this.state = {
             email: '',
             password: '',
+            zipcode: '',
             email_error_text: null,
             password_error_text: null,
+            zipcode_error_text: null,
             redirectTo: redirectRoute,
             disabled: true,
         };
@@ -50,7 +52,10 @@ export default class RegisterView extends React.Component {
     isDisabled() {
         let email_is_valid = false;
         let password_is_valid = false;
+        let zipcode_is_valid = false;
+        let zipcode_regex = /^[0-9]+$/
 
+        // Email
         if (this.state.email === '') {
             this.setState({
                 email_error_text: null,
@@ -67,6 +72,7 @@ export default class RegisterView extends React.Component {
             });
         }
 
+        // Password
         if (this.state.password === '' || !this.state.password) {
             this.setState({
                 password_error_text: null,
@@ -80,10 +86,26 @@ export default class RegisterView extends React.Component {
             this.setState({
                 password_error_text: 'Your password must be at least 6 characters',
             });
-
         }
 
-        if (email_is_valid && password_is_valid) {
+        // Zipcode
+        if (this.state.zipcode === '' || !this.state.zipcode) {
+            this.setState({
+                zipcode_error_text: null,
+            });
+        } else if (this.state.zipcode.length == 5 && zipcode_regex.test(this.state.zipcode)) {
+            zipcode_is_valid = true;
+            this.setState({
+                zipcode_error_text: null,
+            });
+        } else {
+            this.setState({
+                zipcode_error_text: 'Your zipcode must be 5 numbers',
+            });
+        }
+
+
+        if (email_is_valid && password_is_valid && zipcode_is_valid) {
             this.setState({
                 disabled: false,
             });
@@ -110,6 +132,7 @@ export default class RegisterView extends React.Component {
 
     login(e) {
         e.preventDefault();
+        // TODO(Stedman): add zipcode to registerUser
         this.props.registerUser(this.state.email, this.state.password, this.state.redirectTo);
     }
 
@@ -142,6 +165,16 @@ export default class RegisterView extends React.Component {
                               type="password"
                               errorText={this.state.password_error_text}
                               onChange={(e) => this.changeValue(e, 'password')}
+                            />
+                        </div>
+
+                        <div className="col-md-12">
+                            <TextField
+                              hintText="What's your zipcode?"
+                              floatingLabelText="Zipcode"
+                              type="text"
+                              errorText={this.state.zipcode_error_text}
+                              onChange={(e) => this.changeValue(e, 'zipcode')}
                             />
                         </div>
 
