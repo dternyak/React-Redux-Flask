@@ -102,9 +102,9 @@ def get_issues():
     issues = [i.to_dict() for i in Issue.query.all()]
     if reps:
         for issue in issues:
-            issue['reps'] = []
+            issue['representatives'] = []
             for rep in reps:
                 if rep.level == issue['level'] and rep.role == issue['role']:
-                    issue['reps'].append(rep.to_dict())
+                    issue['representatives'].append(rep.to_dict())
 
     return jsonify(result=issues)
