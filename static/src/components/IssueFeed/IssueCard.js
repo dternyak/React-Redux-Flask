@@ -53,30 +53,32 @@ export default class IssueCard extends React.Component {
     const borderColor = representative.party === 'Democratic' ? "#1E90FF" : "#DE0702";
     const styles = {
       avatar: {
-        border: '5px solid '+ borderColor,
-        float: 'left',
-        height: '150px',
-        width: 'auto',
+        border: '3px solid ' + borderColor,
+        background: 'url(\'' + representative.image_url + '\') top center/cover no-repeat',
+        width: '100%',
+        height: '100%',
+        maxHeight: '100px',
+        borderRadius: '50%',
       },
     }
 
     return (
-      <Avatar
-        src={representative.image_url}
-        style={styles.avatar}
-      />
+      <div style={styles.avatar}>
+        </div>
     );
   }
 
-  renderForOrAgainst() {
+  renderScript() {
     const styles = {
       script: {
-        border: '1px solid #aaa',
+        border: '1px solid #f1f1f1',
         clear: 'both',
         padding: '5px',
         borderRadius: '2px'
       },
       iconStyles: {
+        height: '40px',
+        width: '40px',
       }
     }
 
@@ -88,12 +90,12 @@ export default class IssueCard extends React.Component {
     );
   }
 
-  renderTruncatedDescription(summary) {
+  renderTruncatedDescription(summary, styles) {
     if (!this.state.expanded) {
       return (
-        <div style={{ fontSize: '14px', marginLeft: '16px', marginRight: '16px' }} onClick={this.handleExpand}>
+        <CardText style={styles.summary} onClick={this.handleExpand}>
           {summary.substr(0,130)+'...'}
-        </div>
+        </CardText>
       );
     }
   }
@@ -138,20 +140,6 @@ export default class IssueCard extends React.Component {
         width: '48px',
         padding: 0,
       },
-      exampleImageInput: {
-        cursor: 'pointer',
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        right: 0,
-        left: 0,
-        width: '100%',
-        opacity: 0,
-      },
-      summary: {
-        fontSize: '16px',
-        marginBottom: '10px',
-      },
       "muidocsIconCustomGithub:before": {
         content: "\e625",
       },
@@ -168,12 +156,20 @@ export default class IssueCard extends React.Component {
       },
     };
 
+    var summaryStyles = {
+      summary: {
+        fontSize: '14px',
+        marginBottom: this.state.expanded ? '-10px': '10px',
+        padding: '0 16px',
+      },
+    }
+
     return (
       <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange} style={{ paddingBottom: '40px' }}>
         <CardHeader
           textStyle={{paddingRight: 0,}}
           title={issue.title}
-          titleStyle={{fontSize: '22px', fontWeight: 'bold',}}
+          titleStyle={{fontSize: '20px', fontWeight: 'bold',}}
           subtitle={level + ' ' + bodyOfGovernment}
           subtitleStyle={{fontSize: '16px'}}
           actAsExpander={true}
@@ -181,25 +177,31 @@ export default class IssueCard extends React.Component {
           children={this.renderDaysRemaining(issue)}
         />
 
-        {this.renderTruncatedDescription(issue.summary)}
+        {this.renderTruncatedDescription(issue.summary, summaryStyles)}
 
-        <CardText expandable={true} >
-          <div style={styles.summary}>
+        <CardText expandable={true} style={summaryStyles.summary}>
+          <div style={{marginBottom: '10px'}}>
             {issue.summary}
           </div>
 
-          {this.renderAvatar(representative)}
-
-          <div style={styles.repTitleContainer}>
-            <div style={styles.repName}>
-              {representative.first_name + ' ' + representative.last_name}
+          <div className="row" style={{marginBottom: '10px'}}>
+            <div className="col-xs-4 col-sm-3">
+              {this.renderAvatar(representative)}
             </div>
-            <div style={styles.repTitle}>
-              {level + ' ' + role}
+
+            <div className="col-xs-8 col-sm-9">
+              <div style={styles.repTitleContainer}>
+                <h4 style={styles.repName}>
+                  {representative.full_name}
+                </h4>
+                <div style={styles.repTitle}>
+                  {level + ' ' + role}
+                </div>
+              </div>
             </div>
           </div>
 
-          {this.renderForOrAgainst()}
+          {this.renderScript()}
 
           <RaisedButton
             href={"tel:"+phoneNumber}
@@ -209,7 +211,7 @@ export default class IssueCard extends React.Component {
             buttonStyle={{height: '68px', padding: 16,}}
             primary={true}
             fullWidth={true}
-            icon={<Phone style={styles.iconStyles} />}
+            icon={<Phone />}
             style={styles.callButton}
           />
         </CardText>
@@ -218,6 +220,7 @@ export default class IssueCard extends React.Component {
       </Card>
     );
   }
+
 }
 
 IssueCard.propTypes = {
