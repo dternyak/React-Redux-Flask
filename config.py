@@ -6,8 +6,9 @@ from setup import basedir
 class BaseConfig(object):
     SECRET_KEY = "SO_SECURE"
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
+    SQLALCHEMY_DATABASE_URI = "sqlite:///chativism.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+    CIVIC_API_KEY = 'AIzaSyBl6O_1GRJN6V9KzBNEmRWF25f6KgCcRTg'
 
 
 class TestingConfig(object):
