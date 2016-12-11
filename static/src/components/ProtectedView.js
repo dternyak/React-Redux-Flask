@@ -40,8 +40,6 @@ export default class ProtectedView extends React.Component {
                     ? <h1>Loading data...</h1>
                     :
                     <div>
-                        {JSON.stringify(this.props.data)}
-                        {console.log('data.data', issues)}
                         <IssueFeed issues={issues} />
                     </div>
                 }
