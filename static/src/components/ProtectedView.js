@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/data';
 
+import IssueFeed from './IssueFeed';
+
 function mapStateToProps(state) {
     return {
         data: state.data,
@@ -26,19 +28,21 @@ export default class ProtectedView extends React.Component {
 
     fetchData() {
         const token = this.props.token;
-        this.props.fetchProtectedData(token);
+        this.props.fetchIssuesData();
     }
 
     render() {
+        let issues = this.props.data.data;
+
         return (
             <div>
                 {!this.props.loaded
                     ? <h1>Loading data...</h1>
                     :
                     <div>
-                        <h1>Welcome back,
-                            {this.props.userName}!</h1>
-                        <h1>{this.props.data.data.email}</h1>
+                        {JSON.stringify(this.props.data)}
+                        {console.log('data.data', issues)}
+                        <IssueFeed issues={issues} />
                     </div>
                 }
             </div>
@@ -47,7 +51,7 @@ export default class ProtectedView extends React.Component {
 }
 
 ProtectedView.propTypes = {
-    fetchProtectedData: React.PropTypes.func,
+    fetchIssuesData: React.PropTypes.func,
     loaded: React.PropTypes.bool,
     userName: React.PropTypes.string,
     data: React.PropTypes.any,
