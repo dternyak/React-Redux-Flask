@@ -71,7 +71,7 @@ export default class IssueCard extends React.Component {
   renderScript() {
     const styles = {
       script: {
-        border: '1px solid #aaa',
+        border: '1px solid #f1f1f1',
         clear: 'both',
         padding: '5px',
         borderRadius: '2px'
@@ -90,12 +90,12 @@ export default class IssueCard extends React.Component {
     );
   }
 
-  renderTruncatedDescription(summary) {
+  renderTruncatedDescription(summary, styles) {
     if (!this.state.expanded) {
       return (
-        <div style={{ fontSize: '14px', marginLeft: '16px', marginRight: '16px' }} onClick={this.handleExpand}>
+        <CardText style={styles.summary} onClick={this.handleExpand}>
           {summary.substr(0,130)+'...'}
-        </div>
+        </CardText>
       );
     }
   }
@@ -124,10 +124,6 @@ export default class IssueCard extends React.Component {
         width: '48px',
         padding: 0,
       },
-      summary: {
-        fontSize: '16px',
-        marginBottom: '10px',
-      },
       "muidocsIconCustomGithub:before": {
         content: "\e625",
       },
@@ -144,22 +140,30 @@ export default class IssueCard extends React.Component {
       },
     };
 
+    var summaryStyles = {
+      summary: {
+        fontSize: '14px',
+        marginBottom: this.state.expanded ? '-10px': '10px',
+        padding: '0 16px',
+      },
+    }
+
     return (
       <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange} style={{ paddingBottom: '40px' }}>
         <CardHeader
           textStyle={{paddingRight: 0,}}
           title={issue.title}
-          titleStyle={{fontSize: '22px', fontWeight: 'bold',}}
+          titleStyle={{fontSize: '20px', fontWeight: 'bold',}}
           subtitle={level + ' ' + bodyOfGovernment}
           subtitleStyle={{fontSize: '16px'}}
           actAsExpander={true}
           showExpandableButton={false}
         />
 
-        {this.renderTruncatedDescription(issue.summary)}
+        {this.renderTruncatedDescription(issue.summary, summaryStyles)}
 
-        <CardText expandable={true} >
-          <div style={styles.summary}>
+        <CardText expandable={true} style={summaryStyles.summary}>
+          <div style={{marginBottom: '10px'}}>
             {issue.summary}
           </div>
 
@@ -199,6 +203,7 @@ export default class IssueCard extends React.Component {
       </Card>
     );
   }
+
 }
 
 IssueCard.propTypes = {
