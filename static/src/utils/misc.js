@@ -36,7 +36,7 @@ export function mapLevelAndRole(level, role) {
         bodyOfGovernment: null,
     }
 
-    returnObject.level = level === 'country' ? 'United States' : 'State';
+    returnObject.level = level === 'country' ? 'US' : 'State';
     returnObject.role = role === 'legislatorUpperBody' ? 'Sentator' : 'Congressperson';
     returnObject.bodyOfGovernment = role === 'legislatorUpperBody' ? 'Sentate' : 'House of Representatives';
 

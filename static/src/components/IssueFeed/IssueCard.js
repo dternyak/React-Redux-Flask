@@ -57,8 +57,10 @@ export default class IssueCard extends React.Component {
         background: 'url(\'' + representative.image_url + '\') top center/cover no-repeat',
         width: '100%',
         height: '100%',
-        maxHeight: '100px',
+        maxHeight: '84px',
+        maxWidth: '84px',
         borderRadius: '50%',
+        margin: '0 auto',
       },
     }
 
@@ -68,24 +70,55 @@ export default class IssueCard extends React.Component {
     );
   }
 
-  renderScript() {
+  renderScript(representative, issue) {
     const styles = {
       script: {
+        position: 'relative',
         border: '1px solid #f1f1f1',
         clear: 'both',
         padding: '5px',
-        borderRadius: '2px'
+        borderRadius: '2px',
+        them: {
+          fontStyle: 'italic',
+          marginBottom: '8px',
+        },
+        you: {
+          marginBottom: '8px',
+        }
       },
       iconStyles: {
         height: '40px',
         width: '40px',
+        position: 'absolute',
+        left: '2px',
+        top: '30px',
       }
     }
 
     return (
       <div style={styles.script}>
+        <h5 style={{marginBottom: '20px'}}>What to say:</h5>
         <FormatQuote style={styles.iconStyles} />
-        This is a script for calling your rep....
+        <div style={{padding: '0 15px 0 35px'}}>
+          <div style={styles.script.them}>
+            Them: Representative {representative.last_name}&rsquo; office, how can I help you?
+          </div>
+          <div style={styles.script.you}>
+            Hi, my name is <span style={{fontStyle: 'italic'}}>[Your Name]</span>, and I&rsquo;m a resident of your district.
+          </div>
+          <div style={styles.script.you}>
+            I am calling in [<span style={{color: 'green'}}>support of</span>/<span style={{color: 'red'}}>opposition to</span>] <span style={{fontWeight: 'bold'}}>{issue.code || issue.title}</span>. Can I count on the representative&rsquo;s support?
+          </div>
+          <div style={styles.script.them}>
+            Them: [Their Response]<br />
+          </div>
+          <div style={styles.script.them}>
+            Them: I will let the representative know you called.
+          </div>
+          <div style={styles.script.you}>
+            Thank you for your time.
+          </div>
+        </div>
       </div>
     );
   }
@@ -101,17 +134,20 @@ export default class IssueCard extends React.Component {
   }
 
   renderDaysRemaining(issue) {
+    let numDaysRemaining = daysRemaining(Date.parse(issue.due_date))
     const styles = {
       daysRemaining: {
-        fontSize: '14px',
-        fontWeight: 'semi-bold',
-        float: 'right',
+        fontSize: '12px',
+        fontWeight: 'normal',
+        position: 'absolute',
+        bottom: '15px',
+        right: '16px',
+        color: numDaysRemaining < 7 ? 'red' : 'black',
       },
     }
-
     return (
       <div style={styles.daysRemaining}>
-        {daysRemaining(Date.parse(issue.due_date)) + ' days left'}
+        {numDaysRemaining + ' days left'}
       </div>
     );
   }
@@ -171,7 +207,7 @@ export default class IssueCard extends React.Component {
           title={issue.title}
           titleStyle={{fontSize: '20px', fontWeight: 'bold',}}
           subtitle={level + ' ' + bodyOfGovernment}
-          subtitleStyle={{fontSize: '16px'}}
+          subtitleStyle={{fontSize: '14px', float: 'left'}}
           actAsExpander={true}
           showExpandableButton={false}
           children={this.renderDaysRemaining(issue)}
@@ -185,11 +221,11 @@ export default class IssueCard extends React.Component {
           </div>
 
           <div className="row" style={{marginBottom: '10px'}}>
-            <div className="col-xs-4 col-sm-3">
+            <div className="col-xs-4 col-sm-3" style={{paddingRight: 0}}>
               {this.renderAvatar(representative)}
             </div>
 
-            <div className="col-xs-8 col-sm-9">
+            <div className="col-xs-8 col-sm-9" style={{paddingLeft: 5}}>
               <div style={styles.repTitleContainer}>
                 <h4 style={styles.repName}>
                   {representative.full_name}
@@ -201,7 +237,7 @@ export default class IssueCard extends React.Component {
             </div>
           </div>
 
-          {this.renderScript()}
+          {this.renderScript(representative, issue)}
 
           <RaisedButton
             href={"tel:"+phoneNumber}
