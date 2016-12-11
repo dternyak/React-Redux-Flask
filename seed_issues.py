@@ -40,7 +40,7 @@ issues = [
     #    'role': '',
     #    'code': '',
     #    'due_date': datetime(2016, 12, 15)
-    #}        
+    #}
 ]
 
 

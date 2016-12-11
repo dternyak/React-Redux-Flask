@@ -69,3 +69,19 @@ $ npm start
 ```sh
 $ npm run build:production
 ```
+###### SHIIIIIT for db:
+
+`sqlite3 chativism.db`
+`drop table (all of em)`
+`rm -rf migrations`
+`python manage.py create_db`
+`python manage.py db upgrade`
+
+`python seed_issues.py`
+
+start the server and hit this:
+`http://localhost:3000/api/issues?address=1864+fell+st+san+francisco`
+
+now you can hit `/api/issues` and you'll get the full list of issues w/ reps populated. if you want any other issues / reps from other areas, go back to the query.
+
+But THEN if you go back to `/api/issues`, itll load ALL issues for ALL addresses that you've used.
