@@ -9,6 +9,7 @@ import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import Avatar from 'material-ui/Avatar';
 import FormatQuote from 'material-ui/svg-icons/editor/format-quote';
+import Phone from 'material-ui/svg-icons/communication/phone';
 
 
 // https://github.com/mikamaunula/react-material-icons
@@ -105,10 +106,10 @@ export default class IssueCard extends React.Component {
 
     const styles = {
       callButton: {
-        margin: 12,
-        marginLeft: 0,
-        marginRight: 0,
-        width: '100%',
+        margin: '15px 0',
+      },
+      callLabel: {
+        padding: 16
       },
       expandArrow: {
         right: 0,
@@ -152,6 +153,7 @@ export default class IssueCard extends React.Component {
     return (
       <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
         <CardHeader
+          textStyle={{paddingRight: 0,}}
           title={issue.title}
           titleStyle={{fontSize: '22px', fontWeight: 'bold',}}
           subtitle={level}
@@ -183,9 +185,12 @@ export default class IssueCard extends React.Component {
           <RaisedButton
             href={"tel:"+phoneNumber}
             label={"Call Your Rep!"}
-            labelPosition="before"
+            labelPosition="after"
+            labelStyle={styles.callLabel}
+            buttonStyle={{height: '68px', padding: 16,}}
             primary={true}
-            icon={<FontIcon className="phone" />}
+            fullWidth={true}
+            icon={<Phone style={styles.iconStyles} />}
             style={styles.callButton}
           />
         </CardText>
