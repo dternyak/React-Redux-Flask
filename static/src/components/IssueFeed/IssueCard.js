@@ -114,7 +114,7 @@ export default class IssueCard extends React.Component {
         right: 0,
         left: 0,
         margin: '0 auto',
-        marginTop: '-15px',
+        marginTop: '20px',
         position: 'absolute',
         width: '48px',
         padding: 0,
@@ -150,7 +150,7 @@ export default class IssueCard extends React.Component {
     };
 
     return (
-      <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
+      <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange} style={{ paddingBottom: '40px' }}>
         <CardHeader
           title={issue.title}
           titleStyle={{fontSize: '22px', fontWeight: 'bold',}}
