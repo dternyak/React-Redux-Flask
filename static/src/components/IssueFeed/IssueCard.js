@@ -47,18 +47,19 @@ export default class IssueCard extends React.Component {
   };
 
   renderAvatar(representative) {
-    const borderColor = representative.party === 'Democrat' ? "#1E90FF" : "#DE0702";
+    const borderColor = representative.party === 'Democratic' ? "#1E90FF" : "#DE0702";
     const styles = {
       avatar: {
-        border: '2px solid '+ borderColor,
+        border: '5px solid '+ borderColor,
         float: 'left',
+        height: '150px',
+        width: 'auto',
       },
     }
 
     return (
       <Avatar
         src={representative.image_url}
-        size={80}
         style={styles.avatar}
       />
     );
@@ -103,34 +104,10 @@ export default class IssueCard extends React.Component {
     );
   }
 
-  renderLearnMore() {
-    const styles = {
-      learnMoreButton: {
-        margin: 0,
-        width: '100%',
-      },
-    }
-
-    let display = !this.state.expanded;
-
-    if (display) {
-      return (
-        <CardActions actAsExpander={true}>
-          <RaisedButton
-            label="Learn More"
-            labelPosition="before"
-            style={styles.learnMoreButton}
-            containerElement="label"
-            onTouchTap={this.handleExpandChange}
-          />
-        </CardActions>
-      );
-    }
-  }
-
   render() {
     let { issue } = this.props;
     let { representatives } = issue;
+    console.log(issue);
     let representative = representatives[0];
     let level = representative.level;
     let phoneNumber = representative.phones[0];
@@ -166,14 +143,14 @@ export default class IssueCard extends React.Component {
     return (
       <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
         <CardHeader
-          title={issue.description}
+          title={issue.title}
           subtitle={level}
           actAsExpander={true}
-          showExpandableButton={true}
+          showExpandableButton={false}
         />
 
         <CardText expandable={true} >
-          <Paper style={styles.paper} zDepth={1} children={issue.description} />
+          <Paper style={styles.paper} zDepth={1} children={issue.summary} />
           <CardHeader
             title={representative.first_name + " " + representative.last_name}
             subtitle={level}
@@ -192,7 +169,7 @@ export default class IssueCard extends React.Component {
           />
         </CardText>
 
-        {this.renderLearnMore()}
+        <CardActions actAsExpander={true} showExpandableButton={true} expandableButtonStyle={{margin: '50px'}} />
       </Card>
     );
   }

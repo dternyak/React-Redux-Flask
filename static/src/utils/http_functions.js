@@ -44,5 +44,5 @@ export function data_about_user(token) {
 }
 
 export function get_issues() {
-    return axios.get('api/issues');
+    return axios.get('api/issues?address=1864+fell+st+san+francisco');
 }
