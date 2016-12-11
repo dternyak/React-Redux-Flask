@@ -11,6 +11,7 @@ import Avatar from 'material-ui/Avatar';
 import FormatQuote from 'material-ui/svg-icons/editor/format-quote';
 import Phone from 'material-ui/svg-icons/communication/phone';
 
+import { mapLevelAndRole } from '../../utils/misc';
 
 // https://github.com/mikamaunula/react-material-icons
 // import mui from 'material-ui';
@@ -101,8 +102,9 @@ export default class IssueCard extends React.Component {
     let { issue } = this.props;
     let { representatives } = issue;
     let representative = representatives[0];
-    let level = representative.level;
     let phoneNumber = representative.phones[0];
+
+    let {level, role, bodyOfGovernment} = mapLevelAndRole(representative.level, representative.role);
 
     const styles = {
       callButton: {
@@ -156,7 +158,7 @@ export default class IssueCard extends React.Component {
           textStyle={{paddingRight: 0,}}
           title={issue.title}
           titleStyle={{fontSize: '22px', fontWeight: 'bold',}}
-          subtitle={level}
+          subtitle={level + ' ' + bodyOfGovernment}
           subtitleStyle={{fontSize: '16px'}}
           actAsExpander={true}
           showExpandableButton={false}
@@ -173,10 +175,10 @@ export default class IssueCard extends React.Component {
 
           <div style={styles.repTitleContainer}>
             <div style={styles.repName}>
-              {representative.first_name + " " + representative.last_name}
+              {representative.first_name + ' ' + representative.last_name}
             </div>
             <div style={styles.repTitle}>
-              {level}
+              {level + ' ' + role}
             </div>
           </div>
 

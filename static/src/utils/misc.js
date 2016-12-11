@@ -27,3 +27,18 @@ export function validateEmail(email) {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 }
+
+export function mapLevelAndRole(level, role) {
+
+    let returnObject = {
+        level: null,
+        role: null,
+        bodyOfGovernment: null,
+    }
+
+    returnObject.level = level === 'country' ? 'United States' : 'State';
+    returnObject.role = role === 'legislatorUpperBody' ? 'Sentator' : 'Congressperson';
+    returnObject.bodyOfGovernment = role === 'legislatorUpperBody' ? 'Sentate' : 'House of Representatives';
+
+    return returnObject;
+}
