@@ -73,7 +73,13 @@ class Rep(db.Model):
 
 
     def to_dict(self):
-        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+        rep = {}
+        for c in self.__table__.columns:
+            if c.name == 'phones':
+                rep[c.name] = getattr(self, c.name).split(',')
+            else:
+                rep[c.name] = getattr(self, c.name)
+        return rep
 
 
 class Zipcode(db.Model):
