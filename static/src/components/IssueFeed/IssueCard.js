@@ -8,6 +8,7 @@ import ActionAndroid from 'material-ui/svg-icons/action/android';
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import Avatar from 'material-ui/Avatar';
+import FormatQuote from 'material-ui/svg-icons/editor/format-quote';
 
 
 // https://github.com/mikamaunula/react-material-icons
@@ -67,40 +68,21 @@ export default class IssueCard extends React.Component {
 
   renderForOrAgainst() {
     const styles = {
-      headline: {
-        fontSize: 24,
-        paddingTop: 16,
-        marginBottom: 12,
-        fontWeight: 400,
+      script: {
+        border: '1px solid #aaa',
+        clear: 'both',
+        padding: '5px',
+        borderRadius: '2px'
       },
+      iconStyles: {
+      }
     }
 
     return (
-      <Tabs
-        value={this.state.positionValue}
-        onChange={this.handlePositionChange}
-      >
-        <Tab label="For" value="for" >
-          <div>
-            <h2 style={styles.headline}>Controllable Tab A</h2>
-            <p>
-              Tabs are also controllable if you want to programmatically pass them their values.
-              This allows for more functionality in Tabs such as not
-              having any Tab selected or assigning them different values.
-            </p>
-          </div>
-        </Tab>
-        <Tab label="Against" value="against">
-          <div>
-            <h2 style={styles.headline}>Controllable Tab B</h2>
-            <p>
-              This is another example of a controllable tab. Remember, if you
-              use controllable Tabs, you need to give all of your tabs values or else
-              you wont be able to select them.
-            </p>
-          </div>
-        </Tab>
-      </Tabs>
+      <div style={styles.script}>
+        <FormatQuote style={styles.iconStyles} />
+        This is a script for calling your rep....
+      </div>
     );
   }
 
@@ -127,6 +109,15 @@ export default class IssueCard extends React.Component {
         marginLeft: 0,
         marginRight: 0,
         width: '100%',
+      },
+      expandArrow: {
+        right: 0,
+        left: 0,
+        margin: '0 auto',
+        marginTop: '-15px',
+        position: 'absolute',
+        width: '48px',
+        padding: 0,
       },
       exampleImageInput: {
         cursor: 'pointer',
@@ -199,7 +190,7 @@ export default class IssueCard extends React.Component {
           />
         </CardText>
 
-        <CardActions actAsExpander={true} showExpandableButton={true} expandableButtonStyle={{margin: '50px'}} />
+        <CardActions actAsExpander={true} showExpandableButton={true} style={styles.expandArrow} />
       </Card>
     );
   }
