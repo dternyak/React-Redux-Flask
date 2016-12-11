@@ -18,7 +18,7 @@ import { requireNoAuthentication } from './components/notAuthenticatedComponent'
 
 export default (
     <Route path="/" component={App}>
-        <Route path="main" component={requireAuthentication(ProtectedView)} />
+        <Route path="main" component={ProtectedView} />
         <Route path="login" component={requireNoAuthentication(LoginView)} />
         <Route path="register" component={requireNoAuthentication(RegisterView)} />
         <Route path="home" component={requireNoAuthentication(HomeContainer)} />
