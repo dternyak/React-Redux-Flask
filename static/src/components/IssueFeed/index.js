@@ -18,7 +18,7 @@ class IssueFeed extends Component {
           <div className="row">
               <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                   {issues.map(issue =>
-                    <IssueCard issue={issue} />
+                    <IssueCard key={issue.description} issue={issue} />
                   )}
                   {JSON.stringify(issues)}
               </div>

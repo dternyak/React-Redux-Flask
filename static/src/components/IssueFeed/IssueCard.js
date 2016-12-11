@@ -1,7 +1,10 @@
 import React from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import Toggle from 'material-ui/Toggle';
+
+import ActionAndroid from 'material-ui/svg-icons/action/android';
+import FontIcon from 'material-ui/FontIcon';
 
 export default class IssueCard extends React.Component {
 
@@ -31,37 +34,55 @@ export default class IssueCard extends React.Component {
   render() {
     let { issue } = this.props;
     let { representatives } = issue;
+    let level = representatives[0].level;
+    let phoneNumber = representatives[0].phones[0];
+
+    const styles = {
+      button: {
+        margin: 12,
+      },
+      exampleImageInput: {
+        cursor: 'pointer',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+        width: '100%',
+        opacity: 0,
+      },
+    };
 
     return (
       <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange}>
         <CardHeader
-          title="URL Avatar"
-          subtitle="Subtitle"
+          title={issue.description}
+          subtitle={level}
           avatar="http://lorempixel.com/400/200/"
           actAsExpander={true}
           showExpandableButton={true}
         />
-        <CardText>
-          <Toggle
-            toggled={this.state.expanded}
-            onToggle={this.handleToggle}
-            labelPosition="right"
-            label="This toggle controls the expanded state of the component."
-          />
-        </CardText>
-        <CardMedia
-          expandable={true}
-          overlay={<CardTitle title="Overlay title" subtitle="Overlay subtitle" />}
-        >
-          <img src="http://lorempixel.com/400/200/" />
-        </CardMedia>
-        <CardTitle title="Card title" subtitle="Card subtitle" expandable={true} />
-        <CardText expandable={true}>
+
+        <CardText expandable={true} actAsExpander={true}>
           {issue.description}
         </CardText>
+
         <CardActions>
-          <FlatButton label="Expand" onTouchTap={this.handleExpand} />
-          <FlatButton label="Reduce" onTouchTap={this.handleReduce} />
+          <RaisedButton
+            label="Learn More"
+            labelPosition="before"
+            style={styles.button}
+            containerElement="label"
+            onTouchTap={this.handleExpandChange}
+          />
+          <RaisedButton
+            href="tel:#{ phoneNumber }"
+            label="Label before"
+            labelPosition="before"
+            primary={true}
+            icon={<FontIcon className="fa-phone" />}
+            style={styles.button}
+          />
         </CardActions>
       </Card>
     );
