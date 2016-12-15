@@ -9,6 +9,7 @@ class BaseConfig(object):
     SQLALCHEMY_DATABASE_URI = "sqlite:///chativism.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     CIVIC_API_KEY = 'AIzaSyBl6O_1GRJN6V9KzBNEmRWF25f6KgCcRTg'
+    PLACES_API_KEY = 'AIzaSyDFlnW_uEpkJ5v-J5C339_8oO7fo_ut39s'
 
 
 class TestingConfig(object):
