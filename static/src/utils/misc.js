@@ -37,7 +37,7 @@ export function mapLevelAndRole(level, role) {
     }
 
     returnObject.level = level === 'country' ? 'US' : 'State';
-    returnObject.role = role === 'legislatorUpperBody' ? 'Sentator' : 'Congressperson';
+    returnObject.role = role === 'legislatorUpperBody' ? 'Senator' : 'Congressperson';
     returnObject.bodyOfGovernment = role === 'legislatorUpperBody' ? 'Sentate' : 'House of Representatives';
 
     return returnObject;
@@ -51,6 +51,12 @@ export function daysBetween(startDate, endDate) {
     return diffDays;
 }
 
-export function daysRemaining(date) {
-    return daysBetween(Date.now(), date);
+export function timeRemaining(date) {
+    let totalDays = daysBetween(Date.now(), date);
+    let years = Math.floor(totalDays/365);
+    let monthDays = (totalDays % 365);
+    let months = Math.floor(monthDays / 30);
+    let days = monthDays % 30;
+
+    return {years, months, days};
 }

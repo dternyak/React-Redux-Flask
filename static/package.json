@@ -79,6 +79,7 @@
     "mocha": "^3.0.2",
     "morgan": "^1.6.1",
     "node-sass": "^3.4.2",
+    "pluralize": "^3.0.0",
     "postcss-import": "^9.0.0",
     "postcss-loader": "^1.1.1",
     "q": "^1.4.1",
@@ -117,6 +118,8 @@
     "yargs": "^6.5.0"
   },
   "dependencies": {
-    "material-design-icons": "^3.0.1"
+    "material-design-icons": "^3.0.1",
+    "pluralize": "^3.0.0",
+    "react-google-autocomplete": "^1.0.11"
   }
 }
