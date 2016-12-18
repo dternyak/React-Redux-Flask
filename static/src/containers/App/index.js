@@ -16,8 +16,21 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     };
 
     render() {
+        // http://www.material-ui.com/#/customization/themes
+        const muiTheme = getMuiTheme({
+            fontFamily: 'Roboto, sans-serif',
+            palette: {
+              primary1Color: '#073764',
+              primary2Color: '#073764',
+              primary3Color: '#073764',
+              accent1Color: '#073764',
+              accent2Color: '#073764',
+              accent3Color: '#073764',
+            },
+        });
+
         return (
-            <MuiThemeProvider muiTheme={getMuiTheme()}>
+            <MuiThemeProvider muiTheme={muiTheme}>
                 <section>
                     <Header />
                     <div
