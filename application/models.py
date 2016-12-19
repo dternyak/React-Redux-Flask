@@ -39,6 +39,7 @@ class Issue(db.Model):
     role = db.Column(db.String(32))
     code = db.Column(db.String(32))
     due_date = db.Column(db.Date)
+    image_url = db.Column(db.String(255))
 
     def to_dict(self):
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
