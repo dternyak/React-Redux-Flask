@@ -6,11 +6,12 @@ import * as actionCreators from '../actions/data';
 import IssueFeed from './IssueFeed';
 
 function mapStateToProps(state) {
+    const { issues, isFetching, loaded } = state.data;
+
     return {
-        data: state.data,
-        token: state.auth.token,
-        loaded: state.data.loaded,
-        isFetching: state.data.isFetching,
+        issues,
+        isFetching,
+        loaded,
     };
 }
 
@@ -20,20 +21,19 @@ function mapDispatchToProps(dispatch) {
 }
 
 @connect(mapStateToProps, mapDispatchToProps)
-export default class ProtectedView extends React.Component {
+export default class IssuesView extends React.Component {
     componentDidMount() {
-        this.fetchData();
-    }
+        let placeholderAddress = '1864 Fell St, San Francisco CA 94117';
 
-
-    fetchData() {
-        const token = this.props.token;
-        this.props.fetchIssuesData();
+        console.log(this.props)
+        if (!this.props.issues) {
+            this.props.fetchIssues(placeholderAddress);
+        }
     }
 
     render() {
-        let issues = this.props.data.data;
-
+        const issues = this.props.issues;
+        console.log(this.props)
         return (
             <div>
                 {!this.props.loaded
@@ -48,10 +48,8 @@ export default class ProtectedView extends React.Component {
     }
 }
 
-ProtectedView.propTypes = {
-    fetchIssuesData: React.PropTypes.func,
+IssuesView.propTypes = {
+    fetchIssues: React.PropTypes.func,
     loaded: React.PropTypes.bool,
-    userName: React.PropTypes.string,
-    data: React.PropTypes.any,
-    token: React.PropTypes.string,
+    issues: React.PropTypes.any,
 };

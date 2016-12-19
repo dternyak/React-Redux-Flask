@@ -31,6 +31,8 @@ export class AddressSearchInput extends React.Component {
   }
 
   render() {
+    const { fetchIssues } = this.props;
+
     return (
       <div>
         <AutoComplete
@@ -38,6 +40,7 @@ export class AddressSearchInput extends React.Component {
           filter={AutoComplete.caseInsensitiveFilter}
           dataSource={this.state.addressPredictions}
           onUpdateInput={(value) => this.handleUpdateInput(value)}
+          onNewRequest={(value) => fetchIssues(value)}
         />
       </div>
     );

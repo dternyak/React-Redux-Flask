@@ -43,6 +43,8 @@ export function data_about_user(token) {
     return axios.get('api/user', tokenConfig(token));
 }
 
-export function get_issues() {
-    return axios.get('api/issues?address=1864+fell+st+san+francisco');
+export function get_issues(address) {
+    let apiReuest = axios.get(`api/issues?address=${address}`);
+    console.log(apiReuest);
+    return apiReuest;
 }

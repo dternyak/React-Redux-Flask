@@ -12,10 +12,20 @@ class IssueFeed extends Component {
   }
 
   render() {
+    console.log('this.props',this.props);
+
     let { issues } = this.props;
 
     return (
-      <PageWrapper />
+      <div className="">
+        <div className="row">
+           <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+               {issues.map(issue =>
+                 <IssueCard key={issue.title} issue={issue} />
+               )}
+           </div>
+        </div>
+      </div>
     );
   }
 }

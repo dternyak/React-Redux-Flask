@@ -1,6 +1,6 @@
 import React from 'react';
-import AddressSearchInput from './AddressSearchInput';
-import RegisterView from '../RegisterView';
+import AddressSearchInput from '../AddressSearchInput';
+import AddressView from '../AddressView';
 import './style.scss';
 
 var styles = {
@@ -13,7 +13,7 @@ var styles = {
   h1: {
     paddingTop: '10vh',
     fontWeight: '700',
-    fontSize: '103',
+    fontSize: '103px',
     position: 'relative',
     zIndex: 2,
     color: '#FFB128',
@@ -33,7 +33,6 @@ export const Home = () =>
         <div style={styles.hero}>
           <img style={styles.img} src="https://qzprod.files.wordpress.com/2016/11/rtx2scms-e1479141633942.jpg?quality=80&strip=all&w=3200"></img>
           <h1 style={styles.h1}>Call for Action</h1>
-          <RegisterView />
+          <AddressView />
         </div>
-        <AddressSearchInput />
     </section>;
