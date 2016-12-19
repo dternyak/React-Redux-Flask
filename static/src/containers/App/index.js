@@ -4,7 +4,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 /* application components */
-import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 
 /* global styles for app */
@@ -30,20 +29,14 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
         });
 
         return (
-            <MuiThemeProvider muiTheme={muiTheme}>
-                <section>
-                    <Header />
-                    <div
-                      className="container"
-                      style={{ marginTop: 10, paddingBottom: 250 }}
-                    >
-                        {this.props.children}
-                    </div>
-                    <div>
-                        <Footer />
-                    </div>
-                </section>
-            </MuiThemeProvider>
+          <MuiThemeProvider muiTheme={muiTheme}>
+            <section>
+              {this.props.children}
+              <div>
+                  <Footer />
+              </div>
+            </section>
+          </MuiThemeProvider>
         );
     }
 }
