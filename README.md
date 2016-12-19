@@ -71,9 +71,9 @@ $ npm run build:production
 ```
 ###### SHIIIIIT for db:
 
-`sqlite3 chativism.db`
-`drop table (all of em)`
+`rm -rf chativism.db` // drops db
 `rm -rf migrations`
+`python manage.py db init`
 `python manage.py create_db`
 `python manage.py db upgrade`
 
