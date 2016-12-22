@@ -12,8 +12,6 @@ class IssueFeed extends Component {
   }
 
   render() {
-    console.log('this.props',this.props);
-
     let { issues } = this.props;
 
     return (

@@ -25,18 +25,17 @@ export default class IssuesView extends React.Component {
     componentDidMount() {
         let placeholderAddress = '1864 Fell St, San Francisco CA 94117';
 
-        console.log(this.props)
         if (!this.props.issues) {
             this.props.fetchIssues(placeholderAddress);
         }
     }
 
     render() {
-        const issues = this.props.issues;
-        console.log(this.props)
+        const { issues, loaded } = this.props;
+
         return (
             <div>
-                {!this.props.loaded
+                {!loaded
                     ? <h1>Loading data...</h1>
                     :
                     <div>
@@ -51,5 +50,6 @@ export default class IssuesView extends React.Component {
 IssuesView.propTypes = {
     fetchIssues: React.PropTypes.func,
     loaded: React.PropTypes.bool,
+    isFetching: React.PropTypes.bool,
     issues: React.PropTypes.any,
 };

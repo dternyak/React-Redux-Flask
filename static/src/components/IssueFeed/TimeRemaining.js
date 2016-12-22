@@ -9,12 +9,10 @@ export default class TimeRemaining extends React.Component {
     const timeObject = timeRemaining(Date.parse(issue.due_date));
     const styles = {
       timeRemaining: {
-        fontSize: '12px',
+        fontSize: '14px',
         fontWeight: 'normal',
-        position: 'absolute',
-        bottom: '15px',
-        right: '16px',
-        color: timeObject.days < 7 ? 'red' : 'black',
+        display: 'inline',
+        color: timeObject.days < 7 ? 'red' : 'white',
       },
     }
 

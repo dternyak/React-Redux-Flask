@@ -1,15 +1,14 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 
 /* application components */
 import { Header } from './Header';
 
-export const PageWrapper = (children) =>
+export const PageWrapper = () =>
     <div>
       <Header />
       <div
         className="container"
         style={{ marginTop: 10, paddingBottom: 250 }}
       >
-        {children}
       </div>
     </div>;

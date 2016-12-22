@@ -133,8 +133,27 @@ export default class IssueCard extends React.Component {
     }
   }
 
-  renderTimeRemaining(issue) {
-    return <TimeRemaining issue={issue} />;
+  renderSubTitle(issue, level, bodyOfGovernment) {
+    return (
+      <div>
+        <div style={{ fontSize: '14px', color: 'white', display: 'inline' }}>
+          {`${level} ${bodyOfGovernment} | `}
+        </div>
+        <TimeRemaining issue={issue} />
+      </div>
+    );
+  }
+
+  renderCardTitle(issue, level, bodyOfGovernment) {
+    return (
+      <CardTitle
+        title={issue.title}
+        titleStyle={{fontSize: '20px', fontWeight: 'bold',}}
+        actAsExpander={true}
+        showExpandableButton={false}
+        children={this.renderSubTitle(issue, level, bodyOfGovernment)}
+      />
+    );
   }
 
   render() {
@@ -147,7 +166,8 @@ export default class IssueCard extends React.Component {
 
     const styles = {
       callButton: {
-        margin: '15px 0',
+        margin: 0,
+        borderRadius: 0,
       },
       callLabel: {
         padding: 16
@@ -181,24 +201,16 @@ export default class IssueCard extends React.Component {
       summary: {
         fontSize: '14px',
         marginBottom: this.state.expanded ? '-10px': '10px',
-        padding: '0 16px',
+        padding: '16px',
       },
     }
 
     return (
-      <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange} style={{ paddingBottom: '40px' }}>
-        <CardHeader
-          textStyle={{paddingRight: 0,}}
-          title={issue.title}
-          titleStyle={{fontSize: '20px', fontWeight: 'bold',}}
-          subtitle={level + ' ' + bodyOfGovernment}
-          subtitleStyle={{fontSize: '14px', float: 'left'}}
-          actAsExpander={true}
-          showExpandableButton={false}
-          children={this.renderTimeRemaining(issue)}
-        />
+      <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange} style={{ paddingBottom: '40px', marginBottom: '20px' }}>
 
-        {this.renderTruncatedDescription(issue.summary, summaryStyles)}
+        <CardMedia overlay={this.renderCardTitle(issue, level, bodyOfGovernment)}>
+          <img src={issue.image_url} />
+        </CardMedia>
 
         <CardText expandable={true} style={summaryStyles.summary}>
           <div style={{marginBottom: '10px'}}>
@@ -223,19 +235,19 @@ export default class IssueCard extends React.Component {
           </div>
 
           {this.renderScript(representative, issue)}
-
-          <RaisedButton
-            href={"tel:"+phoneNumber}
-            label={"Call Your Rep!"}
-            labelPosition="after"
-            labelStyle={styles.callLabel}
-            buttonStyle={{height: '68px', padding: 16,}}
-            primary={true}
-            fullWidth={true}
-            icon={<Phone />}
-            style={styles.callButton}
-          />
         </CardText>
+
+        <RaisedButton
+          href={"tel:"+phoneNumber}
+          label={`Call ${role} ${representative.last_name}!`}
+          labelPosition="after"
+          labelStyle={styles.callLabel}
+          buttonStyle={{height: '68px', padding: 16, borderRadius: 0 }}
+          primary={true}
+          fullWidth={true}
+          icon={<Phone />}
+          style={styles.callButton}
+        />
 
         <CardActions actAsExpander={true} showExpandableButton={true} style={styles.expandArrow} />
       </Card>
