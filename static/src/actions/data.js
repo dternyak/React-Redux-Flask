@@ -2,6 +2,7 @@ import {
     FETCH_ISSUES_REQUEST,
     RECEIVE_ISSUES,
     UPDATE_STATUS_TEXT,
+    TOGGLE_EXPAND_ISSUE,
 } from '../constants/index';
 import { parseJSON } from '../utils/misc';
 import { data_about_user, get_issues } from '../utils/http_functions';
@@ -51,6 +52,16 @@ export function fetchIssues(address) {
     };
 }
 
+export function toggleExpandIssue(id) {
+    return (dispatch) => {
+        dispatch({
+            type: TOGGLE_EXPAND_ISSUE,
+            payload: {
+                id,
+            },
+        });
+    };
+}
 // export function fetchIssuesData() {
 //     return (dispatch) => {
 //         get_issues()

@@ -23,36 +23,12 @@ export default class IssueCard extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      expanded: false,
-      position: 'for',
-    };
   }
 
-  handleExpandChange = (expanded) => {
-    this.setState({expanded: expanded});
-  };
-
-  handleToggle = (event, toggle) => {
-    this.setState({expanded: toggle});
-  };
-
-  handleExpand = () => {
-    this.setState({expanded: true});
-  };
-
-  handleReduce = () => {
-    this.setState({expanded: false});
-  };
-
-  handlePositionChange = (value) => {
-    this.setState({
-      value: value,
-    });
-  };
-
   handleToggleExpansion = () => {
-    this.setState({ expanded: !this.state.expanded });
+    const { issue, toggleExpandIssue } = this.props;
+
+    toggleExpandIssue(issue.id);
   };
 
   renderAvatar(representative) {
@@ -130,9 +106,9 @@ export default class IssueCard extends React.Component {
   }
 
   renderTruncatedDescription(summary, styles) {
-    if (!this.state.expanded) {
+    if (!this.props.issue.expanded) {
       return (
-        <CardText style={styles.summary} onClick={this.handleExpand}>
+        <CardText style={styles.summary} onClick={this.handleToggleExpansion}>
           {summary.substr(0,130)+'...'}
         </CardText>
       );
@@ -163,13 +139,12 @@ export default class IssueCard extends React.Component {
   }
 
   render() {
-    const { expanded } = this.state;
-    let { issue } = this.props;
-    let { representatives } = issue;
-    let representative = representatives[0];
-    let phoneNumber = representative.phones[0];
+    const { issue } = this.props;
+    const { expanded, representatives } = issue;
+    const representative = representatives[0];
+    const phoneNumber = representative.phones[0];
 
-    let {level, role, bodyOfGovernment} = mapLevelAndRole(representative.level, representative.role);
+    const {level, role, bodyOfGovernment} = mapLevelAndRole(representative.level, representative.role);
 
     const styles = {
       callButton: {
@@ -218,7 +193,7 @@ export default class IssueCard extends React.Component {
     }
 
     return (
-      <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange} style={{ marginBottom: '20px' }}>
+      <Card expanded={expanded} onExpandChange={this.handleToggleExpansion} style={{ marginBottom: '20px' }}>
 
         <CardMedia overlay={this.renderCardTitle(issue, level, bodyOfGovernment)} onClick={this.handleToggleExpansion}>
           <img src={issue.image_url} />
@@ -280,4 +255,5 @@ export default class IssueCard extends React.Component {
 
 IssueCard.propTypes = {
     issue: React.PropTypes.object.isRequired,
+    toggleExpandIssue: React.PropTypes.func.isRequired,
 };

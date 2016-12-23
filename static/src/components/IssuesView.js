@@ -33,7 +33,7 @@ export default class IssuesView extends React.Component {
     }
 
     render() {
-        const { issues, loaded, statusText } = this.props;
+        const { issues, loaded, statusText, toggleExpandIssue } = this.props;
 
         return (
             <div>
@@ -41,7 +41,7 @@ export default class IssuesView extends React.Component {
                     ? <h1>Loading data...</h1>
                     :
                     <div>
-                        <IssueFeed issues={issues} />
+                        <IssueFeed issues={issues} toggleExpandIssue={toggleExpandIssue} />
                     </div>
                 }
             </div>
