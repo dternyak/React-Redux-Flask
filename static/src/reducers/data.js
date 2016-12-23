@@ -11,7 +11,9 @@ const initialState = {
 export default createReducer(initialState, {
     [RECEIVE_ISSUES]: (state, payload) => {
         // Add 'expanded: false' to each issue.
-        const issues = payload.issues.map(issue => Object.assign({}, issue, { expanded: false }));
+        const issues = payload.issues.map(issue => Object.assign({}, issue, {
+            expanded: false,
+        }));
 
         return Object.assign({}, state, {
             issues: issues,

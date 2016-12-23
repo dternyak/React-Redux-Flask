@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
+import { RaisedButton, FloatingActionButton } from 'material-ui';
 import Toggle from 'material-ui/Toggle';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
@@ -154,6 +154,15 @@ export default class IssueCard extends React.Component {
       callLabel: {
         padding: 16,
       },
+      floatingCallButton: {
+        margin: 0,
+        top: 'auto',
+        right: 20,
+        bottom: 20,
+        left: 'auto',
+        position: 'fixed',
+        zIndex: 1100,
+      },
       infoLabel: {
         padding: 16,
         color: '#073764',
@@ -234,7 +243,13 @@ export default class IssueCard extends React.Component {
           icon={expanded ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           style={styles.callButton}
         />
-        { !expanded && (
+        { expanded ? (
+          <FloatingActionButton
+            href={"tel:"+phoneNumber}
+            style={styles.floatingCallButton}>
+            <Phone/>
+          </FloatingActionButton>
+          ) : (
           <RaisedButton
             href={"tel:"+phoneNumber}
             label={`Call ${role} ${representative.last_name}!`}
