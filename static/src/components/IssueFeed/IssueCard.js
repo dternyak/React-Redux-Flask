@@ -10,6 +10,8 @@ import IconButton from 'material-ui/IconButton';
 import Avatar from 'material-ui/Avatar';
 import FormatQuote from 'material-ui/svg-icons/editor/format-quote';
 import Phone from 'material-ui/svg-icons/communication/phone';
+import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
+import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
 import TimeRemaining from './TimeRemaining';
 import { mapLevelAndRole } from '../../utils/misc';
 
@@ -47,6 +49,10 @@ export default class IssueCard extends React.Component {
     this.setState({
       value: value,
     });
+  };
+
+  handleToggleExpansion = () => {
+    this.setState({ expanded: !this.state.expanded });
   };
 
   renderAvatar(representative) {
@@ -157,6 +163,7 @@ export default class IssueCard extends React.Component {
   }
 
   render() {
+    const { expanded } = this.state;
     let { issue } = this.props;
     let { representatives } = issue;
     let representative = representatives[0];
@@ -170,7 +177,12 @@ export default class IssueCard extends React.Component {
         borderRadius: 0,
       },
       callLabel: {
-        padding: 16
+        padding: 16,
+      },
+      infoLabel: {
+        padding: 16,
+        color: '#073764',
+        fontWeight: 700,
       },
       expandArrow: {
         right: 0,
@@ -200,15 +212,15 @@ export default class IssueCard extends React.Component {
     var summaryStyles = {
       summary: {
         fontSize: '14px',
-        marginBottom: this.state.expanded ? '-10px': '10px',
+        marginBottom: expanded ? '-10px': '10px',
         padding: '16px',
       },
     }
 
     return (
-      <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange} style={{ paddingBottom: '40px', marginBottom: '20px' }}>
+      <Card expanded={this.state.expanded} onExpandChange={this.handleExpandChange} style={{ marginBottom: '20px' }}>
 
-        <CardMedia overlay={this.renderCardTitle(issue, level, bodyOfGovernment)}>
+        <CardMedia overlay={this.renderCardTitle(issue, level, bodyOfGovernment)} onClick={this.handleToggleExpansion}>
           <img src={issue.image_url} />
         </CardMedia>
 
@@ -236,20 +248,30 @@ export default class IssueCard extends React.Component {
 
           {this.renderScript(representative, issue)}
         </CardText>
-
         <RaisedButton
-          href={"tel:"+phoneNumber}
-          label={`Call ${role} ${representative.last_name}!`}
+          onClick={this.handleToggleExpansion}
+          label={expanded ? "Collapse" : "meow Learn moar!"}
           labelPosition="after"
-          labelStyle={styles.callLabel}
-          buttonStyle={{height: '68px', padding: 16, borderRadius: 0 }}
+          labelStyle={styles.infoLabel}
+          buttonStyle={{height: '68px', padding: 16, borderRadius: 0, backgroundColor: 'white'}}
           primary={true}
           fullWidth={true}
-          icon={<Phone />}
+          icon={expanded ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           style={styles.callButton}
         />
-
-        <CardActions actAsExpander={true} showExpandableButton={true} style={styles.expandArrow} />
+        { !expanded && (
+          <RaisedButton
+            href={"tel:"+phoneNumber}
+            label={`Call ${role} ${representative.last_name}!`}
+            labelPosition="after"
+            labelStyle={styles.callLabel}
+            buttonStyle={{height: '68px', padding: 16, borderRadius: 0 }}
+            primary={true}
+            fullWidth={true}
+            icon={<Phone />}
+            style={styles.callButton}
+          />
+        )}
       </Card>
     );
   }

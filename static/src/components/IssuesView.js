@@ -6,12 +6,14 @@ import * as actionCreators from '../actions/data';
 import IssueFeed from './IssueFeed';
 
 function mapStateToProps(state) {
-    const { issues, isFetching, loaded } = state.data;
+    const { address, isFetching, issues, loaded, statusText } = state.data;
 
     return {
-        issues,
+        address,
         isFetching,
+        issues,
         loaded,
+        statusText,
     };
 }
 
@@ -31,7 +33,7 @@ export default class IssuesView extends React.Component {
     }
 
     render() {
-        const { issues, loaded } = this.props;
+        const { issues, loaded, statusText } = this.props;
 
         return (
             <div>
@@ -48,8 +50,10 @@ export default class IssuesView extends React.Component {
 }
 
 IssuesView.propTypes = {
+    address: React.PropTypes.object,
     fetchIssues: React.PropTypes.func,
-    loaded: React.PropTypes.bool,
     isFetching: React.PropTypes.bool,
     issues: React.PropTypes.any,
+    loaded: React.PropTypes.bool,
+    statusText: React.PropTypes.object,
 };

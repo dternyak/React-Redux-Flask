@@ -56,7 +56,6 @@ export default class AddressView extends React.Component {
                                     {this.props.statusText}
                                 </div>
                         }
-
                         <div className="col-md-12">
                             <AddressSearchInput
                                 fetchIssues={this.props.fetchIssues}
@@ -64,7 +63,6 @@ export default class AddressView extends React.Component {
                         </div>
                     </div>
                 </Paper>
-
             </div>
         );
 
