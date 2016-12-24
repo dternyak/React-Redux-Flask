@@ -60,12 +60,31 @@ export default class IssueCard extends React.Component {
         clear: 'both',
         padding: '5px',
         borderRadius: '2px',
+        display: 'flex',
+        flexDirection: 'column',
+        innerScriptContainer: {
+          padding: '0 15px 0 35px',
+          display: 'flex',
+          flexDirection: 'column',
+        },
         them: {
-          fontStyle: 'italic',
           marginBottom: '8px',
+          alignSelf: 'flex-start',
+          maxWidth: '70%',
+          marginBottom: '8px',
+          color: 'black',
+          backgroundColor: '#E5E5EA',
+          padding: '10px',
+          borderRadius: '10px',
         },
         you: {
+          alignSelf: 'flex-end',
+          maxWidth: '70%',
           marginBottom: '8px',
+          color: 'white',
+          backgroundColor: '#009EFE',
+          padding: '10px',
+          borderRadius: '10px',
         }
       },
       iconStyles: {
@@ -81,12 +100,13 @@ export default class IssueCard extends React.Component {
       <div style={styles.script}>
         <h5 style={{marginBottom: '20px'}}>What to say:</h5>
         <FormatQuote style={styles.iconStyles} />
-        <div style={{padding: '0 15px 0 35px'}}>
+        <div style={styles.script.innerScriptContainer}>
           <div style={styles.script.them}>
-            Them: Representative {representative.last_name}&rsquo; office, how can I help you?
+            {`Them: Representative ${representative.last_name}'s office, how can I help you?`}
           </div>
           <div style={styles.script.you}>
             Hi, my name is <span style={{fontStyle: 'italic'}}>[Your Name]</span>, and I&rsquo;m a resident of your district.
+            <div></div>
           </div>
           <div style={styles.script.you}>
             I am calling in [<span style={{color: 'green'}}>support of</span>/<span style={{color: 'red'}}>opposition to</span>] <span style={{fontWeight: 'bold'}}>{issue.code || issue.title}</span>. Can I count on the representative&rsquo;s support?
