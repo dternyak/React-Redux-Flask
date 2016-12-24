@@ -28,6 +28,9 @@ export default class IssueCard extends React.Component {
   handleToggleExpansion = () => {
     const { issue, toggleExpandIssue } = this.props;
 
+    // TODO(stedman): Scroll to the top of the card being acted on.
+    window.location.hash = `#issue_card_${issue.id}`;
+
     toggleExpandIssue(issue.id);
   };
 
@@ -202,7 +205,7 @@ export default class IssueCard extends React.Component {
     }
 
     return (
-      <Card expanded={expanded} onExpandChange={this.handleToggleExpansion} style={{ marginBottom: '20px' }}>
+      <Card id={`issue_card_${issue.id}`} expanded={expanded} onExpandChange={this.handleToggleExpansion} style={{ marginBottom: '20px' }}>
 
         <CardMedia overlay={this.renderCardTitle(issue, level, bodyOfGovernment)} onClick={this.handleToggleExpansion}>
           <img src={issue.image_url} />
