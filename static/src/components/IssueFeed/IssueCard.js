@@ -226,6 +226,9 @@ export default class IssueCard extends React.Component {
                 <div style={styles.repTitle}>
                   {level + ' ' + role}
                 </div>
+                <a style={styles.repTitle} href={"tel:"+phoneNumber}>
+                  {phoneNumber}
+                </a>
               </div>
             </div>
           </div>
