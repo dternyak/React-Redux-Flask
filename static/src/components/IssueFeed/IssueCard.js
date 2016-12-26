@@ -27,12 +27,31 @@ export default class IssueCard extends React.Component {
 
   handleToggleExpansion = () => {
     const { issue, toggleExpandIssue } = this.props;
+    const hash = `#issue_card_${issue.id}`;
+    const element_to_scroll_to = $(hash);
+    console.log('b')
 
-    // TODO(stedman): Scroll to the top of the card being acted on.
-    window.location.hash = `#issue_card_${issue.id}`;
+    // window.scrollTo(0, element_to_scroll_to.offset().top - 15);
+    // $('body, html').animate({ scrollTop: element_to_scroll_to.offset().top }, 800);
+    // element_to_scroll_to.scrollIntoView();
+    // $('body').animate({ scrollTop: $(document).height() });
+    // $('body, html').animate({ scrollTop: hash }, 'slow');
+    // window.scroll({
+    //   top: 2500,
+    //   left: 0,
+    //   behavior: 'smooth'
+    // });
 
     toggleExpandIssue(issue.id);
+    // window.setTimeout(function() { return $('body, html').stop().animate({ scrollTop: element_to_scroll_to.offset().top }, 800); }, 500);
+    $('body, html').stop().animate({ scrollTop: element_to_scroll_to.offset().top }, 800);
+
   };
+
+  handleExpandChange = () => {
+    console.log('stahp')
+    $('body, html').stop();
+  }
 
   renderAvatar(representative) {
     const borderColor = representative.party === 'Democratic' ? "#1E90FF" : "#DE0702";
@@ -205,7 +224,7 @@ export default class IssueCard extends React.Component {
     }
 
     return (
-      <Card id={`issue_card_${issue.id}`} expanded={expanded} onExpandChange={this.handleToggleExpansion} style={{ marginBottom: '20px' }}>
+      <Card id={`issue_card_${issue.id}`} onExpandChange={this.handleExpandChange} expanded={expanded} onExpandChange={this.handleToggleExpansion} style={{ marginBottom: '20px' }}>
 
         <CardMedia overlay={this.renderCardTitle(issue, level, bodyOfGovernment)} onClick={this.handleToggleExpansion}>
           <img src={issue.image_url} />
