@@ -226,9 +226,6 @@ export default class IssueCard extends React.Component {
         fontSize: '14px',
         marginBottom: expanded ? '-10px': '10px',
         padding: '16px',
-        // maxHeight: expanded ? '2000px' : '0',
-        // WebkitTransition: expanded ? '2000px 1s ease-in' : '0 0.15s ease-out',
-        overflow: 'hidden',
       },
     }
 
