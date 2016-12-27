@@ -27,31 +27,52 @@ export default class IssueCard extends React.Component {
 
   handleToggleExpansion = () => {
     const { issue, toggleExpandIssue } = this.props;
-    const hash = `#issue_card_${issue.id}`;
-    const element_to_scroll_to = $(hash);
-    console.log('b')
 
-    // window.scrollTo(0, element_to_scroll_to.offset().top - 15);
-    // $('body, html').animate({ scrollTop: element_to_scroll_to.offset().top }, 800);
-    // element_to_scroll_to.scrollIntoView();
+    // TODO(SBH): Cannot figure this out.
+    const hash = `#issue_card_${issue.id}`;
+    const issueToScrollTo = $(hash);
+
+    // window.scrollTo(0, issueToScrollTo.offset().top - 15);
+
+    // $('body, html').animate({ scrollTop: issueToScrollTo.offset().top }, 800);
+
+    // issueToScrollTo.scrollIntoView();
+
     // $('body').animate({ scrollTop: $(document).height() });
+
     // $('body, html').animate({ scrollTop: hash }, 'slow');
+
     // window.scroll({
     //   top: 2500,
     //   left: 0,
     //   behavior: 'smooth'
     // });
+    const previousIssue = issueToScrollTo.prev();
+    const expandedHeight = previousIssue.height();
+    const previousIssueTop = previousIssue.offset() ? previousIssue.offset().top : undefined;
+    console.log( 'pre', expandedHeight, previousIssueTop)
 
     toggleExpandIssue(issue.id);
-    // window.setTimeout(function() { return $('body, html').stop().animate({ scrollTop: element_to_scroll_to.offset().top }, 800); }, 500);
-    $('body, html').stop().animate({ scrollTop: element_to_scroll_to.offset().top }, 800);
 
+    const postPrevOffset = setTimeout(
+      function(){
+        const reducedHeight = previousIssue.height();
+        const heightDiff = Math.max(expandedHeight - reducedHeight, 0);
+        console.log('post', reducedHeight, heightDiff, 'new top', previousIssue.offset().top)
+
+        // window.scroll(0,heightDiff);
+        $('body, html').stop().animate({ scrollTop: previousIssueTop - heightDiff }, 0);
+        // $('body, html').stop().animate({ scrollTop: previousIssue.offset().top - reducedHeight }, 0);
+
+        // return previousIssue.height();
+      },
+    0);
+
+
+    // window.setTimeout(function() { return $('body, html').stop().animate({ scrollTop: issueToScrollTo.offset().top }, 800); }, 0);
+
+    // $('body, html').stop().animate({ scrollTop: issueToScrollTo.offset().top }, 800);
   };
-
-  handleExpandChange = () => {
-    console.log('stahp')
-    $('body, html').stop();
-  }
 
   renderAvatar(representative) {
     const borderColor = representative.party === 'Democratic' ? "#1E90FF" : "#DE0702";
@@ -220,11 +241,14 @@ export default class IssueCard extends React.Component {
         fontSize: '14px',
         marginBottom: expanded ? '-10px': '10px',
         padding: '16px',
+        // maxHeight: expanded ? '2000px' : '0',
+        // WebkitTransition: expanded ? '2000px 1s ease-in' : '0 0.15s ease-out',
+        overflow: 'hidden',
       },
     }
 
     return (
-      <Card id={`issue_card_${issue.id}`} onExpandChange={this.handleExpandChange} expanded={expanded} onExpandChange={this.handleToggleExpansion} style={{ marginBottom: '20px' }}>
+      <Card id={`issue_card_${issue.id}`} expanded={expanded} onExpandChange={this.handleToggleExpansion} style={{ marginBottom: '20px' }}>
 
         <CardMedia overlay={this.renderCardTitle(issue, level, bodyOfGovernment)} onClick={this.handleToggleExpansion}>
           <img src={issue.image_url} />
