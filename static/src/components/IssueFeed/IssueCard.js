@@ -26,9 +26,37 @@ export default class IssueCard extends React.Component {
   }
 
   handleToggleExpansion = () => {
-    const { issue, toggleExpandIssue } = this.props;
+    /*
+      Logic here to deal with "jumpy" scrolling, when an expanded IssueCard above this one is toggled shut.
+      1. after calling toggleExpandIssue, adjust scrollTop to keep the IssueCard's distance from the top of the window from changing.
+      2. smoothly scroll the IssueCard to the top of the window.
+    */
 
+    const { issue, toggleExpandIssue } = this.props;
+    const hash = `#issue_card_${issue.id}`;
+    const issueToScrollTo = $(hash);
+    // Distance from the top of the IssueCard to the top of the document
+    const reducedIssueTop = issueToScrollTo.offset().top;
+    // Distance down the page that the user has scrolled
+    const scrollTop = $(window).scrollTop();
+    // Distance between the top of the IssueCard, and the top of the window
+    const distanceToWindowTop = reducedIssueTop - scrollTop;
+
+    // Toggle to expand this IssueCard, and reduce any open ones.
     toggleExpandIssue(issue.id);
+
+    // Wait for the DOM to re-render, then:
+    setTimeout(
+      function(){
+        const expandedIssueTop = issueToScrollTo.offset().top;
+
+        // 1. Immediately offset the scrollTop distance, so that distanceToWindowTop is the same for the IssueCard pre- and post-expansion.
+        $('body, html').animate({ scrollTop: issueToScrollTo.offset().top - distanceToWindowTop}, 0);
+
+        // 2. Smoothly scroll up until the IssueCard's top is at the top of the screen.
+        $('body, html').animate({ scrollTop: issueToScrollTo.offset().top}, 500);
+      },
+    0);
   };
 
   renderAvatar(representative) {
@@ -198,11 +226,14 @@ export default class IssueCard extends React.Component {
         fontSize: '14px',
         marginBottom: expanded ? '-10px': '10px',
         padding: '16px',
+        // maxHeight: expanded ? '2000px' : '0',
+        // WebkitTransition: expanded ? '2000px 1s ease-in' : '0 0.15s ease-out',
+        overflow: 'hidden',
       },
     }
 
     return (
-      <Card expanded={expanded} onExpandChange={this.handleToggleExpansion} style={{ marginBottom: '20px' }}>
+      <Card id={`issue_card_${issue.id}`} expanded={expanded} onExpandChange={this.handleToggleExpansion} style={{ marginBottom: '20px' }}>
 
         <CardMedia overlay={this.renderCardTitle(issue, level, bodyOfGovernment)} onClick={this.handleToggleExpansion}>
           <img src={issue.image_url} />
