@@ -26,52 +26,37 @@ export default class IssueCard extends React.Component {
   }
 
   handleToggleExpansion = () => {
-    const { issue, toggleExpandIssue } = this.props;
+    /*
+      Logic here to deal with "jumpy" scrolling, when an expanded IssueCard above this one is toggled shut.
+      1. after calling toggleExpandIssue, adjust scrollTop to keep the IssueCard's distance from the top of the window from changing.
+      2. smoothly scroll the IssueCard to the top of the window.
+    */
 
-    // TODO(SBH): Cannot figure this out.
+    const { issue, toggleExpandIssue } = this.props;
     const hash = `#issue_card_${issue.id}`;
     const issueToScrollTo = $(hash);
+    // Distance from the top of the IssueCard to the top of the document
+    const reducedIssueTop = issueToScrollTo.offset().top;
+    // Distance down the page that the user has scrolled
+    const scrollTop = $(window).scrollTop();
+    // Distance between the top of the IssueCard, and the top of the window
+    const distanceToWindowTop = reducedIssueTop - scrollTop;
 
-    // window.scrollTo(0, issueToScrollTo.offset().top - 15);
-
-    // $('body, html').animate({ scrollTop: issueToScrollTo.offset().top }, 800);
-
-    // issueToScrollTo.scrollIntoView();
-
-    // $('body').animate({ scrollTop: $(document).height() });
-
-    // $('body, html').animate({ scrollTop: hash }, 'slow');
-
-    // window.scroll({
-    //   top: 2500,
-    //   left: 0,
-    //   behavior: 'smooth'
-    // });
-    const previousIssue = issueToScrollTo.prev();
-    const expandedHeight = previousIssue.height();
-    const previousIssueTop = previousIssue.offset() ? previousIssue.offset().top : undefined;
-    console.log( 'pre', expandedHeight, previousIssueTop)
-
+    // Toggle to expand this IssueCard, and reduce any open ones.
     toggleExpandIssue(issue.id);
 
-    const postPrevOffset = setTimeout(
+    // Wait for the DOM to re-render, then:
+    setTimeout(
       function(){
-        const reducedHeight = previousIssue.height();
-        const heightDiff = Math.max(expandedHeight - reducedHeight, 0);
-        console.log('post', reducedHeight, heightDiff, 'new top', previousIssue.offset().top)
+        const expandedIssueTop = issueToScrollTo.offset().top;
 
-        // window.scroll(0,heightDiff);
-        $('body, html').stop().animate({ scrollTop: previousIssueTop - heightDiff }, 0);
-        // $('body, html').stop().animate({ scrollTop: previousIssue.offset().top - reducedHeight }, 0);
+        // 1. Immediately offset the scrollTop distance, so that distanceToWindowTop is the same for the IssueCard pre- and post-expansion.
+        $('body, html').animate({ scrollTop: issueToScrollTo.offset().top - distanceToWindowTop}, 0);
 
-        // return previousIssue.height();
+        // 2. Smoothly scroll up until the IssueCard's top is at the top of the screen.
+        $('body, html').animate({ scrollTop: issueToScrollTo.offset().top}, 500);
       },
     0);
-
-
-    // window.setTimeout(function() { return $('body, html').stop().animate({ scrollTop: issueToScrollTo.offset().top }, 800); }, 0);
-
-    // $('body, html').stop().animate({ scrollTop: issueToScrollTo.offset().top }, 800);
   };
 
   renderAvatar(representative) {
