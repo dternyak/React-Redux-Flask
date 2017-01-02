@@ -99,7 +99,7 @@ def get_issues():
 
     # Add level filtering of reps later
 
-    issues = [i.to_dict() for i in Issue.query.all()]
+    issues = [i.to_dict() for i in Issue.query.order_by(Issue.due_date.desc()).all()]
     if reps:
         for issue in issues:
             issue['representatives'] = []
