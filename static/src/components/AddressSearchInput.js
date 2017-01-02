@@ -22,7 +22,6 @@ export class AddressSearchInput extends React.Component {
     autocompleteService.getPlacePredictions(
       autocompletionRequest,
       autocompletePrediction => {
-        // populate the search results
         this.setState({
           addressPredictions: autocompletePrediction.map(element => element.description),
         });
@@ -33,14 +32,24 @@ export class AddressSearchInput extends React.Component {
   render() {
     const { fetchIssues } = this.props;
 
+    const style = {
+      autocomplete: {
+      },
+      textField: {
+        fontSize: '14px',
+      }
+    }
+
     return (
       <div>
         <AutoComplete
-          floatingLabelText="Enter your address"
+          floatingLabelText="Your street address"
           filter={AutoComplete.caseInsensitiveFilter}
           dataSource={this.state.addressPredictions}
           onUpdateInput={(value) => this.handleUpdateInput(value)}
           onNewRequest={(value) => fetchIssues(value)}
+          style={style.autocomplete}
+          textFieldStyle={style.textField}
         />
       </div>
     );

@@ -1,10 +1,12 @@
 :local(.styles) {
-  padding-top: 35px;
-  padding-bottom: 30px;
+  padding: 10px 0;
   text-align: center;
-  background-color: #E0F2F1;
-  color: black;
-  position: absolute;
-  bottom: -70;
+  background-color: #D32F2F;
+  color: #FFCDD2;
+  bottom: 0;
   width: 100%;
+  font-size: 0.8em;
+  a {
+    color: #FFCDD2;
+  }
 }

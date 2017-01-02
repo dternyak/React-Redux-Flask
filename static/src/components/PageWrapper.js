@@ -8,7 +8,7 @@ export const PageWrapper = () =>
       <Header />
       <div
         className="container"
-        style={{ marginTop: 10, paddingBottom: 250 }}
+        style={{ marginTop: 10, marginBottom: 10 }}
       >
       </div>
     </div>;

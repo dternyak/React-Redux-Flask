@@ -17,3 +17,4 @@ lib/
 pip-selfcheck.json
 *.swp
 *.swo
+npm-debug.log

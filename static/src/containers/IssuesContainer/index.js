@@ -10,7 +10,7 @@ export const IssuesContainer = () =>
       <Header />
       <div
         className="container"
-        style={{ marginTop: 10, paddingBottom: 250 }}
+        style={{ marginTop: 10, paddingBottom: 30 }}
       >
         <IssuesView />
       </div>

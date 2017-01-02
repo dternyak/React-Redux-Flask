@@ -193,7 +193,7 @@ export default class IssueCard extends React.Component {
       },
       infoLabel: {
         padding: 16,
-        color: '#073764',
+        //color: '#073764',
         fontWeight: 700,
       },
       expandArrow: {
@@ -262,11 +262,13 @@ export default class IssueCard extends React.Component {
         </CardText>
         <RaisedButton
           onClick={this.handleToggleExpansion}
-          label={expanded ? "Collapse" : "meow Learn moar!"}
+          label={expanded ? "Collapse" : "Learn more"}
           labelPosition="after"
           labelStyle={styles.infoLabel}
-          buttonStyle={{height: '68px', padding: 16, borderRadius: 0, backgroundColor: 'white'}}
-          primary={true}
+          buttonStyle={{height: '68px', padding: 16, borderRadius: 0}}//, backgroundColor: 'white'}}
+          //primary={true}
+          //buttonStyle={{height: '68px', padding: 16, borderRadius: 0 }}
+          secondary={true}
           fullWidth={true}
           icon={expanded ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           style={styles.callButton}
@@ -280,7 +282,7 @@ export default class IssueCard extends React.Component {
           ) : (
           <RaisedButton
             href={"tel:"+phoneNumber}
-            label={`Call ${role} ${representative.last_name}!`}
+            label={`Call ${role} ${representative.last_name}`}
             labelPosition="after"
             labelStyle={styles.callLabel}
             buttonStyle={{height: '68px', padding: 16, borderRadius: 0 }}

@@ -2,6 +2,7 @@ import React from 'react';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {red100, red500, red700, blueA200, blueA400} from 'material-ui/styles/colors';
 
 /* application components */
 import { Footer } from '../../components/Footer';
@@ -19,12 +20,11 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
         const muiTheme = getMuiTheme({
             fontFamily: 'Roboto, sans-serif',
             palette: {
-              primary1Color: '#073764',
-              primary2Color: '#073764',
-              primary3Color: '#073764',
-              accent1Color: '#073764',
-              accent2Color: '#073764',
-              accent3Color: '#073764',
+              primary1Color: red500,
+              primary2Color: red700,
+              primary3Color: red100,
+              accent1Color: blueA400,
+              accent2Color: blueA200,
             },
         });
 

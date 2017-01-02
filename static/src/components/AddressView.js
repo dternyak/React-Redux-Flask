@@ -23,12 +23,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 const style = {
-    marginTop: 50,
-    paddingBottom: 50,
-    paddingTop: 25,
-    width: '100%',
-    textAlign: 'center',
-    display: 'inline-block',
+  h3: {
+    //margin: 0
+  }
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -46,23 +43,19 @@ export default class AddressView extends React.Component {
     render() {
 
         return (
-            <div className="col-md-6 col-md-offset-3">
-                <Paper style={style}>
-                    <div className="text-center">
-                        <h2>Hae bae!</h2>
-                        {
-                            this.props.statusText &&
-                                <div className="alert alert-info">
-                                    {this.props.statusText}
-                                </div>
-                        }
-                        <div className="col-md-12">
-                            <AddressSearchInput
-                                fetchIssues={this.props.fetchIssues}
-                            />
+            <div className="col-xs-12 text-center">
+                <h3 style={style.h3}>Find your representatives</h3>
+                {
+                    this.props.statusText &&
+                        <div className="alert alert-info">
+                            {this.props.statusText}
                         </div>
-                    </div>
-                </Paper>
+                }
+                <div className="">
+                    <AddressSearchInput
+                        fetchIssues={this.props.fetchIssues}
+                    />
+                </div>
             </div>
         );
 
