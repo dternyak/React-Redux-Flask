@@ -46,7 +46,7 @@ def get_reps(address):
                 'first_name': first_name,
                 'last_name': last_name,
                 'party': official['party'],
-                'phones': ','.join(official['phones']),
+                'phones': ','.join(official.get('phones', '')),
                 'office': office['name'],
                 'level': level,
                 'role': role,

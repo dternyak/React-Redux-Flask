@@ -72,6 +72,9 @@ class Rep(db.Model):
         db.session.commit()
         return rep, True
 
+    @classmethod
+    def get_by_zipcode(cls, zipcode):
+        return cls.query.join(Zipcode, cls.id == Zipcode.rep_id).filter(Zipcode.zipcode == zipcode).all()
 
     def to_dict(self):
         rep = {}

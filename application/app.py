@@ -3,7 +3,7 @@ import string
 from flask import request, render_template, jsonify, url_for, redirect, g
 from sqlalchemy.exc import IntegrityError
 
-from .models import User, Issue
+from .models import User, Rep, Issue
 from index import app, db
 from .utils.auth import generate_token, requires_auth, verify_token
 from .utils import civic_api
@@ -93,11 +93,13 @@ def is_token_valid():
 @app.route("/api/issues", methods=["GET"])
 def get_issues():
     reps = []
+    zipcode = None
     address = request.values.get('address')
     if address:
         reps, city, state, zipcode = civic_api.get_reps(address)
 
-    # Add level filtering of reps later
+    if zipcode:
+        reps = Rep.get_by_zipcode(zipcode)
 
     issues = [i.to_dict() for i in Issue.query.order_by(Issue.due_date.desc()).all()]
     if reps:
@@ -106,5 +108,7 @@ def get_issues():
             for rep in reps:
                 if rep.level == issue['level'] and rep.role == issue['role']:
                     issue['representatives'].append(rep.to_dict())
+            if not issue['representatives']:
+                print 'Couldn\'t find a rep for Issue {} {}/{}{}'.format(issue['id'], issue['level'], issue['role'], ' in {}'.format(zipcode) if zipcode else '')
 
     return jsonify(result=issues)

@@ -10,8 +10,9 @@ export class Loading extends React.Component {
       wrapper: {
         textAlign: 'center',
         position: 'relative',
-        margin: '15px 0',
+        margin: '50px 0',
         padding: '30px 0',
+        height: '64vh',
       },
       building: {
         width: '12%',

@@ -44,6 +44,8 @@ export class AddressSearchInput extends React.Component {
       <div>
         <AutoComplete
           floatingLabelText="Your street address"
+          anchorOrigin={{vertical: 'top', horizontal: 'left'}}
+          targetOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           filter={AutoComplete.caseInsensitiveFilter}
           dataSource={this.state.addressPredictions}
           onUpdateInput={(value) => this.handleUpdateInput(value)}
