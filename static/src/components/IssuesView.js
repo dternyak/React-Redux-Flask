@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/data';
 
 import IssueFeed from './IssueFeed';
+import Loading from './Loading';
 
 function mapStateToProps(state) {
     const { address, isFetching, issues, loaded, statusText } = state.data;
@@ -38,7 +39,7 @@ export default class IssuesView extends React.Component {
         return (
             <div>
                 {!loaded
-                    ? <h1>Loading data...</h1>
+                    ? <Loading />
                     :
                     <div>
                         <IssueFeed issues={issues} toggleExpandIssue={toggleExpandIssue} />

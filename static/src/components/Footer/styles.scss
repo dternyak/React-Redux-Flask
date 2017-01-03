@@ -1,12 +1,15 @@
 :local(.styles) {
   padding: 10px 0;
   text-align: center;
-  background-color: #D32F2F;
-  color: #FFCDD2;
+  background-color: #f44336;
+  color: #FFF;
   bottom: 0;
   width: 100%;
   font-size: 0.8em;
-  a {
+  a, a:visited {
+    color: #FFF;
+  }
+  a:hover, a:active, a:focus {
     color: #FFCDD2;
   }
 }

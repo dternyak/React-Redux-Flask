@@ -12,6 +12,7 @@ import FormatQuote from 'material-ui/svg-icons/editor/format-quote';
 import Phone from 'material-ui/svg-icons/communication/phone';
 import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up';
+
 import TimeRemaining from './TimeRemaining';
 import { mapLevelAndRole } from '../../utils/misc';
 
