@@ -37,7 +37,7 @@ def get_reps(address):
         if role not in ['legislatorLowerBody', 'legislatorUpperBody']:
             # Don't care
             continue
-        
+
         official_ids = office['officialIndices']
         for i in official_ids:
             official = officials[i]

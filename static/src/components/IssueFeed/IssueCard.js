@@ -184,12 +184,14 @@ export default class IssueCard extends React.Component {
         padding: 16,
       },
       floatingCallButton: {
-        margin: 0,
-        top: 'auto',
-        right: 20,
-        bottom: 20,
-        left: 'auto',
         position: 'fixed',
+        top: 'auto',
+        right: 0,
+        left: 0,
+        bottom: 0,
+        margin: 0,
+        borderRadius: 0,
+        paddin: 16,
         zIndex: 1100,
       },
       infoLabel: {
@@ -274,25 +276,17 @@ export default class IssueCard extends React.Component {
           icon={expanded ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           style={styles.callButton}
         />
-        { expanded ? (
-          <FloatingActionButton
-            href={"tel:"+phoneNumber}
-            style={styles.floatingCallButton}>
-            <Phone/>
-          </FloatingActionButton>
-          ) : (
-          <RaisedButton
-            href={"tel:"+phoneNumber}
-            label={`Call ${role} ${representative.last_name}`}
-            labelPosition="after"
-            labelStyle={styles.callLabel}
-            buttonStyle={{height: '68px', padding: 16, borderRadius: 0 }}
-            primary={true}
-            fullWidth={true}
-            icon={<Phone />}
-            style={styles.callButton}
-          />
-        )}
+        <RaisedButton
+          href={"tel:"+phoneNumber}
+          label={`Call ${role} ${representative.last_name}`}
+          labelPosition="after"
+          labelStyle={styles.callLabel}
+          buttonStyle={{height: '68px', padding: 16, borderRadius: 0 }}
+          primary={true}
+          fullWidth={true}
+          icon={<Phone />}
+          style={expanded ? styles.floatingCallButton : styles.callButton}
+        />
       </Card>
     );
   }
