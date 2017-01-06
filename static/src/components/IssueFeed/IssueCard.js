@@ -37,55 +37,26 @@ export default class IssueCard extends React.Component {
   handleScroll = () => {
     const { issue, scrollInView, scrollOutOfView } = this.props;
     const { expanded, inView } = issue;
-    // TODO(SBH): these variables are defined in both handler functions. Move them to the constructor?
-    const hash = `#issue_card_${issue.id}`;
-    const issueToScrollTo = $(hash);
-    const issueHeight = issueToScrollTo.height();
 
     if (expanded) {
-      console.log(`issue ${issue.id} expanded ${expanded} inView ${issue.inView}`)
-      const eTop = issueToScrollTo.offset().top; //get the offset top of the element
-      const scrollPosition = eTop - $(window).scrollTop(); //position of the ele w.r.t window
-      const scrollPast = Math.abs(scrollPosition) > issueHeight/2;
-      // console.log(scrollPosition, scrollPast, issueHeight)
-      // scroll *down* more than the difference between bottom of element and bottom of window
-      var
-          distance      = (elementOffset - scrollTop);
-      // a window top distance from top of document
-      // b window height
-      // a + b => window bottom distance from top of document
-
-      // c element top distance from top of document
-      // d element height
-      // e element distance from top of window
-      //    c = a : = 0
-      //    c > a : > 0 (element top below window top)
-      //    c < a : < 0 (element top above window top)
-      // f element distance below window
-      //
-      // inView (if a+1/2b > c+d > a+b )
-      // c =
-      const elementOffset = $(`#issue_card_${issue.id}`).offset().top;
-      // d = issueHeight
-
-      // a =
-      const scrollTop = $(window).scrollTop();
-      // b =
+      // IssueCard variables
+      const issueId = `#issue_card_${issue.id}`;
+      const issueHeight = $(issueId).height();
+      const issueTopToDocumentTop = $(issueId).offset().top;
+      // Window variables
+      const windowTopToDocumentTop = $(window).scrollTop();
       const windowHeight = $(window).height();
 
-      const lowerBound = scrollTop + 0.5*windowHeight;
-      const upperBound = scrollTop + windowHeight;
-      const distanceToElementBottom = elementOffset + issueHeight;
+      // Show the floatingCallButton on two conditions:
+      // 1. IssueCard's bottom is below the window's bottom
+      const issueBottomBelowWindow = windowTopToDocumentTop + windowHeight < issueTopToDocumentTop + issueHeight;
+      // 2. IssueCard's top is at least 1/2 way up the window.
+      const issueTopAboveWindow = windowTopToDocumentTop + 0.5*windowHeight > issueTopToDocumentTop;
 
-      console.log(`scrollTop ${scrollTop} elementOffset ${elementOffset} distance ${distance} `)
-      console.log(`lowerBound ${lowerBound} distanceToElementBottom ${distanceToElementBottom} upperBound ${upperBound} `)
-      // if ( scrollPosition < -36 ) {
-      // }
-      if ( upperBound < distanceToElementBottom) {
-        console.log('scrollInView', issue.id)
+      // Save updates and only update `inView` if changing it.
+      if ( issueBottomBelowWindow && issueTopAboveWindow ) {
         scrollInView(issue.id);
       } else {
-        console.log('scrollOutOfView', issue.id)
         scrollOutOfView(issue.id);
       }
     }
