@@ -37,7 +37,7 @@ def get_reps(address):
         if role not in ['legislatorLowerBody', 'legislatorUpperBody']:
             # Don't care
             continue
-        
+
         official_ids = office['officialIndices']
         for i in official_ids:
             official = officials[i]
@@ -50,7 +50,7 @@ def get_reps(address):
                 'office': office['name'],
                 'level': level,
                 'role': role,
-                'image_url': official['photoUrl'],
+                'image_url': official.get('photoUrl',''),
             })
             if not new:
                 print 'already have rep', rep

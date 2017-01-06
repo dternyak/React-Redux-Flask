@@ -26,6 +26,42 @@ export default class IssueCard extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll = () => {
+    const { issue, scrollInView, scrollOutOfView } = this.props;
+    const { expanded, inView } = issue;
+
+    if (expanded) {
+      // IssueCard variables
+      const issueId = `#issue_card_${issue.id}`;
+      const issueHeight = $(issueId).height();
+      const issueTopToDocumentTop = $(issueId).offset().top;
+      // Window variables
+      const windowTopToDocumentTop = $(window).scrollTop();
+      const windowHeight = $(window).height();
+
+      // Show the floatingCallButton on two conditions:
+      // 1. IssueCard's bottom is below the window's bottom
+      const issueBottomBelowWindow = windowTopToDocumentTop + windowHeight < issueTopToDocumentTop + issueHeight;
+      // 2. IssueCard's top is at least 1/2 way up the window.
+      const issueTopAboveWindow = windowTopToDocumentTop + 0.5*windowHeight > issueTopToDocumentTop;
+
+      // Save updates and only update `inView` if changing it.
+      if ( issueBottomBelowWindow && issueTopAboveWindow ) {
+        scrollInView(issue.id);
+      } else {
+        scrollOutOfView(issue.id);
+      }
+    }
+  };
+
   handleToggleExpansion = () => {
     /*
       Logic here to deal with "jumpy" scrolling, when an expanded IssueCard above this one is toggled shut.
@@ -167,9 +203,50 @@ export default class IssueCard extends React.Component {
     );
   }
 
+  renderCallButton(representative, role, styleKey) {
+    const phoneNumber = representative.phones[0];
+    const { expanded, inView } = this.props.issue;
+
+    // styleKey should be one of: 'callButton', 'floatingCallButton'
+    const styles = {
+      callButton: {
+        margin: 0,
+        borderRadius: 0,
+      },
+      floatingCallButton: {
+        position: 'fixed',
+        top: 'auto',
+        right: 0,
+        left: 0,
+        bottom: 0,
+        margin: 0,
+        borderRadius: 0,
+        paddin: 16,
+        zIndex: 1100,
+      },
+      callLabel: {
+        padding: 16,
+      },
+    }
+
+    return (
+      <RaisedButton
+        href={"tel:"+phoneNumber}
+        label={`Call ${role} ${representative.last_name}`}
+        labelPosition="after"
+        labelStyle={styles.callLabel}
+        buttonStyle={{height: '68px', padding: 16, borderRadius: 0 }}
+        primary={true}
+        fullWidth={true}
+        icon={<Phone />}
+        style={styleKey}
+      />
+    );
+  }
+
   render() {
     const { issue } = this.props;
-    const { expanded, representatives } = issue;
+    const { expanded, inView, representatives } = issue;
     const representative = representatives[0];
     const phoneNumber = representative.phones[0];
 
@@ -184,12 +261,14 @@ export default class IssueCard extends React.Component {
         padding: 16,
       },
       floatingCallButton: {
-        margin: 0,
-        top: 'auto',
-        right: 20,
-        bottom: 20,
-        left: 'auto',
         position: 'fixed',
+        top: 'auto',
+        right: 0,
+        left: 0,
+        bottom: 0,
+        margin: 0,
+        borderRadius: 0,
+        paddin: 16,
         zIndex: 1100,
       },
       infoLabel: {
@@ -231,7 +310,11 @@ export default class IssueCard extends React.Component {
     }
 
     return (
-      <Card id={`issue_card_${issue.id}`} expanded={expanded} onExpandChange={this.handleToggleExpansion} style={{ marginBottom: '20px' }}>
+      <Card
+        id={`issue_card_${issue.id}`}
+        expanded={expanded}
+        onExpandChange={this.handleToggleExpansion}
+        style={{ marginBottom: '20px' }}>
 
         <CardMedia overlay={this.renderCardTitle(issue, level, bodyOfGovernment)} onClick={this.handleToggleExpansion}>
           <img src={issue.image_url} />
@@ -274,25 +357,8 @@ export default class IssueCard extends React.Component {
           icon={expanded ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           style={styles.callButton}
         />
-        { expanded ? (
-          <FloatingActionButton
-            href={"tel:"+phoneNumber}
-            style={styles.floatingCallButton}>
-            <Phone/>
-          </FloatingActionButton>
-          ) : (
-          <RaisedButton
-            href={"tel:"+phoneNumber}
-            label={`Call ${role} ${representative.last_name}`}
-            labelPosition="after"
-            labelStyle={styles.callLabel}
-            buttonStyle={{height: '68px', padding: 16, borderRadius: 0 }}
-            primary={true}
-            fullWidth={true}
-            icon={<Phone />}
-            style={styles.callButton}
-          />
-        )}
+        {this.renderCallButton(representative, role, styles.callButton)}
+        {(expanded && inView) ? this.renderCallButton(representative, role, styles.floatingCallButton) : undefined}
       </Card>
     );
   }
@@ -302,4 +368,6 @@ export default class IssueCard extends React.Component {
 IssueCard.propTypes = {
     issue: React.PropTypes.object.isRequired,
     toggleExpandIssue: React.PropTypes.func.isRequired,
+    scrollInView: React.PropTypes.func.isRequired,
+    scrollOutOfView: React.PropTypes.func.isRequired,
 };

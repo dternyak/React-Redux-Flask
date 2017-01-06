@@ -3,6 +3,8 @@ import {
     RECEIVE_ISSUES,
     UPDATE_STATUS_TEXT,
     TOGGLE_EXPAND_ISSUE,
+    SCROLL_IN_VIEW,
+    SCROLL_OUT_OF_VIEW,
 } from '../constants/index';
 import { parseJSON } from '../utils/misc';
 import { data_about_user, get_issues } from '../utils/http_functions';
@@ -60,6 +62,28 @@ export function toggleExpandIssue(id) {
                 id,
             },
         });
+    };
+}
+
+export function scrollInView(id) {
+    return (dispatch) => {
+        dispatch({
+            type: SCROLL_IN_VIEW,
+            payload: {
+                id,
+            }
+        })
+    };
+}
+
+export function scrollOutOfView(id) {
+    return (dispatch) => {
+        dispatch({
+            type: SCROLL_OUT_OF_VIEW,
+            payload: {
+                id,
+            }
+        })
     };
 }
 // export function fetchIssuesData() {
