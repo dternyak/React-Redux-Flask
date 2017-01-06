@@ -26,6 +26,71 @@ export default class IssueCard extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll = () => {
+    const { issue, scrollInView, scrollOutOfView } = this.props;
+    const { expanded, inView } = issue;
+    // TODO(SBH): these variables are defined in both handler functions. Move them to the constructor?
+    const hash = `#issue_card_${issue.id}`;
+    const issueToScrollTo = $(hash);
+    const issueHeight = issueToScrollTo.height();
+
+    if (expanded) {
+      console.log(`issue ${issue.id} expanded ${expanded} inView ${issue.inView}`)
+      const eTop = issueToScrollTo.offset().top; //get the offset top of the element
+      const scrollPosition = eTop - $(window).scrollTop(); //position of the ele w.r.t window
+      const scrollPast = Math.abs(scrollPosition) > issueHeight/2;
+      // console.log(scrollPosition, scrollPast, issueHeight)
+      // scroll *down* more than the difference between bottom of element and bottom of window
+      var
+          distance      = (elementOffset - scrollTop);
+      // a window top distance from top of document
+      // b window height
+      // a + b => window bottom distance from top of document
+
+      // c element top distance from top of document
+      // d element height
+      // e element distance from top of window
+      //    c = a : = 0
+      //    c > a : > 0 (element top below window top)
+      //    c < a : < 0 (element top above window top)
+      // f element distance below window
+      //
+      // inView (if a+1/2b > c+d > a+b )
+      // c =
+      const elementOffset = $(`#issue_card_${issue.id}`).offset().top;
+      // d = issueHeight
+
+      // a =
+      const scrollTop = $(window).scrollTop();
+      // b =
+      const windowHeight = $(window).height();
+
+      const lowerBound = scrollTop + 0.5*windowHeight;
+      const upperBound = scrollTop + windowHeight;
+      const distanceToElementBottom = elementOffset + issueHeight;
+
+      console.log(`scrollTop ${scrollTop} elementOffset ${elementOffset} distance ${distance} `)
+      console.log(`lowerBound ${lowerBound} distanceToElementBottom ${distanceToElementBottom} upperBound ${upperBound} `)
+      // if ( scrollPosition < -36 ) {
+      // }
+      if ( upperBound < distanceToElementBottom) {
+        console.log('scrollInView', issue.id)
+        scrollInView(issue.id);
+      } else {
+        console.log('scrollOutOfView', issue.id)
+        scrollOutOfView(issue.id);
+      }
+    }
+  };
+
   handleToggleExpansion = () => {
     /*
       Logic here to deal with "jumpy" scrolling, when an expanded IssueCard above this one is toggled shut.
@@ -167,9 +232,50 @@ export default class IssueCard extends React.Component {
     );
   }
 
+  renderCallButton(representative, role, styleKey) {
+    const phoneNumber = representative.phones[0];
+    const { expanded, inView } = this.props.issue;
+
+    // styleKey should be one of: 'callButton', 'floatingCallButton'
+    const styles = {
+      callButton: {
+        margin: 0,
+        borderRadius: 0,
+      },
+      floatingCallButton: {
+        position: 'fixed',
+        top: 'auto',
+        right: 0,
+        left: 0,
+        bottom: 0,
+        margin: 0,
+        borderRadius: 0,
+        paddin: 16,
+        zIndex: 1100,
+      },
+      callLabel: {
+        padding: 16,
+      },
+    }
+
+    return (
+      <RaisedButton
+        href={"tel:"+phoneNumber}
+        label={`Call ${role} ${representative.last_name}`}
+        labelPosition="after"
+        labelStyle={styles.callLabel}
+        buttonStyle={{height: '68px', padding: 16, borderRadius: 0 }}
+        primary={true}
+        fullWidth={true}
+        icon={<Phone />}
+        style={styleKey}
+      />
+    );
+  }
+
   render() {
     const { issue } = this.props;
-    const { expanded, representatives } = issue;
+    const { expanded, inView, representatives } = issue;
     const representative = representatives[0];
     const phoneNumber = representative.phones[0];
 
@@ -233,7 +339,11 @@ export default class IssueCard extends React.Component {
     }
 
     return (
-      <Card id={`issue_card_${issue.id}`} expanded={expanded} onExpandChange={this.handleToggleExpansion} style={{ marginBottom: '20px' }}>
+      <Card
+        id={`issue_card_${issue.id}`}
+        expanded={expanded}
+        onExpandChange={this.handleToggleExpansion}
+        style={{ marginBottom: '20px' }}>
 
         <CardMedia overlay={this.renderCardTitle(issue, level, bodyOfGovernment)} onClick={this.handleToggleExpansion}>
           <img src={issue.image_url} />
@@ -276,17 +386,8 @@ export default class IssueCard extends React.Component {
           icon={expanded ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
           style={styles.callButton}
         />
-        <RaisedButton
-          href={"tel:"+phoneNumber}
-          label={`Call ${role} ${representative.last_name}`}
-          labelPosition="after"
-          labelStyle={styles.callLabel}
-          buttonStyle={{height: '68px', padding: 16, borderRadius: 0 }}
-          primary={true}
-          fullWidth={true}
-          icon={<Phone />}
-          style={expanded ? styles.floatingCallButton : styles.callButton}
-        />
+        {this.renderCallButton(representative, role, styles.callButton)}
+        {(expanded && inView) ? this.renderCallButton(representative, role, styles.floatingCallButton) : undefined}
       </Card>
     );
   }
@@ -296,4 +397,6 @@ export default class IssueCard extends React.Component {
 IssueCard.propTypes = {
     issue: React.PropTypes.object.isRequired,
     toggleExpandIssue: React.PropTypes.func.isRequired,
+    scrollInView: React.PropTypes.func.isRequired,
+    scrollOutOfView: React.PropTypes.func.isRequired,
 };
