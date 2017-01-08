@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
+import {red100, red500, red700, blueA200, blueA400} from 'material-ui/styles/colors';
 import AddressSearchInput from './AddressSearchInput';
 
 import * as actionCreators from '../actions/data';
@@ -22,10 +23,21 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
 
-const style = {
+const styles = {
+  ctaContainer: {
+      marginTop: '10vh',
+      marginBottom: '2vh',
+      padding: '30px',
+      paddingLeft: 'inherit',
+      paddingRight: 'inherit',
+  },
+  ctaButton: {
+      marginTop: '15px',
+  },
   h3: {
-    //margin: 0
-  }
+    fontWeight: 400,
+    margin: 0,
+  },
 };
 
 @connect(mapStateToProps, mapDispatchToProps)
@@ -41,10 +53,9 @@ export default class AddressView extends React.Component {
     }
 
     render() {
-
         return (
-            <div className="col-xs-12 text-center">
-                <h3 style={style.h3}>Find your representatives</h3>
+            <Paper style={styles.ctaContainer} className="col-xs-10 col-xs-offset-1 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 text-center">
+                <h3 style={styles.h3}>Find your representatives</h3>
                 {
                     this.props.statusText &&
                         <div className="alert alert-info">
@@ -55,8 +66,9 @@ export default class AddressView extends React.Component {
                     <AddressSearchInput
                         fetchIssues={this.props.fetchIssues}
                     />
+                    <RaisedButton secondary={true} style={styles.ctaButton} label={'HEY HEY HEY'} />
                 </div>
-            </div>
+            </Paper>
         );
 
     }
