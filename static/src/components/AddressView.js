@@ -66,7 +66,7 @@ export default class AddressView extends React.Component {
                     <AddressSearchInput
                         fetchIssues={this.props.fetchIssues}
                     />
-                    <RaisedButton secondary={true} style={styles.ctaButton} label={'HEY HEY HEY'} />
+                    <RaisedButton secondary={true} style={styles.ctaButton} label={'Get Started'} />
                 </div>
             </Paper>
         );

@@ -24,6 +24,8 @@ var styles = {
     marginTop: '15vh',
   },
   subtitle: {
+    marginTop: 0,
+    marginBottom: 0,
     color: '#EEE',
     textAlign: 'center',
   },

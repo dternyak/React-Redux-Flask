@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import Paper from 'material-ui/Paper';
-import { RaisedButton, FloatingActionButton } from 'material-ui';
+import { RaisedButton, FloatingActionButton, Divider } from 'material-ui';
 import Toggle from 'material-ui/Toggle';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import ActionAndroid from 'material-ui/svg-icons/action/android';
@@ -105,6 +105,7 @@ export default class IssueCard extends React.Component {
         width: '100%',
         height: '100%',
         maxHeight: '84px',
+        minHeight: '84px',
         maxWidth: '84px',
         borderRadius: '50%',
         margin: '0 auto',
@@ -121,14 +122,12 @@ export default class IssueCard extends React.Component {
     const styles = {
       script: {
         position: 'relative',
-        border: '1px solid #f1f1f1',
         clear: 'both',
-        padding: '5px',
         borderRadius: '2px',
         display: 'flex',
         flexDirection: 'column',
         innerScriptContainer: {
-          padding: '0 15px 0 35px',
+          padding: '0',
           display: 'flex',
           flexDirection: 'column',
         },
@@ -150,7 +149,21 @@ export default class IssueCard extends React.Component {
           backgroundColor: '#009EFE',
           padding: '10px',
           borderRadius: '10px',
-        }
+        },
+        promptThem: {
+          fontStyle: 'italic',
+          alignSelf: 'flex-start',
+          maxWidth: '70%',
+          marginTop: '8px',
+          marginBottom: '16px',
+        },
+        promptYou: {
+          fontStyle: 'italic',
+          alignSelf: 'flex-end',
+          maxWidth: '70%',
+          marginTop: '8px',
+          marginBottom: '16px',
+        },
       },
       iconStyles: {
         height: '40px',
@@ -163,24 +176,29 @@ export default class IssueCard extends React.Component {
 
     return (
       <div style={styles.script}>
-        <h5 style={{marginBottom: '20px'}}>What to say:</h5>
-        <FormatQuote style={styles.iconStyles} />
+        <h4 style={{marginBottom: '20px', paddingTop: '10px', textAlign: 'center'}}>Calling Is Simple!</h4>
         <div style={styles.script.innerScriptContainer}>
           <div style={styles.script.them}>
-            {`Them: Representative ${representative.last_name}'s office, how can I help you?`}
+            {`Representative ${representative.last_name}'s office, how can I help you?`}
           </div>
           <div style={styles.script.you}>
-            Hi, my name is <span style={{fontStyle: 'italic'}}>[Your Name]</span>, and I&rsquo;m a resident of your district.
+            Hi, I&rsquo;m a resident of your district.
             <div></div>
           </div>
           <div style={styles.script.you}>
-            I am calling in [<span style={{color: 'green'}}>support of</span>/<span style={{color: 'red'}}>opposition to</span>] <span style={{fontWeight: 'bold'}}>{issue.code || issue.title}</span>. Can I count on the representative&rsquo;s support?
+            I am calling regarding <span style={{fontWeight: 'bold'}}>{issue.code || issue.title}</span>.
+          </div>
+          <div style={styles.script.promptYou}>
+            Let the office know your opinion on this issue.
           </div>
           <div style={styles.script.them}>
-            Them: [Their Response]<br />
+            Thanks for calling!
+          </div>
+          <div style={styles.script.promptThem}>
+            They may ask for more information.
           </div>
           <div style={styles.script.them}>
-            Them: I will let the representative know you called.
+            I will let the representative know you called.
           </div>
           <div style={styles.script.you}>
             Thank you for your time.
@@ -215,7 +233,7 @@ export default class IssueCard extends React.Component {
     return (
       <CardTitle
         title={issue.title}
-        titleStyle={{fontSize: '20px', fontWeight: 'bold',}}
+        titleStyle={{fontSize: '20px', fontWeight: '400', lineHeight: '30px'}}
         actAsExpander={true}
         showExpandableButton={false}
         children={this.renderSubTitle(issue, level, bodyOfGovernment)}
@@ -319,6 +337,11 @@ export default class IssueCard extends React.Component {
       },
       repTitle: {
       },
+      collapseCard: {
+        textAlign: 'center',
+        flex: 1,
+        marginBottom: '12px',
+      },
     };
 
     var summaryStyles = {
@@ -345,7 +368,8 @@ export default class IssueCard extends React.Component {
             {issue.summary}
           </div>
 
-          <div className="row" style={{marginBottom: '10px'}}>
+          <Divider />
+          <div className="row" style={{ marginTop: '10px', marginBottom: '10px' }}>
             <div className="col-xs-4 col-sm-3" style={{paddingRight: 0}}>
               {this.renderAvatar(representative)}
             </div>
@@ -365,21 +389,27 @@ export default class IssueCard extends React.Component {
             </div>
           </div>
 
+          <Divider />
+
           {this.renderScript(representative, issue)}
         </CardText>
-        <RaisedButton
-          onClick={this.handleToggleExpansion}
-          label={expanded ? "Collapse" : "Learn more"}
-          labelPosition="after"
-          labelStyle={styles.infoLabel}
-          buttonStyle={{height: '68px', padding: 16, borderRadius: 0}}//, backgroundColor: 'white'}}
-          //primary={true}
-          //buttonStyle={{height: '68px', padding: 16, borderRadius: 0 }}
-          secondary={true}
-          fullWidth={true}
-          icon={expanded ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-          style={styles.callButton}
-        />
+        { !expanded ?
+          (
+            <RaisedButton
+              onClick={this.handleToggleExpansion}
+              label="Learn more"
+              labelPosition="after"
+              labelStyle={styles.infoLabel}
+              buttonStyle={{height: '68px', padding: 16, borderRadius: 0}}  secondary={true}
+              fullWidth={true}
+              icon={<KeyboardArrowDown />}
+              style={styles.callButton}
+            />
+          ) : (
+          <div style={{display: 'flex'}}>
+            <KeyboardArrowUp onClick={this.handleToggleExpansion} style={styles.collapseCard} color={'rgba(0,0,0,0.4)'} />
+          </div>
+        )}
         {this.renderCallButton(representative, role, styles.callButton)}
         {(expanded && inView) ? this.renderCallButton(representative, role, styles.floatingCallButton) : undefined}
       </Card>

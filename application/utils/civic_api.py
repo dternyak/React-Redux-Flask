@@ -50,7 +50,7 @@ def get_reps(address):
                 'office': office['name'],
                 'level': level,
                 'role': role,
-                'image_url': official.get('photoUrl',''),
+                'image_url': official.get('photoUrl', ''),
             })
             if not new:
                 print 'already have rep', rep
