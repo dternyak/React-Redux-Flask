@@ -1,7 +1,7 @@
 /* eslint new-cap: 0 */
 
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 
 /* containers */
 import { App } from './containers/App';
@@ -19,7 +19,7 @@ import { requireNoAuthentication } from './components/notAuthenticatedComponent'
 
 export default (
     <Route path="/" component={App}>
-        <Route path="home" component={HomeContainer} />
+        <IndexRoute component={HomeContainer} />
         <Route path="issues" component={IssuesContainer} />
         <Route path="*" component={DetermineAuth(NotFound)} />
     </Route>
