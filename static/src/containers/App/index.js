@@ -2,9 +2,9 @@ import React from 'react';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {red100, red500, red700, blueA200, blueA400} from 'material-ui/styles/colors';
 
 /* application components */
-import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 
 /* global styles for app */
@@ -16,21 +16,27 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     };
 
     render() {
+        // http://www.material-ui.com/#/customization/themes
+        const muiTheme = getMuiTheme({
+            fontFamily: 'Roboto, sans-serif',
+            palette: {
+              primary1Color: red500,
+              primary2Color: red700,
+              primary3Color: red100,
+              accent1Color: blueA400,
+              accent2Color: blueA200,
+            },
+        });
+
         return (
-            <MuiThemeProvider muiTheme={getMuiTheme()}>
-                <section>
-                    <Header />
-                    <div
-                      className="container"
-                      style={{ marginTop: 10, paddingBottom: 250 }}
-                    >
-                        {this.props.children}
-                    </div>
-                    <div>
-                        <Footer />
-                    </div>
-                </section>
-            </MuiThemeProvider>
+          <MuiThemeProvider muiTheme={muiTheme}>
+            <section>
+              {this.props.children}
+              <div>
+                  <Footer />
+              </div>
+            </section>
+          </MuiThemeProvider>
         );
     }
 }
