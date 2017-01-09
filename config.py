@@ -16,7 +16,7 @@ class BaseConfig(object):
 
         urlparse.uses_netloc.append("postgres")
         url = urlparse.urlparse(os.environ["DATABASE_URL"])
-        SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{dbname}".format({
+        SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{dbname}".format(**{
             'user': url.username,
             'password': url.password,
             'host': url.hostname,
