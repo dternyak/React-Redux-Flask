@@ -47,27 +47,57 @@ var styles = {
   }
 };
 
-export const Home = () =>
-    <section style={styles.container} className="container-fluid">
-      <div style={styles.hero} className="row">
-          <h1 style={styles.heroText} className="col-xs-8 col-xs-offset-2 col-md-12 col-md-offset-0">Call for Action</h1>
-          <AddressView />
-      </div>
-      <div style={styles.subtitleBanner} className="row">
-        <h3 style={styles.subtitle} className="col-xs-10 col-xs-offset-1">Your direct line to democracy</h3>
-      </div>
-      <div style={styles.description} className="row">
-        <p>This is where some words go</p>
-        <p>
-          <AccountBalance style={styles.iconStyle}/>
-        </p>
-        <p>This is where some words go</p>
-        <p>
-          <Phone style={styles.iconStyle}/>
-        </p>
-        <p>This is where some words go</p>
-        <p>
-          <Build style={styles.iconStyle}/>
-        </p>
-      </div>
-    </section>;
+export class Home extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    const { title, subTitle } = this.props;
+
+    console.log('title', title);
+    console.log('subTitle', subTitle);
+
+    return (
+      <section style={styles.container} className="container-fluid">
+        <div style={styles.hero} className="row">
+            <h1 style={styles.heroText} className="col-xs-12 col-xs-offset-0 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+              { title }
+            </h1>
+            <AddressView />
+        </div>
+        <div style={styles.subtitleBanner} className="row">
+          <h3 style={styles.subtitle} className="col-xs-10 col-xs-offset-1">
+            { subTitle }
+          </h3>
+        </div>
+        <div style={styles.description} className="row">
+          <p>This is where some words go</p>
+          <p>
+            <AccountBalance style={styles.iconStyle}/>
+          </p>
+          <p>This is where some words go</p>
+          <p>
+            <Phone style={styles.iconStyle}/>
+          </p>
+          <p>This is where some words go</p>
+          <p>
+            <Build style={styles.iconStyle}/>
+          </p>
+        </div>
+      </section>
+    );
+  }
+}
+
+Home.propTypes = {
+  title: React.PropTypes.string,
+  subTitle: React.PropTypes.string,
+};
+
+Home.defaultProps = {
+  title: "Call for Action",
+  subTitle: "Call Congress. Make a difference.",
+};
+
+export default Home;
