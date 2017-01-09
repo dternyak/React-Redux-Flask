@@ -34,7 +34,7 @@ class User(db.Model):
 class Issue(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(255))
-    summary = db.Column(db.String(255))
+    summary = db.Column(db.Text)
     level = db.Column(db.String(32))
     role = db.Column(db.String(32))
     code = db.Column(db.String(32))
