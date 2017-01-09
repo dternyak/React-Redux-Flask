@@ -11,7 +11,7 @@ var styles = {
   },
   hero: {
     minHeight: '80vh',
-    background: "linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.0)), url(https://qzprod.files.wordpress.com/2016/11/rtx2scms-e1479141633942.jpg?quality=80&strip=all&w=3200) 20% 0% / cover no-repeat",
+    background: "linear-gradient(0deg, rgba(0,0,0,0.4), rgba(0,0,0,0.0)), url(/src/images/capitol-building-hero.jpg) 20% 0% / cover no-repeat",
     position: 'relative',
   },
   heroText: {
