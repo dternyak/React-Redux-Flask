@@ -54,9 +54,9 @@ export default class IssueCard extends React.Component {
       const issueTopAboveWindow = windowTopToDocumentTop + 0.5*windowHeight > issueTopToDocumentTop;
 
       // Save updates and only update `inView` if changing it.
-      if ( issueBottomBelowWindow && issueTopAboveWindow ) {
+      if ( !inView && (issueBottomBelowWindow && issueTopAboveWindow) ) {
         scrollInView(issue.id);
-      } else {
+      } else if ( inView && (!issueBottomBelowWindow || !issueTopAboveWindow) ){
         scrollOutOfView(issue.id);
       }
     }
