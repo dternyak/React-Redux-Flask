@@ -80,11 +80,6 @@ export class Home extends React.Component {
   render() {
     const { title, subTitle } = this.props;
 
-    console.log('title', title);
-    console.log('subTitle', subTitle);
-    console.log('ISSUE ID', this.props.expandedIssueId);
-    console.log('ISSUE ID', this.props.issueId);
-
     return (
       <section style={styles.container} className="container-fluid">
         <div style={styles.hero} className="row">

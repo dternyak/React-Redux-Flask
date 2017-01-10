@@ -19,10 +19,10 @@ import { requireAuthentication } from './components/AuthenticatedComponent';
 import { requireNoAuthentication } from './components/notAuthenticatedComponent';
 
 export default (
-    <Route path="/" component={App}>
-        <IndexRoute component={HomeContainer} />
-        <Route path="/healthcare" component={HealthcareHomeContainer} />
-        <Route path="issues" component={IssuesContainer} />
-        <Route path="*" component={DetermineAuth(NotFound)} />
-    </Route>
+  <Route path="/" component={App}>
+    <IndexRoute component={HomeContainer} />
+    <Route path="healthcare" component={HealthcareHomeContainer} />
+    <Route path="issues" component={IssuesContainer} />
+    <Route path="*" component={DetermineAuth(NotFound)} />
+  </Route>
 );
