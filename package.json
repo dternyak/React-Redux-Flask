@@ -1,0 +1,5 @@
+{
+  "scripts": {
+      "postinstall": "cd static && npm install && npm run build:production"
+    }
+}

@@ -1,0 +1,9 @@
+:local(.styles) {
+  background-color: rgba(7, 55, 100, 0.71);
+  background-image: url(https://qzprod.files.wordpress.com/2016/11/rtx2scms-e1479141633942.jpg?quality=80&strip=all&w=3200);
+    background-size: 'cover';
+    height: '30%';
+  &:hover {
+    text-decoration: none;
+  }
+}

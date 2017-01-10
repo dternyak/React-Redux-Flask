@@ -42,3 +42,9 @@ export function has_github_token(token) {
 export function data_about_user(token) {
     return axios.get('api/user', tokenConfig(token));
 }
+
+export function get_issues(address) {
+    let apiReuest = axios.get(`api/issues?address=${address}`);
+    console.log(apiReuest);
+    return apiReuest;
+}
