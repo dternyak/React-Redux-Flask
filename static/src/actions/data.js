@@ -5,6 +5,7 @@ import {
     TOGGLE_EXPAND_ISSUE,
     SCROLL_IN_VIEW,
     SCROLL_OUT_OF_VIEW,
+    SET_EXPANDED_ISSUE_ID,
 } from '../constants/index';
 import { parseJSON } from '../utils/misc';
 import { data_about_user, get_issues } from '../utils/http_functions';
@@ -86,6 +87,18 @@ export function scrollOutOfView(id) {
         })
     };
 }
+
+export function setExpandedIssueId(id) {
+    return (dispatch) => {
+        dispatch({
+            type: SET_EXPANDED_ISSUE_ID,
+            payload: {
+                id,
+            }
+        })
+    };
+}
+
 // export function fetchIssuesData() {
 //     return (dispatch) => {
 //         get_issues()

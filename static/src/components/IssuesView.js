@@ -7,7 +7,13 @@ import IssueFeed from './IssueFeed';
 import Loading from './Loading';
 
 function mapStateToProps(state) {
-    const { address, isFetching, issues, loaded, statusText } = state.data;
+    const {
+        address,
+        isFetching,
+        issues,
+        loaded,
+        statusText,
+    } = state.data;
 
     return {
         address,

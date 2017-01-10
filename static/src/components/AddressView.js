@@ -13,14 +13,21 @@ import * as actionCreators from '../actions/data';
 import { get_issues } from '../utils/misc';
 
 function mapStateToProps(state) {
-    return {
-        isFetching: state.data.isFetching,
-        statusText: state.data.statusText,
-    };
+  const {
+    isFetching,
+    statusText,
+    setExpandedIssueId,
+  } = state.data;
+
+  return {
+    isFetching,
+    statusText,
+    setExpandedIssueId,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators(actionCreators, dispatch);
+  return bindActionCreators(actionCreators, dispatch);
 }
 
 const styles = {

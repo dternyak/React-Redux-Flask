@@ -1,4 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actionCreators from '../../actions/data';
+
 import AddressSearchInput from '../AddressSearchInput';
 import AddressView from '../AddressView';
 import AccountBalance from 'material-ui/svg-icons/action/account-balance';
@@ -47,9 +51,30 @@ var styles = {
   }
 };
 
+function mapStateToProps(state) {
+  const { setExpandedIssueId } = state.data;
+
+  return {
+    setExpandedIssueId,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(actionCreators, dispatch);
+}
+
+@connect(mapStateToProps, mapDispatchToProps)
 export class Home extends React.Component {
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    const { issueId, setExpandedIssueId } = this.props;
+
+    if (issueId) {
+      setExpandedIssueId(issueId);
+    }
   }
 
   render() {
@@ -57,6 +82,8 @@ export class Home extends React.Component {
 
     console.log('title', title);
     console.log('subTitle', subTitle);
+    console.log('ISSUE ID', this.props.expandedIssueId);
+    console.log('ISSUE ID', this.props.issueId);
 
     return (
       <section style={styles.container} className="container-fluid">

@@ -5,6 +5,7 @@ import {
     TOGGLE_EXPAND_ISSUE,
     SCROLL_IN_VIEW,
     SCROLL_OUT_OF_VIEW,
+    SET_EXPANDED_ISSUE_ID,
 } from '../constants';
 import { createReducer } from '../utils/misc';
 
@@ -13,13 +14,15 @@ const initialState = {
     isFetching: false,
     loaded: false,
     statusText: null,
+    expandedIssueId: null,
 };
 
 export default createReducer(initialState, {
     [RECEIVE_ISSUES]: (state, payload) => {
-        // Add `expanded` and `inView` to each issue.
+        // Append `expanded` and `inView` to each issue.
+        // Set `expanded` if specified by `expandedIssueId`
         const issues = payload.issues.map(issue => Object.assign({}, issue, {
-            expanded: false,
+            expanded: issue.id === state.expandedIssueId,
             inView: true,
         }));
 
@@ -67,6 +70,11 @@ export default createReducer(initialState, {
 
         return Object.assign({}, state, {
             issues
+        });
+    },
+    [SET_EXPANDED_ISSUE_ID]: (state, payload) => {
+        return Object.assign({}, state, {
+            expandedIssueId: payload.id,
         });
     },
 });
