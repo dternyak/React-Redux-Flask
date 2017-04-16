@@ -109,8 +109,8 @@ export function registerUserFailure(error) {
     return {
         type: REGISTER_USER_FAILURE,
         payload: {
-            status: error.status,
-            statusText: error.statusText,
+            status: 409,
+            statusText: "User with that email already exists",
         },
     };
 }
