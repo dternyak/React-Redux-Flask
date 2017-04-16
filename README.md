@@ -104,7 +104,7 @@ Now, you can decide on which database you wish to use.
 If you decide on MySQL, install the free community edition of [MySQL](https://dev.mysql.com/downloads/mysql/) and [MySQL Workbench](https://www.mysql.com/products/workbench/)
 
 1. start MySQL from the System Preferences
-2. open MySQL Workbench and [create a database](http://stackoverflow.com/questions/5515745/create-a-new-database-with-mysql-workbench) called mydatabase but don't create the tables since flash will do that for you
+2. open MySQL Workbench and [create a database](http://stackoverflow.com/questions/5515745/create-a-new-database-with-mysql-workbench) called mydatabase but don't create the tables since python will do that for you
 3. Install the MySQL connector for Python, add the DATABASE_URL configuration, and create the database and tables
 
 ```
