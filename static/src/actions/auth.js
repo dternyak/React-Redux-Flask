@@ -30,8 +30,8 @@ export function loginUserFailure(error) {
     return {
         type: LOGIN_USER_FAILURE,
         payload: {
-            status: error.status,
-            statusText: error.statusText,
+            status: error.response.status,
+            statusText: error.response.statusText,
         },
     };
 }
@@ -82,7 +82,12 @@ export function loginUser(email, password) {
                 }
             })
             .catch(error => {
-                dispatch(loginUserFailure(error));
+                dispatch(loginUserFailure({
+                    response: {
+                        status: 403,
+                        statusText: 'Invalid username or password',
+                    },
+                }));
             });
     };
 }
@@ -109,8 +114,8 @@ export function registerUserFailure(error) {
     return {
         type: REGISTER_USER_FAILURE,
         payload: {
-            status: 409,
-            statusText: "User with that email already exists",
+            status: error.response.status,
+            statusText: error.response.statusText,
         },
     };
 }
@@ -134,7 +139,13 @@ export function registerUser(email, password) {
                 }
             })
             .catch(error => {
-                dispatch(registerUserFailure(error));
+                dispatch(registerUserFailure({
+                    response: {
+                        status: 403,
+                        statusText: 'User with that email already exists',
+                    },
+                }
+                ));
             });
     };
 }
