@@ -18,15 +18,17 @@ Boilerplate application for a Flask JWT Backend and a React/Redux Front-End with
 
 ### Create DB
 ```sh
-$ export DATABASE_URL="postgresql://localhost/yourdb"
+$ export DATABASE_URL="postgresql://username:password@localhost/mydatabase"
 
 or
 
-$ export DATABASE_URL="mysql+mysqlconnector://localhost/yourdb"
+$ export DATABASE_URL="mysql+mysqlconnector://username:password@localhost/mydatabase"
 
 or
 
 $ export DATABASE_URL="sqlite:///your.db"
+
+More about connection strings in this [flask config guide](http://flask-sqlalchemy.pocoo.org/2.1/config/)
 
 $ python manage.py create_db
 $ python manage.py db upgrade
@@ -69,3 +71,53 @@ $ npm start
 ```sh
 $ npm run build:production
 ```
+
+### New to Python?
+
+If you are approaching this demo as primarily a frontend dev with limited or no Python experience, you may need to install a few things that a seasoned Python dev would already have installed.
+
+Most Macs already have python 2.7 installed but you may not have pip install. You can check to see if you have them installed:
+
+$ python --version
+$ pip --version 
+
+If pip is not installed, you can follow this simple article to [get both homebrew and python](https://howchoo.com/g/mze4ntbknjk/install-pip-on-mac-os-x)
+
+After you install python, you can optionally also install python 3
+
+$ brew install python3
+
+Now you can check again to see if both python and pip are installed. Once pip is installed, you can download the required flask modules:
+
+$ sudo pip install flask flask_script flask_migrate flask_bcrypt 
+
+Now, you can decide on which database you wish to use. 
+
+##### New to MySQL? 
+
+If you decide on MySQL, install the free community edition of [MySQL](https://dev.mysql.com/downloads/mysql/) and [MySQL Workbench](https://www.mysql.com/products/workbench/)
+
+1. start MySQL
+2. open workbench and create a database called mydatabase
+3. create the DATABASE_URL configuration
+
+$ export DATABASE_URL="mysql+mysqlconnector://username:password@localhost/mydatabase"
+$ python manage.py create_db
+
+Note: you do not need to run "python manage.py db upgrade" or "python manage.py db migrate" if its your first go at it
+
+4. run the backend 
+
+$ python manage.py runserver
+
+5. open a new tab to the same directory and run the front end
+
+$ cd static
+$ npm start
+
+6. open your browser to http://localhost:3000/register and setup your first account
+7. enjoy! By this point, you should be able to create an account and login without errors. 
+
+
+
+
