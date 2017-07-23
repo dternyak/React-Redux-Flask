@@ -27,9 +27,9 @@ $ export DATABASE_URL="mysql+mysqlconnector://username:password@localhost/mydata
 or
 
 $ export DATABASE_URL="sqlite:///your.db"
-
-More about connection strings in this [flask config guide](http://flask-sqlalchemy.pocoo.org/2.1/config/)
-
+```
+(More about connection strings in this [flask config guide](http://flask-sqlalchemy.pocoo.org/2.1/config/).)
+```
 $ python manage.py create_db
 $ python manage.py db upgrade
 $ python manage.py db migrate
