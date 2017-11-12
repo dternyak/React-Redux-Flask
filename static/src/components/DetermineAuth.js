@@ -35,7 +35,7 @@ export function DetermineAuth(Component) {
             if (!props.isAuthenticated) {
                 const token = localStorage.getItem('token');
                 if (token) {
-                    fetch('api/is_token_valid', {
+                    fetch('/api/is_token_valid', {
                         method: 'post',
                         credentials: 'include',
                         headers: {

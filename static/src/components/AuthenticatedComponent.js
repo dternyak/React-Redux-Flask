@@ -36,7 +36,7 @@ export function requireAuthentication(Component) {
                 if (!token) {
                     browserHistory.push('/home');
                 } else {
-                    fetch('api/is_token_valid', {
+                    fetch('/api/is_token_valid', {
                         method: 'post',
                         credentials: 'include',
                         headers: {

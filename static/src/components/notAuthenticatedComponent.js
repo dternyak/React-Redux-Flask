@@ -43,7 +43,7 @@ export function requireNoAuthentication(Component) {
             } else {
                 const token = localStorage.getItem('token');
                 if (token) {
-                    fetch('api/is_token_valid', {
+                    fetch('/api/is_token_valid', {
                         method: 'post',
                         credentials: 'include',
                         headers: {
