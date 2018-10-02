@@ -3,6 +3,7 @@
 Boilerplate application for a Flask JWT Backend and a React/Redux Front-End with Material UI.
 
 * Python 2.7+ or 3.x
+* Pipenv
 * Pytest
 * Heroku
 * Flask
@@ -16,20 +17,36 @@ Boilerplate application for a Flask JWT Backend and a React/Redux Front-End with
 
 ![screenshot](http://i.imgur.com/ZIS4qkw.png)
 
-### Create DB
+### Install pipenv
 ```sh
-$ export DATABASE_URL="postgresql://username:password@localhost/mydatabase"
-
-or
-
-$ export DATABASE_URL="mysql+mysqlconnector://username:password@localhost/mydatabase"
-
-or
-
-$ export DATABASE_URL="sqlite:///your.db"
+$ pip install pipenv
 ```
+
+### Create Environment Variables for Database in .env file 
+
+export DATABASE_URL="postgresql://username:password@localhost/mydatabase"
+
+or
+
+export DATABASE_URL="mysql+mysqlconnector://username:password@localhost/mydatabase"
+
+or
+
+export DATABASE_URL="sqlite:///your.db"
+
 (More about connection strings in this [flask config guide](http://flask-sqlalchemy.pocoo.org/2.1/config/).)
+
+
+### Load pipenv with environment variables and install requirements
+```sh
+
+$ pipenv install
+$ pipenv shell
+
 ```
+
+### Setup Alembic for managing DB Migrations
+```sh
 $ python manage.py create_db
 $ python manage.py db upgrade
 $ python manage.py db migrate
