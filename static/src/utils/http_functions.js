@@ -2,11 +2,16 @@
 
 import axios from 'axios';
 
+const DEFAULT_HEADER = {
+    'Content-Type': 'application/json'
+};
+
 const tokenConfig = (token) => ({
-    headers: {
+    headers: Object.assign({}, DEFAULT_HEADER, {
         'Authorization': token, // eslint-disable-line quote-props
-    },
+    }),
 });
+
 
 export function validate_token(token) {
     return axios.post('/api/is_token_valid', {
@@ -25,14 +30,14 @@ export function create_user(email, password) {
     return axios.post('/api/create_user', {
         email,
         password,
-    });
+    }, DEFAULT_HEADER);
 }
 
 export function get_token(email, password) {
     return axios.post('/api/get_token', {
         email,
         password,
-    });
+    }, DEFAULT_HEADER);
 }
 
 export function has_github_token(token) {
