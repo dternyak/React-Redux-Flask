@@ -15,7 +15,6 @@ export function requireNoAuthentication(Component) {
         const loadIfNeeded = useSelector(state => state.option.loadIfNeeded);
         const dispatch = useDispatch();
 
-    
         useComponentDidMount(() => {
             if(isAuthenticated) {
                 useHistory().push('/main');

@@ -1,5 +1,3 @@
-import { browserHistory } from 'react-router';
-
 import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAILURE,
@@ -49,20 +47,20 @@ export function logout() {
     };
 }
 
-export function logoutAndRedirect() {
+export function logoutAndRedirect(history) {
     return (dispatch) => {
         dispatch(logout());
-        browserHistory.push('/');
+        history.push('/');
     };
 }
 
-export function redirectToRoute(route) {
+export function redirectToRoute(route, history) {
     return () => {
-        browserHistory.push(route);
+        history.push(route);
     };
 }
 
-export function loginUser(email, password) {
+export function loginUser(email, password, history) {
     return function (dispatch) {
         dispatch(loginUserRequest());
         return get_token(email, password)
@@ -70,7 +68,7 @@ export function loginUser(email, password) {
             .then(response => {
                 try {
                     dispatch(loginUserSuccess(response.token));
-                    browserHistory.push('/main');
+                    history.push('/main');
                 } catch (e) {
                     alert(e);
                     dispatch(loginUserFailure({
@@ -120,7 +118,7 @@ export function registerUserFailure(error) {
     };
 }
 
-export function registerUser(email, password) {
+export function registerUser(email, password, history) {
     return function (dispatch) {
         dispatch(registerUserRequest());
         return create_user(email, password)
@@ -128,8 +126,9 @@ export function registerUser(email, password) {
             .then(response => {
                 try {
                     dispatch(registerUserSuccess(response.token));
-                    browserHistory.push('/main');
+                    history.push('/main');
                 } catch (e) {
+                    console.log(e);
                     dispatch(registerUserFailure({
                         response: {
                             status: 403,

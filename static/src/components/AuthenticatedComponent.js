@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import { useComponentDidMount } from '../utils/lifecycle_hook';
 import * as authActions from '../actions/auth';
@@ -12,12 +12,13 @@ export const requireAuthentication = (Component) => {
         const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
         const loadIfNeeded = useSelector(state => state.option.loadIfNeeded);
         const dispatch = useDispatch();
+        const history = useHistory();
 
         useComponentDidMount(() => {
             if (!isAuthenticated) {
                 const token = localStorage.getItem('token');
                 if (!token) {
-                    useHistory().push('/home');
+                    history.push('/home');
                 } else {
                     fetch('/api/is_token_valid', {
                         method: 'post',
@@ -35,7 +36,7 @@ export const requireAuthentication = (Component) => {
                             dispatch(optionActions.setLoadIfNeeded(true));
                         } else {
                             console.log('invalid');
-                            useHistory().push('/home');
+                            history.push('/home');
                         }
                     });
     
