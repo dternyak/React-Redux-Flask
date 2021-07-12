@@ -1,46 +1,26 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { browserHistory } from 'react-router';
-import * as actionCreators from '../actions/auth';
-
-function mapStateToProps(state) {
-    return {
-        token: state.auth.token,
-        userName: state.auth.userName,
-        isAuthenticated: state.auth.isAuthenticated,
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators(actionCreators, dispatch);
-}
+import { useHistory } from 'react-router';
+import * as authActions from '../actions/auth';
+import * as optionActions from '../actions/option';
+import { useComponentDidMount } from '../utils/lifecycle_hook';
 
 
 export function requireNoAuthentication(Component) {
+    console.log('require no');
 
-    class notAuthenticatedComponent extends React.Component {
+    const ret = (props) => {
+        const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+        const loadIfNeeded = useSelector(state => state.option.loadIfNeeded);
+        const dispatch = useDispatch();
 
-        constructor(props) {
-            super(props);
-            this.state = {
-                loaded: false,
-            };
-        }
-
-        componentWillMount() {
-            this.checkAuth();
-        }
-
-        componentWillReceiveProps(nextProps) {
-            this.checkAuth(nextProps);
-        }
-
-        checkAuth(props = this.props) {
-            if (props.isAuthenticated) {
-                browserHistory.push('/main');
-
-            } else {
+    
+        useComponentDidMount(() => {
+            if(isAuthenticated) {
+                useHistory().push('/main');
+            } 
+            else {
                 const token = localStorage.getItem('token');
                 if (token) {
                     fetch('/api/is_token_valid', {
@@ -52,43 +32,40 @@ export function requireNoAuthentication(Component) {
                         },
                         body: JSON.stringify({ token }),
                     })
-                        .then(res => {
-                            if (res.status === 200) {
-                                this.props.loginUserSuccess(token);
-                                browserHistory.push('/main');
-
-                            } else {
-                                this.setState({
-                                    loaded: true,
-                                });
-                            }
-                        });
-                } else {
-                    this.setState({
-                        loaded: true,
+                    .then(res => {
+                        if (res.status === 200) {
+                            dispatch(authActions.loginUserSuccess(token));
+                            useHistory().push('/main');
+                        } else {
+                            dispatch(optionActions.setLoadIfNeeded(true));
+                        }
                     });
+                } 
+                else {
+                    dispatch(optionActions.setLoadIfNeeded(true));
                 }
             }
-        }
+    
+        });
 
-        render() {
-            return (
-                <div>
-                    {!this.props.isAuthenticated && this.state.loaded
-                        ? <Component {...this.props} />
-                        : null
-                    }
-                </div>
-            );
-
-        }
+        console.log(isAuthenticated, loadIfNeeded);
+        return (
+            <div>
+                {!isAuthenticated && loadIfNeeded
+                    ? <Component {...props} />
+                    : null
+                }
+            </div>
+        );
+        
     }
 
-    notAuthenticatedComponent.propTypes = {
-        loginUserSuccess: React.PropTypes.func,
-        isAuthenticated: React.PropTypes.bool,
-    };
+    return ret;
 
-    return connect(mapStateToProps, mapDispatchToProps)(notAuthenticatedComponent);
+    // notAuthenticatedComponent.propTypes = {
+    //     loginUserSuccess: React.PropTypes.func,
+    //     isAuthenticated: React.PropTypes.bool,
+    // };
+
 
 }

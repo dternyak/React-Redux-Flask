@@ -1,26 +1,28 @@
+import { createBrowserHistory } from 'history';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Redirect, browserHistory } from 'react-router';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import { BrowserRouter, Router, Redirect } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 
 import configureStore from './store/configureStore';
 import routes from './routes';
 import './style.scss';
+import { App } from './containers/App';
 
-require('expose?$!expose?jQuery!jquery');
-require('bootstrap-webpack');
+// require('expose?$!expose?jQuery!jquery');
+// require('bootstrap-webpack');
 
-injectTapEventPlugin();
 const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store);
+const bh = createBrowserHistory();
+const history = syncHistoryWithStore(bh, store);
 
 ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
-            <Redirect from="/" to="main" />
+            <App>
             {routes}
+            </App>
         </Router>
     </Provider>,
     document.getElementById('root')

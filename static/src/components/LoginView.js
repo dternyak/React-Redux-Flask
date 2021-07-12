@@ -162,7 +162,7 @@ export default class LoginView extends React.Component {
     }
 }
 
-LoginView.propTypes = {
-    loginUser: React.PropTypes.func,
-    statusText: React.PropTypes.string,
-};
+// LoginView.propTypes = {
+//     loginUser: React.PropTypes.func,
+//     statusText: React.PropTypes.string,
+// };

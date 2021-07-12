@@ -1,38 +1,19 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as actionCreators from '../actions/auth';
-
-function mapStateToProps(state) {
-    return {
-        token: state.auth.token,
-        userName: state.auth.userName,
-        isAuthenticated: state.auth.isAuthenticated,
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators(actionCreators, dispatch);
-}
+import { useDispatch, useSelector } from 'react-redux';
+import * as authActions from '../actions/auth';
+import * as optionActions from '../actions/option';
+import { useComponentDidMount } from '../utils/lifecycle_hook';
 
 
 export function DetermineAuth(Component) {
+    console.log("determine");
+    const ret = (props) => {
+        const dispatch = useDispatch();
+        const loadIfNeeded = useSelector(state => state.option.loadIfNeeded)
+        const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
-    class AuthenticatedComponent extends React.Component {
-
-        componentWillMount() {
-            this.checkAuth();
-            this.state = {
-                loaded_if_needed: false,
-            };
-        }
-
-        componentWillReceiveProps(nextProps) {
-            this.checkAuth(nextProps);
-        }
-
-        checkAuth(props = this.props) {
-            if (!props.isAuthenticated) {
+        useComponentDidMount(() => {
+            if (!isAuthenticated) {
                 const token = localStorage.getItem('token');
                 if (token) {
                     fetch('/api/is_token_valid', {
@@ -44,41 +25,37 @@ export function DetermineAuth(Component) {
                         },
                         body: JSON.stringify({ token }),
                     })
-                        .then(res => {
-                            if (res.status === 200) {
-                                this.props.loginUserSuccess(token);
-                                this.setState({
-                                    loaded_if_needed: true,
-                                });
-
-                            }
-                        });
+                    .then(res => {
+                        if (res.status === 200) {
+                            dispatch(authActions.loginUserSuccess(token));
+                            dispatch(optionActions.setLoadIfNeeded(true));
+                        }
+                    });
                 }
-
-            } else {
-                this.setState({
-                    loaded_if_needed: true,
-                });
             }
-        }
+            else {
+                dispatch(optionActions.setLoadIfNeeded(true));
+            }
+        });
 
-        render() {
-            return (
-                <div>
-                    {this.state.loaded_if_needed
-                        ? <Component {...this.props} />
-                        : null
-                    }
-                </div>
-            );
+        console.log(loadIfNeeded);
 
-        }
+        return (
+            <div>
+                {loadIfNeeded
+                    ? <Component {...props} />
+                    : null
+                }
+            </div>
+        );
+
     }
 
-    AuthenticatedComponent.propTypes = {
-        loginUserSuccess: React.PropTypes.func,
-    };
+    return ret;
 
-    return connect(mapStateToProps, mapDispatchToProps)(AuthenticatedComponent);
+    // AuthenticatedComponent.propTypes = {
+    //     loginUserSuccess: React.PropTypes.func,
+    // };
+
 
 }

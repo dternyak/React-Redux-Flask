@@ -4,7 +4,7 @@ import rootReducer from '../reducers';
 
 const debugware = [];
 if (process.env.NODE_ENV !== 'production') {
-    const createLogger = require('redux-logger');
+    const {createLogger} = require('redux-logger');
 
     debugware.push(createLogger({
         collapsed: true,

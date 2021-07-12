@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router';
-import { connect } from 'react-redux';
+import { useHistory } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import AppBar from 'material-ui/AppBar';
 import LeftNav from 'material-ui/Drawer';
@@ -8,7 +8,8 @@ import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
 
-import * as actionCreators from '../../actions/auth';
+import * as authActions from '../../actions/auth';
+import * as optionActions from '../../actions/option';
 
 function mapStateToProps(state) {
     return {
@@ -18,91 +19,70 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators(actionCreators, dispatch);
-}
+export const Header = () => {
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const sideBarOpen = useSelector((state) => (state.option.sideBarOpen));
+    const isAuthenticated = useSelector((state) => (state.auth.isAuthenticated));
 
-@connect(mapStateToProps, mapDispatchToProps)
-export class Header extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            open: false,
-        };
+    const dispatchNewRoute = (route) => {
+        dispatch(optionActions.setSideBarOpen(false));
+        history.push(route);
 
-    }
+    };
 
-    dispatchNewRoute(route) {
-        browserHistory.push(route);
-        this.setState({
-            open: false,
-        });
+    const handleClickOutside = () => {
+        dispatch(optionActions.setSideBarOpen(false));
+    };
 
-    }
-
-
-    handleClickOutside() {
-        this.setState({
-            open: false,
-        });
-    }
-
-
-    logout(e) {
+    const logout = (e) => {
         e.preventDefault();
-        this.props.logoutAndRedirect();
-        this.setState({
-            open: false,
-        });
-    }
+        dispatch(authActions.logoutAndRedirect());
+        dispatch(optionActions.setSideBarOpen(false));
+    };
 
-    openNav() {
-        this.setState({
-            open: true,
-        });
-    }
+    const openNav = () => {
+        dispatch(optionActions.setSideBarOpen(true));
+    };
 
-    render() {
-        return (
-            <header>
-                <LeftNav open={this.state.open}>
-                    {
-                        !this.props.isAuthenticated ?
-                            <div>
-                                <MenuItem onClick={() => this.dispatchNewRoute('/login')}>
-                                    Login
-                                </MenuItem>
-                                <MenuItem onClick={() => this.dispatchNewRoute('/register')}>
-                                    Register
-                                </MenuItem>
-                            </div>
-                            :
-                            <div>
-                                <MenuItem onClick={() => this.dispatchNewRoute('/analytics')}>
-                                    Analytics
-                                </MenuItem>
-                                <Divider />
+    console.log("sideBarOpen", sideBarOpen);
 
-                                <MenuItem onClick={(e) => this.logout(e)}>
-                                    Logout
-                                </MenuItem>
-                            </div>
-                    }
-                </LeftNav>
-                <AppBar
-                  title="React-Redux-Flask"
-                  onLeftIconButtonTouchTap={() => this.openNav()}
-                  iconElementRight={
-                      <FlatButton label="Home" onClick={() => this.dispatchNewRoute('/')} />
-                    }
-                />
-            </header>
+    return (
+        <header>
+            <LeftNav open={sideBarOpen}>
+                {
+                    !isAuthenticated ?
+                        <div>
+                            <MenuItem onClick={() => dispatchNewRoute('/login')}>
+                                Login
+                            </MenuItem>
+                            <MenuItem onClick={() => dispatchNewRoute('/register')}>
+                                Register
+                            </MenuItem>
+                        </div>
+                        :
+                        <div>
+                            <MenuItem onClick={() => dispatchNewRoute('/analytics')}>
+                                Analytics
+                            </MenuItem>
+                            <Divider />
 
-        );
-    }
+                            <MenuItem onClick={(e) => logout(e)}>
+                                Logout
+                            </MenuItem>
+                        </div>
+                }
+            </LeftNav>
+            <AppBar
+              title="React-Redux-Flask"
+              onLeftIconButtonClick={() => openNav()}
+              iconElementRight={
+                  <FlatButton label="Home" onClick={() => dispatchNewRoute('/')} />
+                }
+            />
+        </header>
+
+    );
+
+
 }
-
-Header.propTypes = {
-    logoutAndRedirect: React.PropTypes.func,
-    isAuthenticated: React.PropTypes.bool,
-};
