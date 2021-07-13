@@ -1,7 +1,8 @@
 const path = require('path');
+const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const postcssImport = require('postcss-import');
-const merge = require('webpack-merge');
+const {merge} = require('webpack-merge');
 
 const development = require('./dev.config');
 const production = require('./prod.config');
@@ -29,54 +30,114 @@ const common = {
 
     resolve: {
         extensions: ['', '.jsx', '.js', '.json', '.scss'],
-        modulesDirectories: ['node_modules', PATHS.app],
+        modules: ['node_modules', PATHS.app],
+    },
+
+    infrastructureLogging: {
+        level: 'verbose',
     },
 
     module: {
-        loaders: [{
-            test: /bootstrap-sass\/assets\/javascripts\//,
-            loader: 'imports?jQuery=jquery',
-        }, {
+        rules: [
+        //     {
+        //     test: /bootstrap-sass\/assets\/javascripts\//,
+        //     use: [
+        //         {
+        //             loader: 'imports-loader',
+        //         }
+        //     ]
+        // }, 
+        {
             test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-            loader: 'url?limit=10000&mimetype=application/font-woff',
+            use: [
+                {
+                    loader: 'url-loader',
+                    options: {limit: 10000, mimetype: 'application/font-woff'}
+                }
+            ]
         }, {
             test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-            loader: 'url?limit=10000&mimetype=application/font-woff2',
+            use: [
+                {
+                    loader: 'url-loader',
+                    options: {limit: 10000, mimetype: 'application/font-woff2'}
+                }
+            ]
         }, {
             test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-            loader: 'url?limit=10000&mimetype=application/octet-stream',
+            use: [
+                {
+                    loader: 'url-loader',
+                    options: {limit: 10000, mimetype: 'application/font-woff'}
+                }
+            ]
         }, {
             test: /\.otf(\?v=\d+\.\d+\.\d+)?$/,
-            loader: 'url?limit=10000&mimetype=application/font-otf',
+            use: [
+                {
+                    loader: 'url-loader',
+                    options: {limit: 10000, mimetype: 'application/font-otf'}
+                }
+            ]
         }, {
             test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-            loader: 'file',
+            use: [
+                {
+                    loader: 'file-loader',
+                }
+            ]
         }, {
             test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-            loader: 'url?limit=10000&mimetype=image/svg+xml',
+            use: [
+                {
+                    loader: 'url-loader',
+                    options: {limit: 10000, mimetype: 'application/svg+xml'}
+                }
+            ]
         }, {
             test: /\.js$/,
-            loaders: ['babel-loader'],
             exclude: /node_modules/,
+            use: [
+                {
+                    loader: 'babel-loader'
+                }
+            ]
         }, {
             test: /\.png$/,
-            loader: 'file?name=[name].[ext]',
+            use: [
+                {
+                    loader: 'file-loader',
+                    options: {name: '[name].[ext]'}
+                }
+            ]
         }, {
             test: /\.jpg$/,
-            loader: 'file?name=[name].[ext]',
+            use: [
+                {
+                    loader: 'file-loader',
+                    options: {name: '[name].[ext]'}
+                }
+            ]
         }],
     },
 
-    postcss: (webpack) => (
-        [
-            autoprefixer({
-                browsers: ['last 2 versions'],
-            }),
-            postcssImport({
-                addDependencyTo: webpack,
-            }),
-        ]
-    ),
+    plugins: [
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                postcss: (webpack) => (
+                    [
+                        autoprefixer({
+                            browsers: ['last 2 versions'],
+                        }),
+                        postcssImport({
+                            addDependencyTo: webpack,
+                        }),
+                    ]
+                ),
+            }
+        })
+    ]
+
 };
 
 if (TARGET === 'start' || !TARGET) {

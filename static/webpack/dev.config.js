@@ -1,10 +1,11 @@
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
-    devtool: 'cheap-module-eval-source-map',
+    mode: "development",
+    devtool: 'eval-cheap-module-source-map',
     entry: [
-        'bootstrap-loader',
+        // 'bootstrap-loader',
         'webpack-hot-middleware/client',
         './src/index',
     ],
@@ -13,9 +14,33 @@ module.exports = {
     },
 
     module: {
-        loaders: [{
-            test: /\.scss$/,
-            loader: 'style!css?localIdentName=[path][name]--[local]!postcss-loader!sass',
+        rules: [{
+            test: /\.(scss)$/,
+            use: [{
+              // inject CSS to page
+              loader: 'style-loader'
+            }, {
+              // translates CSS into CommonJS modules
+              loader: 'css-loader'
+            }, {
+              // Run postcss actions
+              loader: 'postcss-loader',
+              options: {
+                // `postcssOptions` is needed for postcss 8.x;
+                // if you use postcss 7.x skip the key
+                postcssOptions: {
+                  // postcss plugins, can be exported to postcss.config.js
+                  plugins: function () {
+                    return [
+                      require('autoprefixer')
+                    ];
+                  }
+                }
+              }
+            }, {
+              // compiles Sass to CSS
+              loader: 'sass-loader'
+            }]
         }],
     },
 
@@ -26,10 +51,9 @@ module.exports = {
             },
             __DEVELOPMENT__: true,
         }),
-        new ExtractTextPlugin('bundle.css'),
-        new webpack.optimize.OccurenceOrderPlugin(),
+        new MiniCssExtractPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.ProvidePlugin({
             jQuery: 'jquery',
         }),

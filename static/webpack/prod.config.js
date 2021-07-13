@@ -1,7 +1,10 @@
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const DuplicatePackageCheckerPlugin = require("duplicate-package-checker-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
+    mode: "production",
     devtool: 'source-map',
 
     entry: ['bootstrap-loader/extractStyles'],
@@ -11,7 +14,7 @@ module.exports = {
     },
 
     module: {
-        loaders: [{
+        rules: [{
             test: /\.scss$/,
             loader: 'style!css!postcss-loader!sass',
         }],
@@ -24,13 +27,8 @@ module.exports = {
             },
             __DEVELOPMENT__: false,
         }),
-        new ExtractTextPlugin('bundle.css'),
-        new webpack.optimize.DedupePlugin(),
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false,
-            },
-        }),
+        new MiniCssExtractPlugin(),
+        new DuplicatePackageCheckerPlugin(),
+        new UglifyJsPlugin(),
     ],
 };

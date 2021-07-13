@@ -9,6 +9,7 @@ import {
     REGISTER_USER_FAILURE,
     REGISTER_USER_REQUEST,
     REGISTER_USER_SUCCESS,
+    SET_AUTH,
 } from '../constants/index';
 
 const initialState = {
@@ -20,6 +21,13 @@ const initialState = {
     isRegistering: false,
     isRegistered: false,
     registerStatusText: null,
+    
+    email: '',
+    password: '',
+    emailErrorText: null,
+    passwordErrorText: null,
+    redirectTo: '/login',
+    disabled: true,
 };
 
 export default createReducer(initialState, {
@@ -71,4 +79,6 @@ export default createReducer(initialState, {
             userName: null,
             registerStatusText: `Register Error: ${payload.status} ${payload.statusText}`,
         }),
+    [SET_AUTH]: (state, payload) =>
+        Object.assign({}, state, payload.data),
 });
