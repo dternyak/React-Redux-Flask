@@ -6,10 +6,21 @@ import {
     REGISTER_USER_FAILURE,
     REGISTER_USER_REQUEST,
     REGISTER_USER_SUCCESS,
+    SET_AUTH,
 } from '../constants/index';
 
 import { parseJSON } from '../utils/misc';
 import { get_token, create_user } from '../utils/http_functions';
+
+export function setAuth(data) {
+    return {
+        type: SET_AUTH,
+        payload: {
+            data: data,
+        },
+    };
+}
+
 
 
 export function loginUserSuccess(token) {
@@ -128,7 +139,6 @@ export function registerUser(email, password, history) {
                     dispatch(registerUserSuccess(response.token));
                     history.push('/main');
                 } catch (e) {
-                    console.log(e);
                     dispatch(registerUserFailure({
                         response: {
                             status: 403,

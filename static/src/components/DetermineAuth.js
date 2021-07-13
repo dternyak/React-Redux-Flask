@@ -6,7 +6,6 @@ import { useComponentDidMount } from '../utils/lifecycle_hook';
 
 
 export function DetermineAuth(Component) {
-    console.log("determine");
     const ret = (props) => {
         const dispatch = useDispatch();
         const loadIfNeeded = useSelector(state => state.option.loadIfNeeded)
@@ -38,7 +37,6 @@ export function DetermineAuth(Component) {
             }
         });
 
-        console.log(loadIfNeeded);
 
         return (
             <div>

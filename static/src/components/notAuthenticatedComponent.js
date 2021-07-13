@@ -8,7 +8,6 @@ import { useComponentDidMount } from '../utils/lifecycle_hook';
 
 
 export function requireNoAuthentication(Component) {
-    console.log('require no');
 
     const ret = (props) => {
         const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
@@ -47,7 +46,6 @@ export function requireNoAuthentication(Component) {
     
         });
 
-        console.log(isAuthenticated, loadIfNeeded);
         return (
             <div>
                 {!isAuthenticated && loadIfNeeded

@@ -24,10 +24,8 @@ const style = {
 const RegisterView = (props) => {
     console.log("register view");
 
-    const state = useSelector(state => state.register);
+    const state = useSelector(state => state.auth);
     const dispatch = useDispatch();
-    const registerStatusText = useSelector(state => state.auth.registerStatusText);
-    const isRegistering = useSelector(state => state.auth.isRegistering);
     const history = useHistory();
 
     const isDisabled = () => {
@@ -36,43 +34,43 @@ const RegisterView = (props) => {
 
         if (state.email === '') {
             if(state.email_error_text!=null)
-                dispatch(registerActions.setRegister({
+                dispatch(authActions.setAuth({
                     email_error_text: null,
                 }));
         } else if (validateEmail(state.email)) {
             email_is_valid = true;
             if(state.email_error_text!=null)
-                dispatch(registerActions.setRegister({
+                dispatch(authActions.setAuth({
                     email_error_text: null,
                 }));
         } else {
             if(state.email_error_text==null)
-                dispatch(registerActions.setRegister({
+                dispatch(authActions.setAuth({
                     email_error_text: 'Sorry, this is not a valid email',
                 }));
         }
 
         if (state.password === '' || !state.password) {
             if(state.password_error_text!=null)
-                dispatch(registerActions.setRegister({
+                dispatch(authActions.setAuth({
                     password_error_text: null,
                 }));
         } else if (state.password.length >= 6) {
             password_is_valid = true;
             if(state.password_error_text!=null)
-                dispatch(registerActions.setRegister({
+                dispatch(authActions.setAuth({
                     password_error_text: null,
                 }));
         } else {
             if(state.password_error_text==null)
-                dispatch(registerActions.setRegister({
+                dispatch(authActions.setAuth({
                     password_error_text: 'Your password must be at least 6 characters',
                 }));
         }
 
         if (email_is_valid && password_is_valid) {
             if(state.disabled)
-                dispatch(registerActions.setRegister({
+                dispatch(authActions.setAuth({
                 disabled: false,
             }));
         }
@@ -83,10 +81,10 @@ const RegisterView = (props) => {
         const value = e.target.value;
         const next_state = {};
         next_state[type] = value;
-        dispatch(registerActions.setRegister(next_state));
+        dispatch(authActions.setAuth(next_state));
     }
 
-    const login = (e) => {
+    const register = (e) => {
         e.preventDefault();
         dispatch(authActions.registerUser(state.email, state.password, history));
     }
@@ -94,7 +92,7 @@ const RegisterView = (props) => {
     const _handleKeyPress = (e) => {
         if (e.key === 'Enter') {
             if (!state.disabled) {
-                this.login(e);
+                register(e);
             }
         }
     }
@@ -106,9 +104,9 @@ const RegisterView = (props) => {
                 <div className="text-center">
                     <h2>Register to view protected content!</h2>
                     {
-                        registerStatusText &&
+                        state.registerStatusText &&
                             <div className="alert alert-info">
-                                {registerStatusText}
+                                {state.registerStatusText}
                             </div>
                     }
 
@@ -135,7 +133,7 @@ const RegisterView = (props) => {
                         disabled={state.disabled}
                         style={{ marginTop: 50 }}
                         label="Submit"
-                        onClick={(e) => login(e)}
+                        onClick={(e) => register(e)}
                     />
 
                 </div>

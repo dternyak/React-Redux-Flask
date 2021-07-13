@@ -5,16 +5,13 @@ import * as dataActions from '../actions/data';
 
 
 const ProtectedView = (props) => {
-    console.log('protectedView');
     const data = useSelector(state => state.data);
-    console.log(data);    
     const token = useSelector(state => state.auth.token);
     const loaded = data.loaded;
     const email = data.data ? data.data.email : "";
     const dispatch = useDispatch();
 
     useComponentDidMount(() => {
-        console.log("did mount");
         dispatch(() => dataActions.fetchProtectedData(token, dispatch));
     });
 

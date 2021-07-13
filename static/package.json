@@ -56,7 +56,7 @@
     "express-open-in-editor": "^3.1.1",
     "file-loader": "^6.2.0",
     "gapi": "0.0.3",
-    "history": "^5.0.0",
+    "history": "^4.10.1",
     "http-proxy": "^1.18.1",
     "imports-loader": "^3.0.0",
     "jasmine-core": "^3.8.0",

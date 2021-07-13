@@ -19,7 +19,6 @@ export function fetchProtectedDataRequest() {
 }
 
 export function fetchProtectedData(token, dispatch) {
-    console.log('fetchprotecteddata');
     dispatch(fetchProtectedDataRequest());
     data_about_user(token)
         .then(parseJSON)
@@ -27,7 +26,6 @@ export function fetchProtectedData(token, dispatch) {
             dispatch(receiveProtectedData(response.result));
         })
         .catch(error => {
-            console.log(error)
             if (error.status === 401) {
                 dispatch(logoutAndRedirect(error));
             }

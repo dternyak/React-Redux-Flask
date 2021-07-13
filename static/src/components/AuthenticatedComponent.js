@@ -6,7 +6,6 @@ import * as authActions from '../actions/auth';
 import * as optionActions from '../actions/option';
 
 export const requireAuthentication = (Component) => {
-    console.log("require");
     
     const ret = (props) => {
         const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
@@ -31,11 +30,9 @@ export const requireAuthentication = (Component) => {
                     })
                     .then(res => {
                         if (res.status === 200) {
-                            console.log('200');
                             dispatch(authActions.loginUserSuccess(token));
                             dispatch(optionActions.setLoadIfNeeded(true));
                         } else {
-                            console.log('invalid');
                             history.push('/home');
                         }
                     });
@@ -46,8 +43,6 @@ export const requireAuthentication = (Component) => {
             }
         })
 
-        console.log("isAuthenticated: ", isAuthenticated);
-        console.log("loadIfNeeded: ", loadIfNeeded);
 
         return (
             <div>

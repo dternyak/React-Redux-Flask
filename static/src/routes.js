@@ -1,7 +1,7 @@
 /* eslint new-cap: 0 */
 
 import React from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Switch, Redirect } from 'react-router';
 
 /* containers */
 import { App } from './containers/App';
@@ -23,6 +23,7 @@ export default (
         <Route path="/register" component={requireNoAuthentication(RegisterView)} />
         <Route path="/home" component={requireNoAuthentication(HomeContainer)} />
         <Route path="/analytics" component={requireAuthentication(Analytics)} />
+        <Route exact path="/"><Redirect to="/main" /></Route>
         {/* <Route path="*" component={DetermineAuth(NotFound)} /> */}
     </Switch>
 );

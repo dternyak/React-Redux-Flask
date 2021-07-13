@@ -37,7 +37,7 @@ export const Header = () => {
 
     const logout = (e) => {
         e.preventDefault();
-        dispatch(authActions.logoutAndRedirect());
+        dispatch(authActions.logoutAndRedirect(history));
         dispatch(optionActions.setSideBarOpen(false));
     };
 
@@ -45,7 +45,6 @@ export const Header = () => {
         dispatch(optionActions.setSideBarOpen(true));
     };
 
-    console.log("sideBarOpen", sideBarOpen);
 
     return (
         <header>
